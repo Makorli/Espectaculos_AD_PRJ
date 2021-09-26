@@ -1,0 +1,22 @@
+        String myDriver = "com.mysql.jdbc.Driver";
+        String myPath = "jdbc:mysql://localhost:3306/bdmysql";
+        String myUser = "admin";
+        String myPass = "pass1234";
+
+
+        //Cargaremos el driver JDBC de acceso a MySQL/SqLite/DB4O
+        try {
+            Class.forName(myDriver); //>>> me da error al cargar el driver
+        } catch (ClassNotFoundException error) {
+            System.out.println("Error al cargar el driver JDBC de MySQL/SqLite/DB4O: " + error.getMessage());
+        }
+
+        //Realizamos la conexión con el servidor MySQL/SqLite/DB4O
+        Connection conexion = null;
+        try {
+            conexion = DriverManager.getConnection(
+                    myPath,
+                    myUser, myPass);
+        } catch (SQLException error) {
+            System.out.println("Error al conectar con el servidor MySQL/SqLite/DB4O: " + error.getMessage());
+        }
