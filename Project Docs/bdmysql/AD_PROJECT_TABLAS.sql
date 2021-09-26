@@ -44,7 +44,7 @@ create table Espectaculo
     lugar         varchar(40)  default null,
     coste         double       default null,
     fecha         varchar(10)  default null,
-    horario       varchar(5)   default null,
+    horario       varchar(20)   default null,
     idResponsable int                        null,
     baja          boolean      default false not null,
     constraint Espectaculo_pk_Esp

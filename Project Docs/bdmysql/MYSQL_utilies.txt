@@ -1,0 +1,6 @@
+
+data types
+https://dev.mysql.com/doc/refman/8.0/en/data-types.html
+
+utiles:
+http://www.vc.ehu.es/jiwotvim/ISOFT2008-2009/Practicas/BloqueIV/Practica3/JDBC-MySQL-guide.pdf
