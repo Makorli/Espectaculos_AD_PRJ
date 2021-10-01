@@ -1,26 +1,20 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DatosClientes {
     private JPanel JPClientes;
-    private JLabel lbIdEspectaculo;
+    private JLabel lbIdCliente;
     private JLabel lbNombre;
-    private JLabel lbDescripcion;
-    private JLabel lbLugar;
+    private JLabel lbApellidos;
     private JButton btnCancelar;
-    private JLabel lbNumero;
-    private JLabel lbAforo;
-    private JLabel lbFecha;
-    private JLabel lbHorario;
-    private JLabel lbCoste;
-    private JLabel lbResponsable;
+    private JLabel lbDni;
+    private JLabel lbFechaNacimiento;
     private JLabel lbBaja;
     private JCheckBox checkBox1;
     private JButton btnBaja;
-    private JSpinner spnAforo;
-    private JComboBox comboBox1;
     private JTextField txtNombre;
     private JTextField txtDescripcion;
-    private JTextField txtLugar;
     private JButton btnGuardar;
     private JPanel JPMenu;
     private JLabel lbTituloParque;
@@ -31,4 +25,15 @@ public class DatosClientes {
     private JPanel jpInscripciones;
     private JPanel jpOtrasOpciones;
     private JPanel JPGeneral;
+    private JTextField txtDni;
+
+    public DatosClientes() {
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+            }
+        });
+    }
 }
