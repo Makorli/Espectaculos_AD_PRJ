@@ -7,14 +7,14 @@ public class Inscripcion {
     private int idInscripcion;
     private Cliente cliente;
     private Espectaculo espectaculo;
-    private Date fecha;
+    private String fecha;//cambiado de Date a string 200211002
 
     //CONSTRUCTORES
 
     public Inscripcion() {
     }
 
-    public Inscripcion(int idInscripcion, Cliente cliente, Espectaculo espectaculo, Date fecha) {
+    public Inscripcion(int idInscripcion, Cliente cliente, Espectaculo espectaculo, String fecha) {
         this.idInscripcion = idInscripcion;
         this.cliente = cliente;
         this.espectaculo = espectaculo;
@@ -47,11 +47,11 @@ public class Inscripcion {
         this.espectaculo = espectaculo;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 }

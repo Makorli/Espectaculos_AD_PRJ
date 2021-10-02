@@ -8,7 +8,7 @@ public class Cliente {
     private String dni;
     private String nombre;
     private String apellidos;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;//cambiado de Date a string 200211002
     private Boolean baja;
 
     //CONSTRUCTORES
@@ -16,7 +16,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int idCliente, String dni, String nombre, String apellidos, Date fechaNacimiento, Boolean baja) {
+    public Cliente(int idCliente, String dni, String nombre, String apellidos, String fechaNacimiento, Boolean baja) {
         this.idCliente = idCliente;
         this.dni = dni;
         this.nombre = nombre;
@@ -31,7 +31,7 @@ public class Cliente {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(int  idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -59,11 +59,11 @@ public class Cliente {
         this.apellidos = apellidos;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -74,4 +74,12 @@ public class Cliente {
     public void setBaja(Boolean baja) {
         this.baja = baja;
     }
+
+    public String [] getAllValues(){
+
+        String [] allValues = {String.valueOf(idCliente),dni,nombre,apellidos,fechaNacimiento, String.valueOf(baja)};
+
+        return allValues;
+    }
+
 }

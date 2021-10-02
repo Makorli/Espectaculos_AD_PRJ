@@ -11,7 +11,7 @@ public class Espectaculo {
     private String descripcion;
     private String lugar;
     private Double coste;
-    private Date fecha;
+    private String fecha;//cambiado de Date a string 200211002
     private String horario;
     private Boolean baja;
     private Empleado empleado;
@@ -22,7 +22,7 @@ public class Espectaculo {
     public Espectaculo() {
     }
 
-    public Espectaculo(int idEspectaculo, int numero, String nombre, int aforo, String descripcion, String lugar, Double coste, Date fecha, String horario, Boolean baja, Empleado empleado) {
+    public Espectaculo(int idEspectaculo, int numero, String nombre, int aforo, String descripcion, String lugar, Double coste, String fecha, String horario, Boolean baja, Empleado empleado) {
         this.idEspectaculo = idEspectaculo;
         this.numero = numero;
         this.nombre = nombre;
@@ -93,11 +93,11 @@ public class Espectaculo {
         this.coste = coste;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
