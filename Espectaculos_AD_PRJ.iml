@@ -11,12 +11,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="mysql:mysql-connector-java:8.0.26" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="org.xerial:sqlite-jdbc:3.36.0.3" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="org.fudaa.com.db4o:db4o-java5:5.5.1" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="com.oracle.database.jdbc:ucp:12.2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="db4o-8.0.276.16149-all-java5" level="project" />
+    <orderEntry type="library" name="com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.36.0.3" level="project" />
-    <orderEntry type="library" name="Maven: org.fudaa.com.db4o:db4o-java5:5.5.1" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.26" level="project" />
     <orderEntry type="library" name="Maven: com.oracle.database.jdbc:ucp:12.2.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
