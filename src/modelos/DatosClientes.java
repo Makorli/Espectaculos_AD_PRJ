@@ -1,3 +1,5 @@
+package modelos;
+
 import javax.swing.*;
 
 public class DatosClientes {

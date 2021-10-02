@@ -1,27 +1,30 @@
+package modelos;
+
 import javax.swing.*;
 
-public class DatosEmpleado {
-    private JPanel JPEmpleados;
+public class DatosEspectaculo {
+    private JPanel JPGeneral;
     private JLabel lbIdEspectaculo;
+    private JLabel lbNumero;
     private JLabel lbNombre;
+    private JLabel lbAforo;
     private JLabel lbDescripcion;
     private JLabel lbLugar;
-    private JButton btnCancelar;
-    private JLabel lbNumero;
-    private JLabel lbAforo;
+    private JLabel lbCoste;
     private JLabel lbFecha;
     private JLabel lbHorario;
-    private JLabel lbCoste;
-    private JLabel lbResponsable;
     private JLabel lbBaja;
+    private JLabel lbResponsable;
+    private JButton btnGuardar;
+    private JButton btnCancelar;
+    private JTextField txtNombre;
+    private JTextField txtDescripcion;
+    private JTextField txtLugar;
     private JCheckBox checkBox1;
     private JButton btnBaja;
     private JSpinner spnAforo;
     private JComboBox comboBox1;
-    private JTextField txtNombre;
-    private JTextField txtDescripcion;
-    private JTextField txtLugar;
-    private JButton btnGuardar;
+    private JPanel JPEspectaculos;
     private JPanel JPMenu;
     private JLabel lbTituloParque;
     private JTabbedPane tpMenu;
@@ -30,5 +33,8 @@ public class DatosEmpleado {
     private JPanel jpEspectaculos;
     private JPanel jpInscripciones;
     private JPanel jpOtrasOpciones;
-    private JPanel JPGeneral;
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }

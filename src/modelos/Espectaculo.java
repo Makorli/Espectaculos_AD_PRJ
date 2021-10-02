@@ -1,3 +1,5 @@
+package modelos;
+
 import java.util.Date;
 
 public class Espectaculo {
