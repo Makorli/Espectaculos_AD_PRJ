@@ -1,38 +1,44 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DatosEspectaculo {
-    private JPanel JPGeneral;
-    private JLabel lbIdEspectaculo;
-    private JLabel lbNumero;
-    private JLabel lbNombre;
-    private JLabel lbAforo;
-    private JLabel lbDescripcion;
-    private JLabel lbLugar;
-    private JLabel lbCoste;
-    private JLabel lbFecha;
-    private JLabel lbHorario;
-    private JLabel lbBaja;
-    private JLabel lbResponsable;
-    private JButton btnGuardar;
-    private JButton btnCancelar;
-    private JTextField txtNombre;
-    private JTextField txtDescripcion;
-    private JTextField txtLugar;
-    private JCheckBox checkBox1;
-    private JButton btnBaja;
-    private JSpinner spnAforo;
-    private JComboBox comboBox1;
-    private JPanel JPEspectaculos;
-    private JPanel JPMenu;
-    private JLabel lbTituloParque;
-    private JTabbedPane tpMenu;
-    private JPanel jpClientes;
-    private JPanel jpEsmpleados;
-    private JPanel jpEspectaculos;
-    private JPanel jpInscripciones;
-    private JPanel jpOtrasOpciones;
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
+    //  Esta etiqueta es la que aparecerá en la parte superior de todas las ventanas
+    //  para indicarnos el parque en el que nos encontramos.
+    private JLabel lbTituloParque;
+
+    //Paneles
+
+    /**
+     * @param JPGeneral -> contenedor de todos los paneles
+     * @param JPMenu ->   es el panel del menu
+     * @param tpMenu -> es un TabbledPanel donde se muestran todas las opciones: Clientes, empleados, Espectaculos...
+     * @param jpClientes -> (con jp en minusculas) jpEmpleados... son los despleglables correspondientes.
+     * @param JPEspectaculos ->    (Con JP en mayusculas) es el panel que muestra la ficha del espectaculo.
+     */
+
+    private JPanel JPGeneral, JPMenu, JPEspectaculos, jpClientes, jpEmpleados, jpEspectaculos, jpInscripciones, jpOtrasOpciones;
+    private JTabbedPane tpMenu;
+
+
+    //Etiquetas
+    private JLabel lbIdEspectaculo, lbNumero, lbNombre, lbAforo, lbDescripcion, lbLugar, lbCoste, lbFecha, lbHorario, lbBaja, lbResponsable;
+
+    //Botones
+    private JButton btnGuardar, btnCancelar, btnBaja;
+
+    //TextField
+    private JTextField txtNombre, txtDescripcion, txtLugar;
+
+    //Checkbox para la baja si/no
+    private JCheckBox cbBaja;
+
+    //Spinner para nº en el aforo
+    private JSpinner spnAforo;
+
+    //Combobox para elegir al responsable del espectaculo
+    private JComboBox cbResponsable;
+
+
 }
