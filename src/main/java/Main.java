@@ -10,8 +10,8 @@ public class Main {
 
 
         int ids = 1;
-        String dni = "x1234567a";
-        String nombre = "nuevonombre";
+        String dni = "x7777777a";
+        String nombre = "nombretest1";
         String apellidos = "insertcontrolador";
         String fechaNacimiento = "02/10/2021";
         String fechaAlta = "13/05/2000";
@@ -37,7 +37,8 @@ public class Main {
 
 
         ControladorCliente control = new ControladorCliente(cli);
-        control.update(cli);
+        control.add(cli);
+        //control.update(cli);
 
 
     }

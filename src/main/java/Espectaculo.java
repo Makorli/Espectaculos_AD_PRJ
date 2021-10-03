@@ -14,7 +14,7 @@ public class Espectaculo {
     private String fecha;//cambiado de Date a string 200211002
     private String horario;
     private Boolean baja;
-    private Empleado empleado;
+    private int idEmpleado;//cambiado de empleado a int 200211003
 
     //CONSTRUCTORES
 
@@ -22,7 +22,7 @@ public class Espectaculo {
     public Espectaculo() {
     }
 
-    public Espectaculo(int idEspectaculo, int numero, String nombre, int aforo, String descripcion, String lugar, Double coste, String fecha, String horario, Boolean baja, Empleado empleado) {
+    public Espectaculo(int idEspectaculo, int numero, String nombre, int aforo, String descripcion, String lugar, Double coste, String fecha, String horario, Boolean baja, int idEmpleado) {
         this.idEspectaculo = idEspectaculo;
         this.numero = numero;
         this.nombre = nombre;
@@ -33,7 +33,7 @@ public class Espectaculo {
         this.fecha = fecha;
         this.horario = horario;
         this.baja = baja;
-        this.empleado = empleado;
+        this.idEmpleado= idEmpleado;
     }
 //GETTERS & SETTERS
 
@@ -117,11 +117,11 @@ public class Espectaculo {
         this.baja = baja;
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 }

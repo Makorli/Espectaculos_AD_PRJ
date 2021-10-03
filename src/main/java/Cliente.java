@@ -75,11 +75,5 @@ public class Cliente {
         this.baja = baja;
     }
 
-    public String [] getAllValues(){
-
-        String [] allValues = {String.valueOf(idCliente),dni,nombre,apellidos,fechaNacimiento, String.valueOf(baja)};
-
-        return allValues;
-    }
 
 }

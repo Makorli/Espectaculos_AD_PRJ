@@ -5,8 +5,8 @@ public class Inscripcion {
     //ATRIBUTOS
 
     private int idInscripcion;
-    private Cliente cliente;
-    private Espectaculo espectaculo;
+    private int idCliente;//cambiado de cliente a int 200211003
+    private int idEspectaculo;//cambiado de espectaculo a int 200211003
     private String fecha;//cambiado de Date a string 200211002
 
     //CONSTRUCTORES
@@ -14,12 +14,14 @@ public class Inscripcion {
     public Inscripcion() {
     }
 
-    public Inscripcion(int idInscripcion, Cliente cliente, Espectaculo espectaculo, String fecha) {
+
+    public Inscripcion(int idInscripcion, int idCliente, int idEspectaculo, String fecha) {
         this.idInscripcion = idInscripcion;
-        this.cliente = cliente;
-        this.espectaculo = espectaculo;
+        this.idCliente = idCliente;
+        this.idEspectaculo = idEspectaculo;
         this.fecha = fecha;
     }
+
 
     //GETTERS & SETTERS
 
@@ -31,20 +33,20 @@ public class Inscripcion {
         this.idInscripcion = idInscripcion;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Espectaculo getEspectaculo() {
-        return espectaculo;
+    public int getIdEspectaculo() {
+        return idEspectaculo;
     }
 
-    public void setEspectaculo(Espectaculo espectaculo) {
-        this.espectaculo = espectaculo;
+    public void setIdEspectaculo(int idEspectaculo) {
+        this.idEspectaculo = idEspectaculo;
     }
 
     public String getFecha() {
