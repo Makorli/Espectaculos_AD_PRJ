@@ -27,10 +27,8 @@ public class IdentificadorDeClase<T> {
     public String getClassName(T t) {
 
         String className = t.getClass().getName();
+        className=className.substring(className.lastIndexOf('.')+1);
 
-        if (className.contains("com.company.")) { //imagino qu se puede quitar para que no este
-            className = className.replace("com.company.", "");
-        }
         return className;
     }
 
@@ -43,9 +41,9 @@ public class IdentificadorDeClase<T> {
      */
     public String[] getAttNames(T t) {
 
-        Field f[] = t.getClass().getDeclaredFields();
+        Field[] f = t.getClass().getDeclaredFields();
         int attQ = f.length;
-        String atributos[] = new String[attQ];
+        String[] atributos = new String[attQ];
 
         for (int i = 0; i < attQ; i++) {
             atributos[i] = (f[i].getName());
@@ -63,9 +61,9 @@ public class IdentificadorDeClase<T> {
      */
     public String[] getAttTypes(T t) {
 
-        Field f[] = t.getClass().getDeclaredFields();
+        Field[] f = t.getClass().getDeclaredFields();
         int attQ = f.length;
-        String atributos[] = new String[attQ];
+        String[] atributos = new String[attQ];
 
         for (int i = 0; i < attQ; i++) {
             String atributo = (f[i].getType().getName());

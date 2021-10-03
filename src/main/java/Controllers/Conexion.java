@@ -52,7 +52,7 @@ public class Conexion {
             case 1: //sqLite
 
                 myDriver = "org.sqlite.JDBC";
-                myDb = "jdbc:sqlite:bdSqlite.db";
+                myDb = "jdbc:sqlite:./BBDD/SQLite/bdSqlite.db";
                 myDbTxt = "SQLite";
 
                 //Cargaremos el driver JDBC de acceso a MySQL/SqLite/DB4O

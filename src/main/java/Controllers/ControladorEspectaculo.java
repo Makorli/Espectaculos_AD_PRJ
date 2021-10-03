@@ -1,18 +1,19 @@
 package Controllers;
 
+import Miscelaneous.IdentificadorDeClase;
+import Modelos.Cliente;
+import Modelos.Espectaculo;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import Miscelaneous.IdentificadorDeClase;
-import Modelos.Cliente;
-
-public class ControladorCliente {
+public class ControladorEspectaculo {
 
     int tipoDb = 1; //esto debe venir del click del parque
 
     private boolean realizado;
-    private Cliente cliente;
+    private Espectaculo espectaculo;
     private IdentificadorDeClase claseId;
 
     private String tableName;
@@ -21,49 +22,53 @@ public class ControladorCliente {
     private String myInsert;
     private String myUpdate;
 
-
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
 
 
-    public ControladorCliente() {
-        this.cliente = new Cliente();
-        this.claseId = new IdentificadorDeClase(this.cliente);
+    public ControladorEspectaculo() {
+        this.espectaculo = new Espectaculo();
+        this.claseId = new IdentificadorDeClase(this.espectaculo);
 
-        this.tableName = claseId.getClassName(this.cliente);
-        this.attNames = claseId.getAttNames(this.cliente);
+        this.tableName = claseId.getClassName(this.espectaculo);
+        this.attNames = claseId.getAttNames(this.espectaculo);
 
         this.myInsert = crearMyInsert();
         this.myUpdate = crearMyUpdate();
 
     }
 
-
     /**
-     * Funcion que recibe objeto cliente, conecta a bdd e inserta datos de cliente en bdd. diferencia entre relacionales y bdoo en if tipoDb
+     * Funcion que recibe objeto espectaculo conecta a bdd e inserta datos  en bdd. diferencia entre relacionales y bdoo en if tipoDb
      * se pasa id como string null (no como integer) para que la bdd asigne numero automatico
      * valores posibles:
      *
-     * @param cliente
+     * @param espectaculo
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean add(Cliente cliente) {
+    public boolean add(Espectaculo espectaculo) {
         realizado = false;
 
         // conecto
         Connection mydb = new Conexion(tipoDb).ConectarDb();
 
         try {
+
             if (tipoDb != 2) {
 
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
                 prepSentencia.setString(1, null);
-                prepSentencia.setString(2, cliente.getDni());
-                prepSentencia.setString(3, cliente.getNombre());
-                prepSentencia.setString(4, cliente.getApellidos());
-                prepSentencia.setString(5, cliente.getFechaNacimiento());
-                prepSentencia.setBoolean(6, cliente.getBaja());
+                prepSentencia.setInt(2, espectaculo.getNumero());
+                prepSentencia.setString(3, espectaculo.getNombre());
+                prepSentencia.setInt(4, espectaculo.getAforo());
+                prepSentencia.setString(5, espectaculo.getDescripcion());
+                prepSentencia.setString(6, espectaculo.getLugar());
+                prepSentencia.setDouble(7, espectaculo.getCoste());
+                prepSentencia.setString(8, espectaculo.getFecha());
+                prepSentencia.setString(9, espectaculo.getHorario());
+                prepSentencia.setBoolean(10, espectaculo.getBaja());
+                prepSentencia.setInt(11, espectaculo.getidResponsable());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
@@ -88,16 +93,17 @@ public class ControladorCliente {
 
         return realizado;
 
+
     }
 
     /**
-     * Funcion que recibe objeto cliente, conecta a bdd y modifica datos de cliente en bdd segun su id. diferencia entre relacionales y bdoo en if tipoDb
+     * Funcion que recibe objeto espectaculo, conecta a bdd y modifica datos en bdd segun su id. diferencia entre relacionales y bdoo en if tipoDb
      * valores posibles:
      *
-     * @param cliente
+     * @param espectaculo
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean update(Cliente cliente) {
+    public boolean update(Espectaculo espectaculo) {
         realizado = false;
 
         // conecto
@@ -107,19 +113,24 @@ public class ControladorCliente {
 
             if (tipoDb != 2) {
 
-                String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
+                String sentencia = String.format("update " + tableName + " set " + myUpdate + "WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
-                        attNames[0]);
+                        attNames[6], attNames[7], attNames[8], attNames[9], attNames[10],
+                        attNames[0]); // para el where
                 prepSentencia = mydb.prepareStatement(sentencia);
 
-                prepSentencia.setString(1, cliente.getDni());
-                prepSentencia.setString(2, cliente.getNombre());
-                prepSentencia.setString(3, cliente.getApellidos());
-                prepSentencia.setString(4, cliente.getFechaNacimiento());
-                prepSentencia.setBoolean(5, cliente.getBaja());
+                prepSentencia.setInt(1, espectaculo.getNumero());
+                prepSentencia.setString(2, espectaculo.getNombre());
+                prepSentencia.setInt(3, espectaculo.getAforo());
+                prepSentencia.setString(4, espectaculo.getDescripcion());
+                prepSentencia.setString(5, espectaculo.getLugar());
+                prepSentencia.setDouble(6, espectaculo.getCoste());
+                prepSentencia.setString(7, espectaculo.getFecha());
+                prepSentencia.setString(8, espectaculo.getHorario());
+                prepSentencia.setBoolean(9, espectaculo.getBaja());
+                prepSentencia.setInt(10, espectaculo.getidResponsable());
 
-                prepSentencia.setInt(6, cliente.getIdCliente());
-
+                prepSentencia.setInt(11, espectaculo.getIdEspectaculo()); // para el where
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Actualización");
 
@@ -146,15 +157,15 @@ public class ControladorCliente {
     }
 
     /**
-     * Funcion que devuelve todos los objetos cliente en una lista
+     * Funcion que devuelve todos los objetos espectaculos en una lista
      * * valores posibles:
      *
      * @param
      * @return arraylist de clientes
      */
-    public List<Cliente> selectAll() {
+    public List<Espectaculo> selectAll() {
 
-        List<Cliente> clientes = new ArrayList<>();
+        List<Espectaculo> espectaculos = new ArrayList<>();
 
         // conecto
         Connection mydb = new Conexion(tipoDb).ConectarDb();
@@ -170,16 +181,22 @@ public class ControladorCliente {
 
                 while (rs.next()) {
 
-                    Cliente clienteNew = new Cliente();
+                    Espectaculo espectaculoNew = new Espectaculo();
 
-                    clienteNew.setIdCliente(rs.getInt(attNames[0]));
-                    clienteNew.setDni(rs.getString(attNames[1]));
-                    clienteNew.setNombre(rs.getString(attNames[2]));
-                    clienteNew.setApellidos(rs.getString(attNames[3]));
-                    clienteNew.setFechaNacimiento(rs.getString(attNames[4]));
-                    clienteNew.setBaja(rs.getBoolean(attNames[5]));
+                    espectaculoNew.setIdEspectaculo(rs.getInt(attNames[0]));
+                    espectaculoNew.setNumero(rs.getInt(attNames[1]));
+                    espectaculoNew.setNombre(rs.getString(attNames[2]));
+                    espectaculoNew.setAforo(rs.getInt(attNames[3]));
+                    espectaculoNew.setDescripcion(rs.getString(attNames[4]));
+                    espectaculoNew.setLugar(rs.getString(attNames[5]));
+                    espectaculoNew.setCoste(rs.getDouble(attNames[6]));
+                    espectaculoNew.setFecha(rs.getString(attNames[7]));
+                    espectaculoNew.setHorario(rs.getString(attNames[8]));
+                    espectaculoNew.setBaja(rs.getBoolean(attNames[9]));
+                    espectaculoNew.setIdResponsable(rs.getInt(attNames[10]));
 
-                    clientes.add(clienteNew);
+
+                    espectaculos.add(espectaculoNew);
                 }
 
                 //cierro la sentencia
@@ -198,19 +215,19 @@ public class ControladorCliente {
             e.printStackTrace();
         }
 
-        return clientes;
+        return espectaculos;
     }
 
     /**
-     * Funcion que recibe el id de un cliente y devuelve el objeto cliente
+     * Funcion que recibe el id de un espectaculo y devuelve el objeto espectaculo
      * valores posibles:
      *
      * @param id
      * @return objeto cliente
      */
-    public Cliente selectById(int id) {
+    public Espectaculo selectById(int id) {
 
-        Cliente clienteNew = new Cliente();
+        Espectaculo espectaculoNew = new Espectaculo();
 
         // conecto
         Connection mydb = new Conexion(tipoDb).ConectarDb();
@@ -228,12 +245,18 @@ public class ControladorCliente {
 
 
                 while (rs.next()) {
-                    clienteNew.setIdCliente(rs.getInt(attNames[0]));
-                    clienteNew.setDni(rs.getString(attNames[1]));
-                    clienteNew.setNombre(rs.getString(attNames[2]));
-                    clienteNew.setApellidos(rs.getString(attNames[3]));
-                    clienteNew.setFechaNacimiento(rs.getString(attNames[4]));
-                    clienteNew.setBaja(rs.getBoolean(attNames[5]));
+                    espectaculoNew.setIdEspectaculo(rs.getInt(attNames[0]));
+                    espectaculoNew.setNumero(rs.getInt(attNames[1]));
+                    espectaculoNew.setNombre(rs.getString(attNames[2]));
+                    espectaculoNew.setAforo(rs.getInt(attNames[3]));
+                    espectaculoNew.setDescripcion(rs.getString(attNames[4]));
+                    espectaculoNew.setLugar(rs.getString(attNames[5]));
+                    espectaculoNew.setCoste(rs.getDouble(attNames[6]));
+                    espectaculoNew.setFecha(rs.getString(attNames[7]));
+                    espectaculoNew.setHorario(rs.getString(attNames[8]));
+                    espectaculoNew.setBaja(rs.getBoolean(attNames[9]));
+                    espectaculoNew.setIdResponsable(rs.getInt(attNames[10]));
+
                 }
 
                 //cierro la sentencia
@@ -242,7 +265,7 @@ public class ControladorCliente {
                 mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
 
-                return clienteNew;
+                return espectaculoNew;
 
             } else {
                 System.out.println("hacer el select by id de db4 y close connection ");
@@ -255,7 +278,7 @@ public class ControladorCliente {
         }
 
 
-        return clienteNew;
+        return espectaculoNew;
     }
 
     /**
@@ -304,7 +327,7 @@ public class ControladorCliente {
     }
 
     public void messageok() {
-        String className = claseId.getClassName(this.cliente);
+        String className = claseId.getClassName(this.espectaculo);
         System.out.println("accion en: " + className + " ha ido ok");
 
     }
