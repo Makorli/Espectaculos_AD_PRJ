@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package Modelos;
 
 public class Inscripcion {
 
@@ -57,11 +55,11 @@ public class Inscripcion {
         this.fecha = fecha;
     }
 
-    //Métodos de recuperacion de datos de relaciones del objeto Empleado
+    //Métodos de recuperacion de datos de relaciones del objeto Modelos.Empleado
 
     /**
      * Retorna el objeto cliente que ha realizado la inscripcion
-     * @return Cliente
+     * @return Modelos.Cliente
      */
     public Cliente getCliente(){
         Cliente cliente = new Cliente();
@@ -71,7 +69,7 @@ public class Inscripcion {
 
     /**
      * Retorna el objeto espectaculo al que se ha inscrito un cliente
-     * @return Espectaculo
+     * @return Modelos.Espectaculo
      */
     public Espectaculo getEspectaculo(){
         Espectaculo espectaculo = new Espectaculo();

@@ -1,5 +1,6 @@
+package Modelos;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -128,10 +129,10 @@ public class Espectaculo {
         this.idResponsable = idResponsable;
     }
 
-    //Metodos de recuperacion de datos de relaciones del objeto Empleado
+    //Metodos de recuperacion de datos de relaciones del objeto Modelos.Empleado
 
     /**
-     * Retorna el objeto Empleado que se responsabiliza del espectaculo.
+     * Retorna el objeto Modelos.Empleado que se responsabiliza del espectaculo.
      * Se utilizará el campo idResponsable
      * @return
      */
@@ -152,7 +153,7 @@ public class Espectaculo {
     }
 
     /**
-     * Retorna una lista de objetos Inscripcion en la que figuran los datos de horario
+     * Retorna una lista de objetos Modelos.Inscripcion en la que figuran los datos de horario
      * de las inscripciones y los ids de cliente y espectaculos correspondientes.
      * @return ArrayList
      */
@@ -170,7 +171,7 @@ public class Espectaculo {
      */
     @Override
     public String toString() {
-        return "Espectaculo{" +
+        return "Modelos.Espectaculo{" +
                 "idEspectaculo=" + idEspectaculo +
                 ", numero=" + numero +
                 ", nombre='" + nombre + '\'' +

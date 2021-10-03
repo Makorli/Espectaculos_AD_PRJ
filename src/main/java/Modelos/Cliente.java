@@ -1,5 +1,6 @@
+package Modelos;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,7 +100,7 @@ public class Cliente {
      */
     @Override
     public String toString() {
-        return "\"Cliente --> " +
+        return "\"Modelos.Cliente --> " +
                 "idCliente=" + idCliente +
                 ", dni='" + dni + '\'' +
                 ", nombre='" + nombre + '\'' +

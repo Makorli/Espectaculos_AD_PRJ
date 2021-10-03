@@ -1,3 +1,5 @@
+package Modelos;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,7 +110,7 @@ public class Empleado {
         this.baja = baja;
     }
 
-    //Metodos de recuperacion de datos de relaciones del objeto Empleado
+    //Metodos de recuperacion de datos de relaciones del objeto Modelos.Empleado
 
     /**
      * Retorna una lista de objetos espectaculos de los cuales es responsable
@@ -128,7 +130,7 @@ public class Empleado {
      */
     @Override
     public String toString() {
-        return "Empleado-->" +
+        return "Modelos.Empleado-->" +
                 "idEmpleado=" + idEmpleado +
                 ", dni='" + dni + '\'' +
                 ", nombre='" + nombre + '\'' +
