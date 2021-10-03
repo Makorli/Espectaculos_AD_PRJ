@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class Espectaculo {
 
@@ -11,10 +14,10 @@ public class Espectaculo {
     private String descripcion;
     private String lugar;
     private Double coste;
-    private Date fecha;
+    private String fecha;
     private String horario;
     private Boolean baja;
-    private Empleado empleado;
+    private int idResponsable;
 
     //CONSTRUCTORES
 
@@ -22,7 +25,7 @@ public class Espectaculo {
     public Espectaculo() {
     }
 
-    public Espectaculo(int idEspectaculo, int numero, String nombre, int aforo, String descripcion, String lugar, Double coste, Date fecha, String horario, Boolean baja, Empleado empleado) {
+    public Espectaculo(int idEspectaculo, int numero, String nombre, int aforo, String descripcion, String lugar, Double coste, String fecha, String horario, Boolean baja, int idResponsable) {
         this.idEspectaculo = idEspectaculo;
         this.numero = numero;
         this.nombre = nombre;
@@ -33,7 +36,7 @@ public class Espectaculo {
         this.fecha = fecha;
         this.horario = horario;
         this.baja = baja;
-        this.empleado = empleado;
+        this.idResponsable = idResponsable;
     }
 //GETTERS & SETTERS
 
@@ -93,11 +96,11 @@ public class Espectaculo {
         this.coste = coste;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -117,11 +120,95 @@ public class Espectaculo {
         this.baja = baja;
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
+    public int getidResponsable() {
+        return idResponsable;
     }
 
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
+    public void setIdResponsable(Empleado empleado) {
+        this.idResponsable = idResponsable;
+    }
+
+    //Metodos de recuperacion de datos de relaciones del objeto Empleado
+
+    /**
+     * Retorna el objeto Empleado que se responsabiliza del espectaculo.
+     * Se utilizará el campo idResponsable
+     * @return
+     */
+    public Empleado getResponsable(){
+        Empleado responsable = new Empleado();
+        //TODO
+        return responsable;
+    }
+
+    /**
+     * Retorna una lista de objetos cliente que han asistido a ese espectaculo
+     * @return ArrayList
+     */
+    public List<Cliente> getClientesInscritos(){
+        List <Cliente> clientesList = new ArrayList<>();
+        //TODO
+        return clientesList;
+    }
+
+    /**
+     * Retorna una lista de objetos Inscripcion en la que figuran los datos de horario
+     * de las inscripciones y los ids de cliente y espectaculos correspondientes.
+     * @return ArrayList
+     */
+    public List<Inscripcion> getInscripciones(){
+        List <Inscripcion> inscripcionesList = new ArrayList<>();
+        //TODO
+        return inscripcionesList;
+    }
+
+    //Metodos de compración de objetos y visualizacion por consola
+
+    /**
+     * Método de visualizacion rápida de los datos del objeto por consola
+     * @return String con los valores del objeto
+     */
+    @Override
+    public String toString() {
+        return "Espectaculo{" +
+                "idEspectaculo=" + idEspectaculo +
+                ", numero=" + numero +
+                ", nombre='" + nombre + '\'' +
+                ", aforo=" + aforo +
+                ", descripcion='" + descripcion + '\'' +
+                ", lugar='" + lugar + '\'' +
+                ", coste=" + coste +
+                ", fecha='" + fecha + '\'' +
+                ", horario='" + horario + '\'' +
+                ", baja=" + baja +
+                ", idResponsable=" + idResponsable +
+                '}';
+    }
+
+
+    /**
+     * Metodo de comparación de objetos basados en los valores que tienen sus atributos.
+     * Se comparan las claves primarias o identificadores únicos
+     * @return Boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Espectaculo)) return false;
+        Espectaculo that = (Espectaculo) o;
+        return (idEspectaculo == that.idEspectaculo) ||
+                (numero == that.numero) ||
+                (nombre.trim().equalsIgnoreCase(that.nombre.trim())
+                );
+    }
+
+    /**
+     * Metodo de comparación de objetos basados en los hashes que generan sus atributos.
+     * Se realiza el hash con las claves primarias y campos únicos.
+     * @return Boolean
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(idEspectaculo, numero, nombre);
     }
 }

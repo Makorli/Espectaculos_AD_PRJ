@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class Empleado {
 
@@ -103,5 +106,62 @@ public class Empleado {
 
     public void setBaja(Boolean baja) {
         this.baja = baja;
+    }
+
+    //Metodos de recuperacion de datos de relaciones del objeto Empleado
+
+    /**
+     * Retorna una lista de objetos espectaculos de los cuales es responsable
+     * @return ArrayList
+     */
+    public List<Espectaculo> getEspectaculos(){
+        List <Espectaculo> espectaculosList = new ArrayList<>();
+        //TODO
+        return espectaculosList;
+    }
+
+    //Metodos de compración de objetos y visualizacion por consola
+
+    /**
+     * Método de visualizacion rápida de los datos del objeto por consola
+     * @return String con los valores del objeto
+     */
+    @Override
+    public String toString() {
+        return "Empleado-->" +
+                "idEmpleado=" + idEmpleado +
+                ", dni='" + dni + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", fechaNacimiento=" + fechaNacimiento +
+                ", fechaContratacion=" + fechaContratacion +
+                ", nacionalidad='" + nacionalidad + '\'' +
+                ", cargo='" + cargo + '\'' +
+                ", baja=" + baja +
+                '}';
+    }
+
+    /**
+     * Metodo de comparación de objetos basados en los valores que tienen sus atributos.
+     * Se comparan las claves primarias o identificadores únicos
+     * @return Boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Empleado)) return false;
+        Empleado empleado = (Empleado) o;
+        return (idEmpleado == empleado.idEmpleado) ||
+                (dni.equals(empleado.dni));
+    }
+
+    /**
+     * Metodo de comparación de objetos basados en los hashes que generan sus atributos.
+     * Se realiza el hash con las claves primarias y campos únicos.
+     * @return Boolean
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(idEmpleado, dni);
     }
 }

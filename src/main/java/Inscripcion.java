@@ -1,23 +1,25 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Inscripcion {
 
     //ATRIBUTOS
 
     private int idInscripcion;
-    private Cliente cliente;
-    private Espectaculo espectaculo;
-    private Date fecha;
+    private int idCliente;
+    private int idEspectaculo;
+    private String fecha;
 
     //CONSTRUCTORES
 
     public Inscripcion() {
     }
 
-    public Inscripcion(int idInscripcion, Cliente cliente, Espectaculo espectaculo, Date fecha) {
+    public Inscripcion(int idInscripcion, int idcliente, int idEspectaculo, String fecha) {
         this.idInscripcion = idInscripcion;
-        this.cliente = cliente;
-        this.espectaculo = espectaculo;
+        this.idCliente = idcliente;
+        this.idEspectaculo = idEspectaculo;
         this.fecha = fecha;
     }
 
@@ -31,27 +33,50 @@ public class Inscripcion {
         this.idInscripcion = idInscripcion;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Espectaculo getEspectaculo() {
-        return espectaculo;
+    public int getIdEspectaculo() {
+        return idEspectaculo;
     }
 
-    public void setEspectaculo(Espectaculo espectaculo) {
-        this.espectaculo = espectaculo;
+    public void setIdEspectaculo(int espectaculo) {
+        this.idEspectaculo = espectaculo;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+
+    //Métodos de recuperacion de datos de relaciones del objeto Empleado
+
+    /**
+     * Retorna el objeto cliente que ha realizado la inscripcion
+     * @return Cliente
+     */
+    public Cliente getCliente(){
+        Cliente cliente = new Cliente();
+        //TODO
+        return cliente;
+    }
+
+    /**
+     * Retorna el objeto espectaculo al que se ha inscrito un cliente
+     * @return Espectaculo
+     */
+    public Espectaculo getEspectaculo(){
+        Espectaculo espectaculo = new Espectaculo();
+        //TODO
+        return espectaculo;
+    }
+
 }
