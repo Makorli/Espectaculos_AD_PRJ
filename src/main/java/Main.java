@@ -9,11 +9,11 @@ public class Main {
     public static void main(String[] args) throws SQLException, IllegalAccessException {
 
 
-        int ids = 1;
+        int ids = 10;
         String dni = "x7777777a";
-        String nombre = "nombretest1";
-        String apellidos = "insertcontrolador";
-        String fechaNacimiento = "02/10/2021";
+        String nombre = "nombretest2";
+        String apellidos = "editontrolador";
+        String fechaNacimiento = "03/10/2021";
         String fechaAlta = "13/05/2000";
 
         String nacionalidad = "Portugues";
@@ -37,7 +37,7 @@ public class Main {
 
 
         ControladorCliente control = new ControladorCliente(cli);
-        control.add(cli);
+       // control.add(cli);
         //control.update(cli);
 
 

@@ -8,6 +8,7 @@ public class ControladorCliente {
 
     int tipoDb = 0; //esto debe venir del click del parque
 
+    boolean realizado;
     IdentificadorDeClase claseId;
     Cliente cliente;
 
@@ -23,6 +24,7 @@ public class ControladorCliente {
     public boolean add(Cliente cliente) {
 
         // conecto
+        realizado = false;
         Connection mydb = new Conexion(tipoDb).ConectarDb();
         String className = claseId.getClassName(cliente);
         String myInsert = crearMyInsert(cliente);
@@ -48,11 +50,11 @@ public class ControladorCliente {
 
                 mydb.close();
                 messageok(cliente);///////////////////////////////////////////////////// check maria borrar
-                return true;
+                realizado = true;
 
             } else {
                 System.out.println("hacer el store y close connection ");///////////////////////////////////////////////////// check maria borrar
-                return true;
+                realizado = true;
             }
 
         } catch (SQLException error) {
@@ -61,13 +63,14 @@ public class ControladorCliente {
             System.out.println("Error no controlado: " + e.getMessage());
         }
 
-        return false;
+        return realizado;
 
 
     }
 
     public boolean update(Cliente cliente) {
 
+        realizado = false;
         String className = claseId.getClassName(cliente);
         String[] attNames = claseId.getAttNames(cliente);
         int id = cliente.getIdCliente();
@@ -97,12 +100,12 @@ public class ControladorCliente {
 
                 mydb.close();
                 messageok(cliente);///////////////////////////////////////////////////// check maria borrar
-                return true;
+                realizado = true;
 
 
             } else {
                 System.out.println("hacer el update de db4 y close connection ");///////////////////////////////////////////////////// check maria borrar
-                return true;
+                realizado = true;
             }
 
         } catch (SQLException error) {
@@ -111,10 +114,16 @@ public class ControladorCliente {
             System.out.println("Error no controlado: " + e.getMessage());
         }
 
-        return false;
+        return realizado;
     }
 
+public boolean selectAll(Cliente cliente){
+    realizado = false;
 
+
+    return realizado;
+
+}
 
 
     public String crearMyInsert(Cliente cliente) {
