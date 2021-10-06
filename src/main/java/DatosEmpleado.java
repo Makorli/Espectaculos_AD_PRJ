@@ -3,10 +3,6 @@ import javax.swing.*;
 public class DatosEmpleado {
 
 
-    //  Esta etiqueta es la que aparecerá en la parte superior de todas las ventanas
-    //  para indicarnos el parque en el que nos encontramos.
-    private JLabel lbTituloParque;
-
     //Paneles
 
     /**
@@ -17,8 +13,7 @@ public class DatosEmpleado {
      * @param JPEmpleados -> (Con JP en mayusculas) es el panel que muestra la ficha del empleado.
      */
 
-    private JPanel JPGeneral, JPMenu, JPEmpleados, jpClientes, jpEmpleados, jpEspectaculos, jpInscripciones, jpOtrasOpciones;
-    private JTabbedPane tpMenu;
+    private JPanel JPGeneral, JPEmpleados;
 
     //Botones
     private JButton btnGuardar, btnCancelar, btnBaja;
@@ -27,13 +22,27 @@ public class DatosEmpleado {
     private JCheckBox cbBaja;
 
     //Etiquetas
-    private JLabel lbIdEmpleado, lbNombre, lbApellidos, lbDni, lbFechaNacimiento, lbBaja, lbFechaContratacion, lbCargo, lbNacionalidad;
+    private JLabel lbIdEmpleado, lbEmpleado, lbNombre, lbApellidos, lbDni, lbFechaNacimiento, lbBaja, lbFechaContratacion,lbTituloParque, lbCargo, lbNacionalidad;
 
     //TextField
-    private JTextField txtNombre, txtApellidos, txtDni, txtNacionalidad;
+    private JTextField txtNombre, txtApellidos, txtDni, txtNacionalidad, txtFechaNacimiento, txtFechaContratacion;
 
     //ComboBox para mostrar los posibles cargos - Jefe, auxiliar, tecnico....
     private JComboBox cbCargo;
 
+    public JPanel getJPGeneral(JFrame frame) {
+        return JPGeneral;
+    }
 
+    public void setJPGeneral(JPanel JPGeneral) {
+        this.JPGeneral = JPGeneral;
+    }
+
+    public JPanel getJPEmpleados() {
+        return JPEmpleados;
+    }
+
+    public void setJPEmpleados(JPanel JPEmpleados) {
+        this.JPEmpleados = JPEmpleados;
+    }
 }
