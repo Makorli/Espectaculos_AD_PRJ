@@ -1,106 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="DatosClientes">
-  <grid id="27dc6" binding="JPGeneral" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <grid id="27dc6" binding="JPGeneral" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="434"/>
+      <xy x="20" y="20" width="645" height="491"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="835af" binding="JPMenu" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="f3013" binding="JPClientes" layout-manager="GridLayoutManager" row-count="6" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="1000" height="500"/>
+            <maximum-size width="5000" height="5000"/>
+          </grid>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="8ac4b" class="javax.swing.JLabel" binding="lbTituloParque">
+          <component id="e5cc0" class="javax.swing.JLabel" binding="lbIdCliente">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Label"/>
-            </properties>
-          </component>
-          <tabbedpane id="2366e" binding="tpMenu">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="200" height="200"/>
-              </grid>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <grid id="d99d2" binding="jpClientes" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <tabbedpane title="Clientes"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="1879d" binding="jpEsmpleados" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <tabbedpane title="Empleados"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="37b94" binding="jpEspectaculos" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <tabbedpane title="Espectaculos"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="c0649" binding="jpInscripciones" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <tabbedpane title="Inscripciones"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="a755" binding="jpOtrasOpciones" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <tabbedpane title="Otras Opciones"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-            </children>
-          </tabbedpane>
-        </children>
-      </grid>
-      <grid id="f3013" binding="JPClientes" layout-manager="GridLayoutManager" row-count="7" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="e5cc0" class="javax.swing.JLabel" binding="lbIdEspectaculo">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="idEspectaculo"/>
+              <text value="Cliente Nº"/>
             </properties>
           </component>
           <component id="a4322" class="javax.swing.JLabel" binding="lbNombre">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="82" height="16"/>
               </grid>
             </constraints>
@@ -108,152 +37,144 @@
               <text value="Nombre"/>
             </properties>
           </component>
-          <component id="c3ba3" class="javax.swing.JLabel" binding="lbDescripcion">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="82" height="16"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Descripcion"/>
-            </properties>
-          </component>
-          <component id="b59ac" class="javax.swing.JLabel" binding="lbLugar">
+          <component id="c3ba3" class="javax.swing.JLabel" binding="lbApellidos">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="82" height="16"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Lugar"/>
+              <text value="Apellidos"/>
             </properties>
           </component>
-          <component id="23b58" class="javax.swing.JButton" binding="btnCancelar">
+          <component id="a9b9d" class="javax.swing.JLabel" binding="lbDni">
             <constraints>
-              <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Cancelar"/>
+              <horizontalAlignment value="4"/>
+              <text value="DNI"/>
             </properties>
           </component>
-          <component id="a9b9d" class="javax.swing.JLabel" binding="lbNumero">
+          <component id="27507" class="javax.swing.JLabel" binding="lbFechaNacimiento">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Numero"/>
-            </properties>
-          </component>
-          <component id="27507" class="javax.swing.JLabel" binding="lbAforo">
-            <constraints>
-              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Aforo"/>
-            </properties>
-          </component>
-          <component id="fb5d0" class="javax.swing.JLabel" binding="lbFecha">
-            <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Fecha"/>
-            </properties>
-          </component>
-          <component id="e1f2a" class="javax.swing.JLabel" binding="lbHorario">
-            <constraints>
-              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Horario"/>
-            </properties>
-          </component>
-          <component id="abac4" class="javax.swing.JLabel" binding="lbCoste">
-            <constraints>
-              <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Coste"/>
-            </properties>
-          </component>
-          <component id="72e12" class="javax.swing.JLabel" binding="lbResponsable">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Responsable"/>
+              <horizontalAlignment value="4"/>
+              <text value="Fecha Nacimiento"/>
             </properties>
           </component>
           <component id="e5ce3" class="javax.swing.JLabel" binding="lbBaja">
             <constraints>
-              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <horizontalAlignment value="4"/>
               <text value="Baja"/>
             </properties>
-          </component>
-          <component id="cad88" class="javax.swing.JCheckBox" binding="checkBox1" default-binding="true">
-            <constraints>
-              <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="CheckBox"/>
-            </properties>
-          </component>
-          <component id="47bf2" class="javax.swing.JButton" binding="btnBaja">
-            <constraints>
-              <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Baja"/>
-            </properties>
-          </component>
-          <component id="8b72f" class="javax.swing.JSpinner" binding="spnAforo">
-            <constraints>
-              <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="d4b89" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
           </component>
           <component id="e8c2e" class="javax.swing.JTextField" binding="txtNombre">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="6c2b0" class="javax.swing.JTextField" binding="txtDescripcion">
-            <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="201" height="30"/>
               </grid>
             </constraints>
             <properties/>
           </component>
-          <component id="fe37c" class="javax.swing.JTextField" binding="txtLugar">
+          <component id="6c2b0" class="javax.swing.JTextField" binding="txtApellidos">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="201" height="30"/>
               </grid>
             </constraints>
             <properties/>
           </component>
           <component id="93177" class="javax.swing.JButton" binding="btnGuardar">
             <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="201" height="30"/>
+              </grid>
             </constraints>
             <properties>
               <text value="Guardar"/>
             </properties>
           </component>
+          <component id="c57a0" class="javax.swing.JTextField" binding="txtDni">
+            <constraints>
+              <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="47bf2" class="javax.swing.JButton" binding="btnBaja">
+            <constraints>
+              <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Baja"/>
+            </properties>
+          </component>
+          <component id="23b58" class="javax.swing.JButton" binding="btnCancelar">
+            <constraints>
+              <grid row="5" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Cancelar"/>
+            </properties>
+          </component>
+          <component id="158d1" class="javax.swing.JLabel" binding="lbIdClienteAuto">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="201" height="16"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value="Aqui viene el id de cliente. desactivado"/>
+            </properties>
+          </component>
+          <component id="14a1f" class="javax.swing.JTextField" binding="txtFechaNacimiento">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="cad88" class="javax.swing.JCheckBox" binding="cbBaja">
+            <constraints>
+              <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="69f64" class="javax.swing.JLabel" binding="lbCliente">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="20" style="1"/>
+              <text value="CLIENTE"/>
+            </properties>
+          </component>
         </children>
       </grid>
+      <component id="8ac4b" class="javax.swing.JLabel" binding="lbTituloParque">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="5" height="5"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16445119"/>
+          <font size="26" style="1"/>
+          <foreground color="-4473925"/>
+          <horizontalAlignment value="0"/>
+          <text value="Paque RioGrande en Fuensencilla de Torredolones"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

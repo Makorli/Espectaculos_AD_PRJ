@@ -1,34 +1,47 @@
+
 import javax.swing.*;
 
 public class DatosClientes {
-    private JPanel JPClientes;
-    private JLabel lbIdEspectaculo;
-    private JLabel lbNombre;
-    private JLabel lbDescripcion;
-    private JLabel lbLugar;
-    private JButton btnCancelar;
-    private JLabel lbNumero;
-    private JLabel lbAforo;
-    private JLabel lbFecha;
-    private JLabel lbHorario;
-    private JLabel lbCoste;
-    private JLabel lbResponsable;
-    private JLabel lbBaja;
-    private JCheckBox checkBox1;
-    private JButton btnBaja;
-    private JSpinner spnAforo;
-    private JComboBox comboBox1;
-    private JTextField txtNombre;
-    private JTextField txtDescripcion;
-    private JTextField txtLugar;
-    private JButton btnGuardar;
-    private JPanel JPMenu;
+
+
+    //  Esta etiqueta es la que aparecerá en la parte superior de todas las ventanas
+    //  para indicarnos el parque en el que nos encontramos.
     private JLabel lbTituloParque;
-    private JTabbedPane tpMenu;
-    private JPanel jpClientes;
-    private JPanel jpEsmpleados;
-    private JPanel jpEspectaculos;
-    private JPanel jpInscripciones;
-    private JPanel jpOtrasOpciones;
-    private JPanel JPGeneral;
+
+    //Paneles
+
+    /**
+     * @param JPGeneral -> contenedor de todos los paneles
+     * @param JPClientes -> (Con JP en mayusculas) es el panel que muestra la ficha del cliente.
+     */
+
+    private JPanel JPGeneral, JPClientes;
+
+    //Botones
+    private JButton btnGuardar, btnCancelar, btnBaja;
+
+    //Checkbox para la baja si/no
+    private JCheckBox cbBaja;
+
+    //Etiquetas
+    private JLabel lbIdCliente,lbIdClienteAuto, lbNombre, lbApellidos, lbDni, lbFechaNacimiento, lbBaja, lbCliente;
+
+    //TextField
+    private JTextField txtNombre, txtApellidos, txtDni, txtFechaNacimiento;
+
+    public JPanel getJPGeneral(JFrame frame) {
+        return JPGeneral;
+    }
+
+    public void setJPGeneral(JPanel JPGeneral) {
+        this.JPGeneral = JPGeneral;
+    }
+
+    public JPanel getJPClientes() {
+        return JPClientes;
+    }
+
+    public void setJPClientes(JPanel JPClientes) {
+        this.JPClientes = JPClientes;
+    }
 }
