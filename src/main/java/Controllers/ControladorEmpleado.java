@@ -1,18 +1,19 @@
 package Controllers;
 
+import Miscelaneous.IdentificadorDeClase;
+import Modelos.Cliente;
+import Modelos.Empleado;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import Miscelaneous.IdentificadorDeClase;
-import Modelos.Cliente;
-
-public class ControladorCliente {
+public class ControladorEmpleado {
 
     int tipoDb = 1; //esto debe venir del click del parque
 
     private boolean realizado;
-    private Cliente cliente;
+    private Empleado empleado;
     private IdentificadorDeClase claseId;
 
     private String tableName;
@@ -26,28 +27,30 @@ public class ControladorCliente {
     private PreparedStatement prepSentencia = null;
 
 
-    public ControladorCliente() {
-        this.cliente = new Cliente();
-        this.claseId = new IdentificadorDeClase(this.cliente);
+    public ControladorEmpleado() {
 
-        this.tableName = claseId.getClassName(this.cliente);
-        this.attNames = claseId.getAttNames(this.cliente);
+        this.empleado = new Empleado();
+        this.claseId = new IdentificadorDeClase(this.empleado);
+
+        this.tableName = claseId.getClassName(this.empleado);
+        this.attNames = claseId.getAttNames(this.empleado);
 
         this.myInsert = crearMyInsert();
         this.myUpdate = crearMyUpdate();
+
 
     }
 
 
     /**
-     * Funcion que recibe objeto cliente, conecta a bdd e inserta datos de cliente en bdd. diferencia entre relacionales y bdoo en if tipoDb
+     * Funcion que recibe objeto empleado, conecta a bdd e inserta datos en bdd. diferencia entre relacionales y bdoo en if tipoDb
      * se pasa id como string null (no como integer) para que la bdd asigne numero automatico
      * valores posibles:
      *
-     * @param cliente
+     * @param empleado
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean add(Cliente cliente) {
+    public boolean add(Empleado empleado) {
         realizado = false;
 
         // conecto
@@ -59,11 +62,15 @@ public class ControladorCliente {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
                 prepSentencia.setString(1, null);
-                prepSentencia.setString(2, cliente.getDni());
-                prepSentencia.setString(3, cliente.getNombre());
-                prepSentencia.setString(4, cliente.getApellidos());
-                prepSentencia.setString(5, cliente.getFechaNacimiento());
-                prepSentencia.setBoolean(6, cliente.getBaja());
+                prepSentencia.setString(2, empleado.getDni());
+                prepSentencia.setString(3, empleado.getNombre());
+                prepSentencia.setString(4, empleado.getApellidos());
+                prepSentencia.setString(5, empleado.getFechaNacimiento());
+                prepSentencia.setString(6, empleado.getFechaContratacion());
+                prepSentencia.setString(7, empleado.getNacionalidad());
+                prepSentencia.setString(8, empleado.getCargo());
+                prepSentencia.setBoolean(9, empleado.getBaja());
+
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
@@ -91,14 +98,15 @@ public class ControladorCliente {
     }
 
     /**
-     * Funcion que recibe objeto cliente, conecta a bdd y modifica datos de cliente en bdd segun su id. diferencia entre relacionales y bdoo en if tipoDb
+     * Funcion que recibe objeto empleado, conecta a bdd y modifica datos  en bdd segun su id. diferencia entre relacionales y bdoo en if tipoDb
      * valores posibles:
      *
-     * @param cliente
+     * @param empleado
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean update(Cliente cliente) {
+    public boolean update(Empleado empleado) {
         realizado = false;
+
 
         // conecto
         Connection mydb = new Conexion(tipoDb).ConectarDb();
@@ -109,16 +117,20 @@ public class ControladorCliente {
 
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
+                        attNames[6],attNames[7],attNames[8],
                         attNames[0]);
                 prepSentencia = mydb.prepareStatement(sentencia);
 
-                prepSentencia.setString(1, cliente.getDni());
-                prepSentencia.setString(2, cliente.getNombre());
-                prepSentencia.setString(3, cliente.getApellidos());
-                prepSentencia.setString(4, cliente.getFechaNacimiento());
-                prepSentencia.setBoolean(5, cliente.getBaja());
+                prepSentencia.setString(1, empleado.getDni());
+                prepSentencia.setString(2, empleado.getNombre());
+                prepSentencia.setString(3, empleado.getApellidos());
+                prepSentencia.setString(4, empleado.getFechaNacimiento());
+                prepSentencia.setString(5, empleado.getFechaContratacion());
+                prepSentencia.setString(6, empleado.getNacionalidad());
+                prepSentencia.setString(7, empleado.getCargo());
+                prepSentencia.setBoolean(8, empleado.getBaja());
 
-                prepSentencia.setInt(6, cliente.getIdCliente());
+                prepSentencia.setInt(9, empleado.getIdEmpleado());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Actualización");
@@ -152,9 +164,9 @@ public class ControladorCliente {
      * @param
      * @return arraylist de clientes
      */
-    public List<Cliente> selectAll() {
+    public List<Empleado> selectAll() {
 
-        List<Cliente> clientes = new ArrayList<>();
+        List<Empleado> empleados = new ArrayList<>();
 
         // conecto
         Connection mydb = new Conexion(tipoDb).ConectarDb();
@@ -170,16 +182,19 @@ public class ControladorCliente {
 
                 while (rs.next()) {
 
-                    Cliente clienteNew = new Cliente();
+                    Empleado empleadoNew = new Empleado();
 
-                    clienteNew.setIdCliente(rs.getInt(attNames[0]));
-                    clienteNew.setDni(rs.getString(attNames[1]));
-                    clienteNew.setNombre(rs.getString(attNames[2]));
-                    clienteNew.setApellidos(rs.getString(attNames[3]));
-                    clienteNew.setFechaNacimiento(rs.getString(attNames[4]));
-                    clienteNew.setBaja(rs.getBoolean(attNames[5]));
+                    empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
+                    empleadoNew.setDni(rs.getString(attNames[1]));
+                    empleadoNew.setNombre(rs.getString(attNames[2]));
+                    empleadoNew.setApellidos(rs.getString(attNames[3]));
+                    empleadoNew.setFechaNacimiento(rs.getString(attNames[4]));
+                    empleadoNew.setFechaContratacion(rs.getString(attNames[5]));
+                    empleadoNew.setNacionalidad(rs.getString(attNames[6]));
+                    empleadoNew.setCargo(rs.getString(attNames[7]));
+                    empleadoNew.setBaja(rs.getBoolean(attNames[8]));
 
-                    clientes.add(clienteNew);
+                    empleados.add(empleadoNew);
                 }
 
                 //cierro la sentencia
@@ -198,7 +213,7 @@ public class ControladorCliente {
             e.printStackTrace();
         }
 
-        return clientes;
+        return empleados;
     }
 
     /**
@@ -208,9 +223,9 @@ public class ControladorCliente {
      * @param id
      * @return objeto cliente
      */
-    public Cliente selectById(int id) {
+    public Empleado selectById(int id) {
 
-        Cliente clienteNew = new Cliente();
+        Empleado empleadoNew = new Empleado();
 
         // conecto
         Connection mydb = new Conexion(tipoDb).ConectarDb();
@@ -228,12 +243,18 @@ public class ControladorCliente {
 
 
                 while (rs.next()) {
-                    clienteNew.setIdCliente(rs.getInt(attNames[0]));
-                    clienteNew.setDni(rs.getString(attNames[1]));
-                    clienteNew.setNombre(rs.getString(attNames[2]));
-                    clienteNew.setApellidos(rs.getString(attNames[3]));
-                    clienteNew.setFechaNacimiento(rs.getString(attNames[4]));
-                    clienteNew.setBaja(rs.getBoolean(attNames[5]));
+
+                    empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
+                    empleadoNew.setDni(rs.getString(attNames[1]));
+                    empleadoNew.setNombre(rs.getString(attNames[2]));
+                    empleadoNew.setApellidos(rs.getString(attNames[3]));
+                    empleadoNew.setFechaNacimiento(rs.getString(attNames[4]));
+                    empleadoNew.setFechaContratacion(rs.getString(attNames[5]));
+                    empleadoNew.setNacionalidad(rs.getString(attNames[6]));
+                    empleadoNew.setCargo(rs.getString(attNames[7]));
+                    empleadoNew.setBaja(rs.getBoolean(attNames[8]));
+
+
                 }
 
                 //cierro la sentencia
@@ -242,7 +263,7 @@ public class ControladorCliente {
                 mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
 
-                return clienteNew;
+                return empleadoNew;
 
             } else {
                 System.out.println("hacer el select by id de db4 y close connection ");
@@ -255,7 +276,7 @@ public class ControladorCliente {
         }
 
 
-        return clienteNew;
+        return empleadoNew;
     }
 
     /**
@@ -304,7 +325,7 @@ public class ControladorCliente {
     }
 
     public void messageok() {
-        String className = claseId.getClassName(this.cliente);
+        String className = claseId.getClassName(this.empleado);
         System.out.println("accion en: " + className + " ha ido ok");
 
     }

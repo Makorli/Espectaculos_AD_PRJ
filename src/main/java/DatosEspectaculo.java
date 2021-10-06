@@ -1,12 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DatosEspectaculo {
-
-    //  Esta etiqueta es la que aparecerá en la parte superior de todas las ventanas
-    //  para indicarnos el parque en el que nos encontramos.
-    private JLabel lbTituloParque;
 
     //Paneles
 
@@ -18,18 +12,17 @@ public class DatosEspectaculo {
      * @param JPEspectaculos ->    (Con JP en mayusculas) es el panel que muestra la ficha del espectaculo.
      */
 
-    private JPanel JPGeneral, JPMenu, JPEspectaculos, jpClientes, jpEmpleados, jpEspectaculos, jpInscripciones, jpOtrasOpciones;
-    private JTabbedPane tpMenu;
+    private JPanel JPGeneral, JPEspectaculos;
 
 
     //Etiquetas
-    private JLabel lbIdEspectaculo, lbNumero, lbNombre, lbAforo, lbDescripcion, lbLugar, lbCoste, lbFecha, lbHorario, lbBaja, lbResponsable;
+    private JLabel lbIdEspectaculo, lbEspectaculo, lbTituloParque, lbNumero, lbNombre, lbAforo, lbDescripcion, lbLugar, lbCoste, lbFecha, lbHorario, lbBaja, lbResponsable;
 
     //Botones
     private JButton btnGuardar, btnCancelar, btnBaja;
 
     //TextField
-    private JTextField txtNombre, txtDescripcion, txtLugar;
+    private JTextField txtNombre, txtDescripcion, txtLugar, txtFecha, txtHorario, txtCoste;
 
     //Checkbox para la baja si/no
     private JCheckBox cbBaja;
@@ -40,5 +33,7 @@ public class DatosEspectaculo {
     //Combobox para elegir al responsable del espectaculo
     private JComboBox cbResponsable;
 
-
+    public JPanel getJPEspectaculos() {
+        return JPEspectaculos;
+    }
 }

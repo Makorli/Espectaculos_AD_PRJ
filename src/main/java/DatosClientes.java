@@ -1,7 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DatosClientes {
 
@@ -14,16 +11,10 @@ public class DatosClientes {
 
     /**
      * @param JPGeneral -> contenedor de todos los paneles
-     * @param JPMenu ->   es el panel del menu
-     * @param tpMenu -> es un TabbledPanel donde se muestran todas las opciones: Clientes, empleados, Espectaculos...
-     * @param jpClientes -> (con jp en minusculas) jpEmpleados... son los despleglables correspondientes.
      * @param JPClientes -> (Con JP en mayusculas) es el panel que muestra la ficha del cliente.
      */
 
-    private JPanel JPGeneral, JPMenu, JPClientes, jpClientes, jpEmpleados, jpEspectaculos, jpInscripciones, jpOtrasOpciones;
-    private  JTabbedPane tpMenu;
-
-    private JMenu tpMenu2;
+    private JPanel JPGeneral, JPClientes;
 
     //Botones
     private JButton btnGuardar, btnCancelar, btnBaja;
@@ -32,29 +23,24 @@ public class DatosClientes {
     private JCheckBox cbBaja;
 
     //Etiquetas
-    private JLabel lbIdCliente, lbNombre, lbApellidos, lbDni, lbFechaNacimiento, lbBaja;
+    private JLabel lbIdCliente,lbIdClienteAuto, lbNombre, lbApellidos, lbDni, lbFechaNacimiento, lbBaja, lbCliente;
 
     //TextField
-    private JTextField txtNombre, txtApellidos, txtDni;
+    private JTextField txtNombre, txtApellidos, txtDni, txtFechaNacimiento;
 
-
-    JMenuItem nuevo = new JMenuItem();
-
-    public static  void main(String[] args){
-
-
-
-        JFrame frame = new JFrame("Iniciar sesión");
-
-
-
-        frame.setContentPane(new DatosClientes().JPGeneral);
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-
+    public JPanel getJPGeneral(JFrame frame) {
+        return JPGeneral;
     }
 
+    public void setJPGeneral(JPanel JPGeneral) {
+        this.JPGeneral = JPGeneral;
+    }
 
+    public JPanel getJPClientes() {
+        return JPClientes;
+    }
+
+    public void setJPClientes(JPanel JPClientes) {
+        this.JPClientes = JPClientes;
+    }
 }
