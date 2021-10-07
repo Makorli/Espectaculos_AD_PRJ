@@ -13,8 +13,8 @@ public class Empleado {
     private String dni;
     private String nombre;
     private String apellidos;
-    private Date fechaNacimiento;
-    private Date fechaContratacion;
+    private String fechaNacimiento;
+    private String fechaContratacion;
     private String nacionalidad;
     private String cargo;
     private Boolean baja;
@@ -24,7 +24,7 @@ public class Empleado {
     public Empleado() {
     }
 
-    public Empleado(int idEmpleado, String dni, String nombre, String apellidos, Date fechaNacimiento, Date fechaContratacion, String nacionalidad, String cargo, Boolean baja) {
+    public Empleado(int idEmpleado, String dni, String nombre, String apellidos, String fechaNacimiento, String fechaContratacion, String nacionalidad, String cargo, Boolean baja) {
         this.idEmpleado = idEmpleado;
         this.dni = dni;
         this.nombre = nombre;
@@ -70,19 +70,19 @@ public class Empleado {
         this.apellidos = apellidos;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Date getFechaContratacion() {
+    public String getFechaContratacion() {
         return fechaContratacion;
     }
 
-    public void setFechaContratacion(Date fechaContratacion) {
+    public void setFechaContratacion(String fechaContratacion) {
         this.fechaContratacion = fechaContratacion;
     }
 
