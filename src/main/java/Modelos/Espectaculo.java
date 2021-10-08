@@ -121,11 +121,11 @@ public class Espectaculo {
         this.baja = baja;
     }
 
-    public int getidResponsable() {
+    public int getIdResponsable() {
         return idResponsable;
     }
 
-    public void setIdResponsable(Empleado empleado) {
+    public void setIdResponsable(int idResponsable) {
         this.idResponsable = idResponsable;
     }
 

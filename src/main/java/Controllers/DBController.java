@@ -13,6 +13,7 @@ import java.sql.SQLException;
  */
 public class DBController {
 
+
     // CLASES PRIVADAS Y ENUMS
 
     /**
@@ -85,7 +86,7 @@ public class DBController {
         }
 
         public static String getConnectionStr() {
-            return String.format("\"jdbc:sqlite:%s", dbName);
+            return String.format("jdbc:sqlite:%s", dbName);
         }
     }
 
@@ -164,7 +165,9 @@ public class DBController {
     // CONSTRUCTORES
     public DBController(DBTypes tipoDB) {
         this.tipoDB = tipoDB;
+
     }
+
 
     // GETTERS
 

@@ -1,13 +1,20 @@
+package Vistas;
+
+import Controllers.ControladorEmpleado;
+import Modelos.Empleado;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class VentanaInicio {
 
+    private ControladorEmpleado ce;
     private JLabel lbTituloParque;
     private JPanel JPGeneral;
     private JPanel JPVacio;
+    private List<Empleado> empleados;
 
     public VentanaInicio(JFrame frame) {
 
@@ -36,6 +43,7 @@ public class VentanaInicio {
 
         JMenuItem itemMetadatos = new JMenuItem("Metadatos");
         JMenuItem itemBusqueda = new JMenuItem("Buscar...");
+        JMenuItem itemSalirParque = new JMenuItem("Salir de este parque.");
 
         // Aqui añadimos el item a cada menu.
         MenuEmpleados.add(itemNuevoEmpleado);
@@ -52,6 +60,7 @@ public class VentanaInicio {
 
         MenuOtrasOpciones.add(itemMetadatos);
         MenuOtrasOpciones.add(itemBusqueda);
+        MenuOtrasOpciones.add(itemSalirParque);
 
         //Formamos el menu bar
         menuBar.add(MenuEmpleados);
@@ -65,7 +74,7 @@ public class VentanaInicio {
         frame.setJMenuBar(menuBar);
 
 
-      /**Cada vez que pulsemos en un item nos abrirá el panel inferior nuevo con los campos correspondientes a la tabla*/
+        /**Cada vez que pulsemos en un item nos abrirá el panel inferior nuevo con los campos correspondientes a la tabla*/
         itemNuevoCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,7 +87,7 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosClientes modificarCliente = new DatosClientes();
-                mostrarPanel(modificarCliente.getJPClientes());
+
             }
         });
 
@@ -94,6 +103,8 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado modificarEmpleado = new DatosEmpleado();
+                ce = new ControladorEmpleado();
+                modificarEmpleado.mostrarEmpleados(ce.selectAll());
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
             }
         });
@@ -138,9 +149,22 @@ public class VentanaInicio {
             }
         });
 
+        itemSalirParque.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(false);
+                JFrame frame = new JFrame("Parques");
+                frame.setContentPane(new ArrancarPrograma(frame).getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
+
+            }
+        });
+
     }
-
-
     /**
      * Esta funcion nos permite reutilizar el frame y solo cambiar la parte inferior donde aparecen las pantallas de cliente
      * empleado, espectaculo....

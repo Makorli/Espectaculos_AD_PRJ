@@ -68,7 +68,7 @@ public class ControladorEspectaculo {
                 prepSentencia.setString(8, espectaculo.getFecha());
                 prepSentencia.setString(9, espectaculo.getHorario());
                 prepSentencia.setBoolean(10, espectaculo.getBaja());
-                prepSentencia.setInt(11, espectaculo.getidResponsable());
+                prepSentencia.setInt(11, espectaculo.getIdResponsable());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
@@ -128,7 +128,7 @@ public class ControladorEspectaculo {
                 prepSentencia.setString(7, espectaculo.getFecha());
                 prepSentencia.setString(8, espectaculo.getHorario());
                 prepSentencia.setBoolean(9, espectaculo.getBaja());
-                prepSentencia.setInt(10, espectaculo.getidResponsable());
+                prepSentencia.setInt(10, espectaculo.getIdResponsable());
 
                 prepSentencia.setInt(11, espectaculo.getIdEspectaculo()); // para el where
 

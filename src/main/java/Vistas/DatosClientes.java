@@ -1,4 +1,11 @@
+package Vistas;
+
+import Controllers.ControladorCliente;
+import Modelos.Cliente;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DatosClientes {
 
@@ -43,4 +50,22 @@ public class DatosClientes {
     public void setJPClientes(JPanel JPClientes) {
         this.JPClientes = JPClientes;
     }
+
+    public DatosClientes() {
+
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Cliente c = new Cliente(1, txtNombre.getText(), txtApellidos.getText(), txtDni.getText(),
+                        txtFechaNacimiento.getText(), cbBaja.isSelected());
+
+                ControladorCliente cc = new ControladorCliente();
+                cc.add(c);
+
+
+            }
+        });
+    }
+
 }

@@ -17,5 +17,6 @@
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.26" level="project" />
     <orderEntry type="library" name="Maven: com.oracle.database.jdbc:ucp:12.2.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.mockrunner:mockrunner-jms:${mockrunner-version}" level="project" />
   </component>
 </module>

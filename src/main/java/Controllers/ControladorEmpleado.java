@@ -1,16 +1,31 @@
 package Controllers;
 
-import Miscelaneous.IdentificadorDeClase;
-import Modelos.Cliente;
-import Modelos.Empleado;
 
+import Miscelaneous.IdentificadorDeClase;
+import Modelos.Empleado;
+import Vistas.ArrancarPrograma;
+import com.db4o.ObjectContainer;
+import Controllers.DBController;
+
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorEmpleado {
 
-    int tipoDb = 1; //esto debe venir del click del parque
+    DBController dbController = ArrancarPrograma.db;
+
+
+
+    DBController.DBTypes tipoDb = dbController.getTipoDB();
+
+   // Connection mydb = ArrancarPrograma.conexion;
+    Connection mydb = dbController.getConnectionDb();
+
+    //ObjectContainer myObjCont = ArrancarPrograma.contenedor;
+    ObjectContainer myObjCont = dbController.getObjectContainerDb();
+
 
     private boolean realizado;
     private Empleado empleado;
@@ -25,6 +40,8 @@ public class ControladorEmpleado {
 
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
+
+
 
 
     public ControladorEmpleado() {
@@ -53,11 +70,10 @@ public class ControladorEmpleado {
     public boolean add(Empleado empleado) {
         realizado = false;
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
-
         try {
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
+
+                System.out.println(empleado.getIdEmpleado());
 
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
@@ -78,7 +94,7 @@ public class ControladorEmpleado {
                 //cierro la sentencia
                 prepSentencia.close();
 
-                mydb.close();
+                //mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
@@ -109,11 +125,11 @@ public class ControladorEmpleado {
 
 
         // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
+
 
         try {
 
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
@@ -168,12 +184,9 @@ public class ControladorEmpleado {
 
         List<Empleado> empleados = new ArrayList<>();
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
-
         try {
 
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
                 String sql = String.format("select * from " + tableName);
                 sentencia = mydb.createStatement();
@@ -227,12 +240,11 @@ public class ControladorEmpleado {
 
         Empleado empleadoNew = new Empleado();
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
+
 
         try {
 
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
 
                 String sql = String.format("select * from " + tableName + " WHERE %s= %d",
@@ -278,6 +290,10 @@ public class ControladorEmpleado {
 
         return empleadoNew;
     }
+
+
+
+
 
     /**
      * Funcion que devuelve la cadena de "?" para la sentencia insert, con tantos "?" como requiera la clase

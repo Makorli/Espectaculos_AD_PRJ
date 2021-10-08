@@ -27,10 +27,7 @@ public class IdentificadorDeClase<T> {
     public String getClassName(T t) {
 
         String className = t.getClass().getName();
-
-        if (className.contains("com.company.")) { //imagino qu se puede quitar para que no este
-            className = className.replace("com.company.", "");
-        }
+        className = className.substring(className.lastIndexOf('.')+1);
         return className;
     }
 
