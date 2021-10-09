@@ -12,13 +12,8 @@ import java.util.List;
 public class ControladorEspectaculo {
 
     DBController dbController = ArrancarPrograma.db;
-
     DBController.DBTypes tipoDb = dbController.getTipoDB();
-
-    // Connection mydb = ArrancarPrograma.conexion;
     Connection mydb = dbController.getConnectionDb();
-
-    //ObjectContainer myObjCont = ArrancarPrograma.contenedor;
     ObjectContainer myObjCont = dbController.getObjectContainerDb();
 
     private boolean realizado;

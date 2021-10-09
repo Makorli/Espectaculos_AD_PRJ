@@ -1,13 +1,10 @@
 package Controllers;
 
-
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Empleado;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
-import Controllers.DBController;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,13 +13,8 @@ import java.util.List;
 public class ControladorEmpleado {
 
     DBController dbController = ArrancarPrograma.db;
-
     DBController.DBTypes tipoDb = dbController.getTipoDB();
-
-    // Connection mydb = ArrancarPrograma.conexion;
     Connection mydb = dbController.getConnectionDb();
-
-    //ObjectContainer myObjCont = ArrancarPrograma.contenedor;
     ObjectContainer myObjCont = dbController.getObjectContainerDb();
 
 
@@ -54,7 +46,6 @@ public class ControladorEmpleado {
 
 
     }
-
 
     /**
      * Funcion que recibe objeto empleado, conecta a bdd e inserta datos en bdd. diferencia entre relacionales y bdoo en if tipoDb
@@ -90,8 +81,6 @@ public class ControladorEmpleado {
                 //cierro la sentencia
                 prepSentencia.close();
 
-                //mydb.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
             } else {
@@ -142,8 +131,7 @@ public class ControladorEmpleado {
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Actualización");
 
-                //cierro la sentencia
-                //prepSentencia.close();
+                prepSentencia.close();
                 realizado = true;
 
 
@@ -200,7 +188,6 @@ public class ControladorEmpleado {
 
                 //cierro la sentencia
                 sentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
 
             } else {
                 System.out.println("hacer el update de db4 y close connection ");
@@ -251,12 +238,11 @@ public class ControladorEmpleado {
                     empleadoNew.setCargo(rs.getString(attNames[7]));
                     empleadoNew.setBaja(rs.getBoolean(attNames[8]));
 
-
                 }
 
                 //cierro la sentencia
                 sentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
+
 
                 return empleadoNew;
 
@@ -319,12 +305,6 @@ public class ControladorEmpleado {
 
     }
 
-    public void messageok() {
-        String className = claseId.getClassName(this.empleado);
-        System.out.println("accion en: " + className + " ha ido ok");
-
-    }
-
     public HashMap <String, String> validaciones (Empleado empleado){
 
         HashMap <String, String> errores = new HashMap<>();
@@ -333,6 +313,5 @@ public class ControladorEmpleado {
 
         return errores;
     }
-
 
 }
