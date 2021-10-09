@@ -67,8 +67,11 @@ public class DatosEmpleado {
 
                 if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
                     if (cc.add(empleado)){
-                        JOptionPane.showMessageDialog(null,"Inserción correcta", "Resultado", JOptionPane.INFORMATION_MESSAGE
+                        JOptionPane.showMessageDialog(null, "Inserción correcta",
+                                "Resultado", JOptionPane.INFORMATION_MESSAGE
                         );
+                        mostrarPanel(JPGeneral);
+
                     } else {
                         JOptionPane.showMessageDialog(null,"Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
                         );
@@ -135,5 +138,12 @@ public class DatosEmpleado {
     public void renombrarBtnGuardar(String nombre) {
         this.btnGuardar.setText(nombre);
     }
+
+    public void mostrarPanel(JPanel panel) {
+
+        JPEmpleado.removeAll();
+        JPGeneral.repaint();
+    }
+
 
 }

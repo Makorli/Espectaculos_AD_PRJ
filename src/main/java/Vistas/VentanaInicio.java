@@ -179,11 +179,14 @@ public class VentanaInicio {
         JPVacio.repaint();
         JPVacio.revalidate();
 
-
     }
 
     public JPanel getJPGeneral(JFrame f) {
         return JPGeneral;
+    }
+
+    public JPanel getJPVacio() {
+        return JPVacio;
     }
 }
 
