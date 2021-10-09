@@ -2,6 +2,7 @@ package Controllers;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Miscelaneous.IdentificadorDeClase;
@@ -43,7 +44,6 @@ public class ControladorCliente {
 
     }
 
-
     /**
      * Funcion que recibe objeto cliente, conecta a bdd e inserta datos de cliente en bdd. diferencia entre relacionales y bdoo en if tipoDb
      * se pasa id como string null (no como integer) para que la bdd asigne numero automatico
@@ -73,7 +73,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 prepSentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
             } else {
@@ -124,7 +123,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 prepSentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
 
@@ -178,7 +176,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 sentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
 
             } else {
                 System.out.println("hacer el update de db4 y close connection ");
@@ -227,8 +224,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 sentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
-
                 return clienteNew;
 
             } else {
@@ -290,11 +285,13 @@ public class ControladorCliente {
 
     }
 
-    public void messageok() {
-        String className = claseId.getClassName(this.cliente);
-        System.out.println("accion en: " + className + " ha ido ok");
+    public HashMap<String, String> validaciones (Cliente cliente){
 
+        HashMap <String, String> errores = new HashMap<>();
+
+        //codigoo
+
+        return errores;
     }
-
 
 }

@@ -1,6 +1,8 @@
 package Vistas;
 
+import Controllers.ControladorCliente;
 import Controllers.ControladorEmpleado;
+import Controllers.ControladorEspectaculo;
 import Modelos.Empleado;
 
 import javax.swing.*;
@@ -11,7 +13,9 @@ import java.util.List;
 
 public class VentanaInicio {
 
+    private ControladorEspectaculo cs;
     private ControladorEmpleado ce;
+    private ControladorCliente cc;
     private JLabel lbTituloParque;
     private JPanel JPGeneral;
     private JPanel JPVacio;
@@ -80,6 +84,14 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosClientes nuevoCliente = new DatosClientes();
+
+                nuevoCliente.renombrarBtnGuardar("Guardar");
+                nuevoCliente.setCbBajaState(false); //
+                nuevoCliente.setLstEmpleadosState(false);
+                nuevoCliente.setBtnBajaState(false);
+
+                cc = new ControladorCliente();
+                nuevoCliente.mostrarClientes(cc.selectAll());
                 mostrarPanel(nuevoCliente.getJPClientes());
             }
         });
@@ -89,14 +101,28 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 DatosClientes modificarCliente = new DatosClientes();
 
+                modificarCliente.renombrarBtnGuardar("Modificar");
+                modificarCliente.setCbBajaState(false); //
+
+                cc = new ControladorCliente();
+                modificarCliente .mostrarClientes(cc.selectAll());
+                mostrarPanel(modificarCliente.getJPClientes());
             }
         });
+
 
         itemNuevoEmpleado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado nuevoEmpleado = new DatosEmpleado();
+
                 nuevoEmpleado.renombrarBtnGuardar("Guardar");
+                nuevoEmpleado.setCbBajaState(false); //
+                nuevoEmpleado.setLstEmpleadosState(false);
+                nuevoEmpleado.setBtnBajaState(false);
+
+                ce = new ControladorEmpleado();
+                nuevoEmpleado.mostrarEmpleados(ce.selectAll());
                 mostrarPanel(nuevoEmpleado.getJPEmpleados());
             }
         });
@@ -106,16 +132,25 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado modificarEmpleado = new DatosEmpleado();
                 modificarEmpleado.renombrarBtnGuardar("Modificar");
+                modificarEmpleado.setCbBajaState(false); //
                 ce = new ControladorEmpleado();
                 modificarEmpleado.mostrarEmpleados(ce.selectAll());
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
             }
         });
 
+
         itemNuevoEspectaculo.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEspectaculo nuevoEspectaculo = new DatosEspectaculo();
+
+                nuevoEspectaculo.renombrarBtnGuardar("Guardar");
+                nuevoEspectaculo.setCbBajaState(false); //
+                nuevoEspectaculo.setLstEmpleadosState(false);
+                nuevoEspectaculo.setBtnBajaState(false);
+
+                cs = new ControladorEspectaculo();
+                nuevoEspectaculo.mostrarEspectaculos(cs.selectAll());
                 mostrarPanel(nuevoEspectaculo.getJPEspectaculos());
             }
         });
@@ -124,9 +159,17 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEspectaculo modificarEspectaculo = new DatosEspectaculo();
+
+                modificarEspectaculo .renombrarBtnGuardar("Modificar");
+                modificarEspectaculo .setCbBajaState(false); //
+                cs = new ControladorEspectaculo();
+                modificarEspectaculo .mostrarEspectaculos(cs.selectAll());
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
             }
         });
+
+
+
 
         itemInscribirse.addActionListener(new ActionListener() {
             @Override
