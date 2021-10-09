@@ -95,6 +95,7 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado nuevoEmpleado = new DatosEmpleado();
+                nuevoEmpleado.renombrarBtnGuardar("Guardar");
                 mostrarPanel(nuevoEmpleado.getJPEmpleados());
             }
         });
@@ -103,6 +104,7 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado modificarEmpleado = new DatosEmpleado();
+                modificarEmpleado.renombrarBtnGuardar("Modificar");
                 ce = new ControladorEmpleado();
                 modificarEmpleado.mostrarEmpleados(ce.selectAll());
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
@@ -165,10 +167,11 @@ public class VentanaInicio {
         });
 
     }
+
     /**
      * Esta funcion nos permite reutilizar el frame y solo cambiar la parte inferior donde aparecen las pantallas de cliente
      * empleado, espectaculo....
-     * */
+     */
     public void mostrarPanel(JPanel panel) {
 
         JPVacio.removeAll();
@@ -183,3 +186,5 @@ public class VentanaInicio {
         return JPGeneral;
     }
 }
+
+

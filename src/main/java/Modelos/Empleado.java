@@ -24,6 +24,7 @@ public class Empleado {
     public Empleado() {
     }
 
+
     public Empleado(int idEmpleado, String dni, String nombre, String apellidos, String fechaNacimiento, String fechaContratacion, String nacionalidad, String cargo, Boolean baja) {
         this.idEmpleado = idEmpleado;
         this.dni = dni;
@@ -166,4 +167,8 @@ public class Empleado {
     public int hashCode() {
         return Objects.hash(idEmpleado, dni);
     }
+
+
 }
+
+

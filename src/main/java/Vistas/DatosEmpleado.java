@@ -9,7 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class DatosEmpleado {
 
@@ -25,7 +27,7 @@ public class DatosEmpleado {
      */
 
 
-   private  ControladorEmpleado cc = new ControladorEmpleado();
+    private ControladorEmpleado cc = new ControladorEmpleado();
 
 
     private JPanel JPGeneral, JPEmpleado;
@@ -45,26 +47,65 @@ public class DatosEmpleado {
     //ComboBox para mostrar los posibles cargos - Jefe, auxiliar, tecnico....
     private JComboBox cbCargo;
     private JPanel JPListaEmpleado;
-    private JList lstEmpleados;
+    private JList<Empleado> lstEmpleados;
+
+
 
     public DatosEmpleado() {
-
 
 
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Empleado empleado = new Empleado (1,txtDni.getText(),txtNombre.getText(),
-                        txtApellidos.getText(),txtFechaNacimiento.getText(),
-                        txtFechaContratacion.getText(),txtNacionalidad.getText(),
-                        "Auxiliar",false
+                Empleado empleado = new Empleado(1, txtDni.getText(), txtNombre.getText(),
+                        txtApellidos.getText(), txtFechaNacimiento.getText(),
+                        txtFechaContratacion.getText(), txtNacionalidad.getText(),
+                        Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), false
                 );
 
-                cc.add(empleado);
+
+                if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
+                    if (cc.add(empleado)){
+                        JOptionPane.showMessageDialog(null,"Inserción correcta", "Resultado", JOptionPane.INFORMATION_MESSAGE
+                        );
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+
+                } else { //modificar --update
+                        empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
+                        cc.update(empleado);
+
+                }
+            }
+
+        });
+
+        lstEmpleados.addListSelectionListener(e -> {
+            Empleado empleado = lstEmpleados.getSelectedValue();
+
+            if (empleado != null) {
+
+                lbIdEmpleado.setText(String.format("%d", empleado.getIdEmpleado()));
+
+                txtNombre.setText(empleado.getNombre());
+                txtApellidos.setText(empleado.getApellidos());
+                txtNacionalidad.setText(empleado.getNacionalidad());
+                txtDni.setText(empleado.getDni());
+                txtFechaNacimiento.setText(empleado.getFechaNacimiento());
+                txtFechaContratacion.setText(empleado.getFechaContratacion());
+
+
+                cbCargo.setSelectedItem(empleado.getCargo());
+                cbBaja.setSelected(empleado.getBaja());
 
             }
+
         });
+
+
     }
 
     public JPanel getJPGeneral(JFrame frame) {
@@ -72,14 +113,12 @@ public class DatosEmpleado {
     }
 
 
-
     public JPanel getJPEmpleados() {
 
-       // empleados = cc.selectAll();
+        // empleados = cc.selectAll();
         return JPEmpleado;
 
     }
-
 
 
     public void mostrarEmpleados(List<Empleado> empleados) {
@@ -93,9 +132,8 @@ public class DatosEmpleado {
         lstEmpleados.setModel(modelo);
     }
 
-
-
-
-
+    public void renombrarBtnGuardar(String nombre) {
+        this.btnGuardar.setText(nombre);
+    }
 
 }

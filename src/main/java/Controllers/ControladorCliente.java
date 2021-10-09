@@ -6,10 +6,20 @@ import java.util.List;
 
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Cliente;
+import Vistas.ArrancarPrograma;
+import com.db4o.ObjectContainer;
 
 public class ControladorCliente {
 
-    int tipoDb = 1; //esto debe venir del click del parque
+    DBController dbController = ArrancarPrograma.db;
+
+    DBController.DBTypes tipoDb = dbController.getTipoDB();
+
+    // Connection mydb = ArrancarPrograma.conexion;
+    Connection mydb = dbController.getConnectionDb();
+
+    //ObjectContainer myObjCont = ArrancarPrograma.contenedor;
+    ObjectContainer myObjCont = dbController.getObjectContainerDb();
 
     private boolean realizado;
     private Cliente cliente;
@@ -50,11 +60,9 @@ public class ControladorCliente {
     public boolean add(Cliente cliente) {
         realizado = false;
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
 
         try {
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
@@ -70,8 +78,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 prepSentencia.close();
-
-                mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
@@ -100,12 +106,10 @@ public class ControladorCliente {
     public boolean update(Cliente cliente) {
         realizado = false;
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
 
         try {
 
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
@@ -125,8 +129,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 prepSentencia.close();
-
-                mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
@@ -156,12 +158,9 @@ public class ControladorCliente {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
-
         try {
 
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
                 String sql = String.format("select * from " + tableName);
                 sentencia = mydb.createStatement();
@@ -184,8 +183,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 sentencia.close();
-
-                mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
 
             } else {
@@ -212,12 +209,9 @@ public class ControladorCliente {
 
         Cliente clienteNew = new Cliente();
 
-        // conecto
-        Connection mydb = new Conexion(tipoDb).ConectarDb();
-
         try {
 
-            if (tipoDb != 2) {
+            if (tipoDb != DBController.DBTypes.DB4o) {
 
 
                 String sql = String.format("select * from " + tableName + " WHERE %s= %d",
@@ -238,8 +232,6 @@ public class ControladorCliente {
 
                 //cierro la sentencia
                 sentencia.close();
-
-                mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
 
                 return clienteNew;

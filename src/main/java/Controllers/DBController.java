@@ -64,6 +64,7 @@ public class DBController {
 
         //  ATRIBUTOS CON DATOS DE CONEXION A SQLite
         private static final String driver = "org.sqlite.JDBC";
+        private static final String path = "./BBDD/SQLite";
         private static final String dbName = "bdSqlite.db";
         private static final String dbUser = null;
         private static final String dbUserPwd = null;
@@ -86,7 +87,7 @@ public class DBController {
         }
 
         public static String getConnectionStr() {
-            return String.format("jdbc:sqlite:%s", dbName);
+            return String.format("jdbc:sqlite:%s", path + "/" + dbName);
         }
     }
 
@@ -165,9 +166,7 @@ public class DBController {
     // CONSTRUCTORES
     public DBController(DBTypes tipoDB) {
         this.tipoDB = tipoDB;
-
     }
-
 
     // GETTERS
 
@@ -233,12 +232,22 @@ public class DBController {
                 throw error;
             }
             // TODO
-
             try {//Realizamos la conexión con la base de datos
-                conexionDb = DriverManager.getConnection(
-                        MySqlDataConnect.getConnectionStr(),
-                        MySqlDataConnect.getDbUser(),
-                        MySqlDataConnect.getDbUserPwd());
+                if (tipoDB == DBTypes.SQLite) {
+                    conexionDb = DriverManager.getConnection(
+                            SQLiteDataConnect.getConnectionStr());
+                } else if (tipoDB == DBTypes.MySQL) {
+                    conexionDb = DriverManager.getConnection(
+                            MySqlDataConnect.getConnectionStr(),
+                            MySqlDataConnect.getDbUser(),
+                            MySqlDataConnect.getDbUserPwd());
+                } else if (tipoDB == DBTypes.Oracle) {
+
+                    conexionDb = DriverManager.getConnection(
+                            OracleDataConnect.getConnectionStr(),
+                            OracleDataConnect.getDbUser(),
+                            OracleDataConnect.getDbUserPwd());
+                }
                 return conexionDb; // ---------->>>>  del tipo Connection
             } catch (SQLException error) {
                 System.out.format("Error al conectar con %s : \n%s", tipoDB, error.getMessage());

@@ -16,11 +16,9 @@ public class ControladorEmpleado {
 
     DBController dbController = ArrancarPrograma.db;
 
-
-
     DBController.DBTypes tipoDb = dbController.getTipoDB();
 
-   // Connection mydb = ArrancarPrograma.conexion;
+    // Connection mydb = ArrancarPrograma.conexion;
     Connection mydb = dbController.getConnectionDb();
 
     //ObjectContainer myObjCont = ArrancarPrograma.contenedor;
@@ -40,8 +38,6 @@ public class ControladorEmpleado {
 
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
-
-
 
 
     public ControladorEmpleado() {
@@ -88,7 +84,6 @@ public class ControladorEmpleado {
                 prepSentencia.setBoolean(9, empleado.getBaja());
 
 
-
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
 
                 //cierro la sentencia
@@ -120,12 +115,8 @@ public class ControladorEmpleado {
      * @param empleado
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean update(Empleado empleado) {
+    public boolean update(Empleado empleado)  {
         realizado = false;
-
-
-        // conecto
-
 
         try {
 
@@ -133,7 +124,7 @@ public class ControladorEmpleado {
 
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
-                        attNames[6],attNames[7],attNames[8],
+                        attNames[6], attNames[7], attNames[8],
                         attNames[0]);
                 prepSentencia = mydb.prepareStatement(sentencia);
 
@@ -145,17 +136,13 @@ public class ControladorEmpleado {
                 prepSentencia.setString(6, empleado.getNacionalidad());
                 prepSentencia.setString(7, empleado.getCargo());
                 prepSentencia.setBoolean(8, empleado.getBaja());
-
                 prepSentencia.setInt(9, empleado.getIdEmpleado());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Actualización");
 
                 //cierro la sentencia
-                prepSentencia.close();
-
-                mydb.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
+                //prepSentencia.close();
                 realizado = true;
 
 
@@ -212,8 +199,6 @@ public class ControladorEmpleado {
 
                 //cierro la sentencia
                 sentencia.close();
-
-                mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
 
             } else {
@@ -239,7 +224,6 @@ public class ControladorEmpleado {
     public Empleado selectById(int id) {
 
         Empleado empleadoNew = new Empleado();
-
 
 
         try {
@@ -271,8 +255,6 @@ public class ControladorEmpleado {
 
                 //cierro la sentencia
                 sentencia.close();
-
-                mydb.close();
                 messageok();///////////////////////////////////////////////////// check maria borrar
 
                 return empleadoNew;
@@ -290,9 +272,6 @@ public class ControladorEmpleado {
 
         return empleadoNew;
     }
-
-
-
 
 
     /**

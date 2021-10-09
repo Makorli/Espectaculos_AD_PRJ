@@ -60,7 +60,7 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                 **/
                 f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
@@ -85,7 +85,7 @@ public class ArrancarPrograma {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                Connection conexion = db.getConnectionDb();
+                //Connection conexion = db.getConnectionDb();
 
                 JFrame f = new JFrame("Parque SQLite ");
 
@@ -118,7 +118,7 @@ public class ArrancarPrograma {
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.DB4o);
 
-                Connection conexion = db.getConnectionDb();
+                //Connection conexion = db.getConnectionDb();
 
                 JFrame f = new JFrame("Parque DB4O ");
 
@@ -128,7 +128,7 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
                 f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
