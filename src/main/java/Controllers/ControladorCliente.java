@@ -290,6 +290,8 @@ public class ControladorCliente {
         HashMap <String, String> errores = new HashMap<>();
 
         //codigoo
+        //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
+        //comprobar que antes de guardar se han pasado todos los datos necesarios, DNI, NOMBRE Y APELLIDOS SON NOT NULL
 
         return errores;
     }

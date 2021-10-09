@@ -55,13 +55,13 @@ public class DatosEspectaculo {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt( txtNumero.getText()), txtNombre.getText(),
+                Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt(txtNumero.getText()), txtNombre.getText(),
                         (Integer) spnAforo.getValue() , txtDescripcion.getText(),
                         txtLugar.getText(),Double.parseDouble( txtCoste.getText()), txtFecha.getText(),
                         txtHorario.getText(), cbBaja.isSelected(),
-                        (Integer) cbResponsable.getSelectedItem() ///////////////////////////////////////Necesito recoger los id de empleados y meterlos en el cb para que sean seleccionables
+                        2
+                        //(Integer) cbResponsable.getSelectedItem() ///////////////////////////////////////Necesito recoger los id de empleados y meterlos en el cb para que sean seleccionables
                 );
-
 
 
                 if (cc.validaciones(espectaculo).size() == 0) {
