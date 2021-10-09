@@ -257,8 +257,17 @@ public class DBController {
 
     }
 
-    public void DesconectarDb() {
-        //TODO
+    public void DesconectarDb() throws SQLException {
+        Connection c = null;
+        ObjectContainer o = null;
+        if (conexionDb instanceof Connection) {
+            c = (Connection) conexionDb;
+            c.close();
+        }
+        if (conexionDb instanceof ObjectContainer) {
+            o = (ObjectContainer) conexionDb;
+            o.close();
+        }
     }
 
 }

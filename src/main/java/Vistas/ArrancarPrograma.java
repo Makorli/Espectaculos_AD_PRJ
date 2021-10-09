@@ -48,7 +48,13 @@ public class ArrancarPrograma {
 
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.MySQL);
-                Connection conexion = db.getConnectionDb();
+                try {
+                    db.ConectarDb();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
 
                 JFrame f = new JFrame("Parque MySql ");
 
@@ -85,7 +91,6 @@ public class ArrancarPrograma {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                //Connection conexion = db.getConnectionDb();
 
                 JFrame f = new JFrame("Parque SQLite ");
 
@@ -101,8 +106,6 @@ public class ArrancarPrograma {
                 frame.setVisible(false);
 
 
-                ////////////////////////////////////////
-
             }
         });
 
@@ -117,8 +120,13 @@ public class ArrancarPrograma {
 
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.DB4o);
-
-                //Connection conexion = db.getConnectionDb();
+                try {
+                    db.ConectarDb();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
 
                 JFrame f = new JFrame("Parque DB4O ");
 
@@ -132,9 +140,6 @@ public class ArrancarPrograma {
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
-
-                ////////////////////////////////////////
-
 
             }
         });

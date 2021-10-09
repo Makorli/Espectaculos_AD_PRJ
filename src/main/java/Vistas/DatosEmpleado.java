@@ -1,15 +1,11 @@
 package Vistas;
 
 import Controllers.ControladorEmpleado;
-import Controllers.DBController;
 import Modelos.Empleado;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +26,7 @@ public class DatosEmpleado {
     private ControladorEmpleado cc = new ControladorEmpleado();
 
 
-    private JPanel JPGeneral, JPEmpleado;
+    private JPanel JPGeneral, JPEmpleado, JPVacio;
 
     //Botones
     private JButton btnGuardar, btnCancelar, btnBaja;
@@ -70,16 +66,34 @@ public class DatosEmpleado {
                         JOptionPane.showMessageDialog(null, "Inserción correcta",
                                 "Resultado", JOptionPane.INFORMATION_MESSAGE
                         );
-                        mostrarPanel(JPGeneral);
+
+
+                       autoDestroy();
 
                     } else {
                         JOptionPane.showMessageDialog(null,"Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
                         );
                     }
 
-                } else { //modificar --update
+                }
+                else { //modificar --update
                         empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
-                        cc.update(empleado);
+
+
+                    if (cc.update(empleado)){
+                        JOptionPane.showMessageDialog(null, "Modificacion correcta",
+                                "Resultado", JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                        autoDestroy();
+
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+
+
+
 
                 }
             }
@@ -139,10 +153,11 @@ public class DatosEmpleado {
         this.btnGuardar.setText(nombre);
     }
 
-    public void mostrarPanel(JPanel panel) {
+
+    public void autoDestroy() {
 
         JPEmpleado.removeAll();
-        JPGeneral.repaint();
+        JPEmpleado.repaint();
     }
 
 

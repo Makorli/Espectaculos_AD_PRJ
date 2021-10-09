@@ -6,6 +6,7 @@ import Modelos.Empleado;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.List;
 
 public class VentanaInicio {
@@ -154,7 +155,11 @@ public class VentanaInicio {
         itemSalirParque.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    ArrancarPrograma.db.DesconectarDb();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(false);
                 JFrame frame = new JFrame("Parques");
