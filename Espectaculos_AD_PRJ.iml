@@ -13,6 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="db4o-8.0.276.16149-all-java5" level="project" />
     <orderEntry type="library" name="com.google.protobuf:protobuf-java:3.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.mockrunner:mockrunner-jms:${mockrunner-version}" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.36.0.3" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.26" level="project" />
     <orderEntry type="library" name="Maven: com.oracle.database.jdbc:ucp:12.2.0.1" level="project" />
