@@ -10,6 +10,7 @@ import Controllers.DBController;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ControladorEmpleado {
@@ -273,7 +274,6 @@ public class ControladorEmpleado {
         return empleadoNew;
     }
 
-
     /**
      * Funcion que devuelve la cadena de "?" para la sentencia insert, con tantos "?" como requiera la clase
      * valores posibles:
@@ -323,6 +323,15 @@ public class ControladorEmpleado {
         String className = claseId.getClassName(this.empleado);
         System.out.println("accion en: " + className + " ha ido ok");
 
+    }
+
+    public HashMap <String, String> validaciones (Empleado empleado){
+
+        HashMap <String, String> errores = new HashMap<>();
+
+        //codigoo
+
+        return errores;
     }
 
 

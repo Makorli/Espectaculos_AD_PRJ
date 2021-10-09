@@ -11,7 +11,6 @@ import java.util.Objects;
 
 public class DatosEmpleado {
 
-
     //Paneles
 
     /**
@@ -22,9 +21,7 @@ public class DatosEmpleado {
      * @param JPEmpleados -> (Con JP en mayusculas) es el panel que muestra la ficha del empleado.
      */
 
-
     private ControladorEmpleado cc = new ControladorEmpleado();
-
 
     private JPanel JPGeneral, JPEmpleado, JPVacio;
 
@@ -60,40 +57,42 @@ public class DatosEmpleado {
                         Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), false
                 );
 
+                if (cc.validaciones(empleado) == null) {
+                    if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
+                        if (cc.add(empleado)) {
+                            JOptionPane.showMessageDialog(null, "Inserción correcta",
+                                    "Resultado", JOptionPane.INFORMATION_MESSAGE
+                            );
 
-                if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
-                    if (cc.add(empleado)){
-                        JOptionPane.showMessageDialog(null, "Inserción correcta",
-                                "Resultado", JOptionPane.INFORMATION_MESSAGE
-                        );
 
+                            autoDestroy();
 
-                       autoDestroy();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
+                            );
+                        }
 
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
-                        );
-                    }
-
-                }
-                else { //modificar --update
+                    } else { //modificar --update
                         empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
 
 
-                    if (cc.update(empleado)){
-                        JOptionPane.showMessageDialog(null, "Modificacion correcta",
-                                "Resultado", JOptionPane.INFORMATION_MESSAGE
-                        );
+                        if (cc.update(empleado)) {
+                            JOptionPane.showMessageDialog(null, "Modificacion correcta",
+                                    "Resultado", JOptionPane.INFORMATION_MESSAGE
+                            );
 
-                        autoDestroy();
+                            autoDestroy();
 
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
-                        );
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+
+
                     }
-
-
-
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error - Verifica los datos de entrada", "Resultado", JOptionPane.ERROR_MESSAGE
+                    );
 
                 }
             }
@@ -122,13 +121,11 @@ public class DatosEmpleado {
 
         });
 
-
     }
 
     public JPanel getJPGeneral(JFrame frame) {
         return JPGeneral;
     }
-
 
     public JPanel getJPEmpleados() {
 
@@ -136,7 +133,6 @@ public class DatosEmpleado {
         return JPEmpleado;
 
     }
-
 
     public void mostrarEmpleados(List<Empleado> empleados) {
 
@@ -152,7 +148,6 @@ public class DatosEmpleado {
     public void renombrarBtnGuardar(String nombre) {
         this.btnGuardar.setText(nombre);
     }
-
 
     public void autoDestroy() {
 

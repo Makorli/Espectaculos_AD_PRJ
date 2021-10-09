@@ -23,7 +23,6 @@ public class ArrancarPrograma {
 
     public static DBController db;
 
-
     /**
      * En el constructor de ArrancarPrograma estoy pasando por parametro el JFrame que me abre al arrancar
      * Cuando pulse uno de los 3 botones se tiene que ocultar.
