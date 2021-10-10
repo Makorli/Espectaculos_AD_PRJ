@@ -34,7 +34,7 @@ public class Db4oAutoincrement {
         }
     }
 
-    
+
     private PersistedAutoIncrements ensureLoadedIncrements() {
         if (null == state) {
             state = loadOrCreateState();

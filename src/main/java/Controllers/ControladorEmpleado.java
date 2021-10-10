@@ -2,6 +2,7 @@ package Controllers;
 
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Empleado;
+import Modelos.Espectaculo;
 import Modelos.IDHolder;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
@@ -211,7 +212,6 @@ public class ControladorEmpleado {
             }
         }
 
-
         return realizado;
     }
 
@@ -295,8 +295,7 @@ public class ControladorEmpleado {
 
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
-                empleadoNew=new Empleado();
-
+                empleadoNew = new Empleado();
                 while (rs.next()) {
 
                     empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
@@ -309,7 +308,6 @@ public class ControladorEmpleado {
                     empleadoNew.setCargo(rs.getString(attNames[7]));
                     empleadoNew.setBaja(rs.getBoolean(attNames[8]));
                 }
-
                 //cierro la sentencia
                 sentencia.close();
             } catch (SQLException error) {
@@ -336,6 +334,11 @@ public class ControladorEmpleado {
         return empleadoNew;
     }
 
+    public Empleado getResponsableEspectaculo(Espectaculo espectaculo){
+        return selectById(espectaculo.getIdResponsable());
+    }
+
+
     /**
      * Funcion que devuelve la cadena de "?" para la sentencia insert, con tantos "?" como requiera la clase
      * valores posibles:
@@ -343,7 +346,7 @@ public class ControladorEmpleado {
      * @param
      * @return string para sql insert
      */
-    public String crearMyInsert() {
+    private String crearMyInsert() {
 
         int attQ = attNames.length;
         String myInsert = "";
@@ -365,7 +368,7 @@ public class ControladorEmpleado {
      * @param
      * @return string para sql update
      */
-    public String crearMyUpdate() {
+    private String crearMyUpdate() {
 
         int attQ = attNames.length;
         String myInsert = "";

@@ -8,6 +8,8 @@ import Modelos.Empleado;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class VentanaInicio {
@@ -77,6 +79,15 @@ public class VentanaInicio {
         frame.add(menuBar); //Añadir el menu bar al frame. Se tiene que añadir al frame principal porque de este se arrastra a todos.
         frame.setJMenuBar(menuBar);
 
+        //Añadir evento del cierre de ventana para controlar el cierre de la conexion de Base de datos.
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ArrancarPrograma.db.DesconectarDb();
+                System.out.println("Cerrando bases de datos");
+            }
+        });
+
 
         /**Cada vez que pulsemos en un item nos abrirá el panel inferior nuevo con los campos correspondientes a la tabla*/
         itemNuevoCliente.addActionListener(new ActionListener() {
@@ -109,7 +120,6 @@ public class VentanaInicio {
             }
         });
 
-
         itemNuevoEmpleado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,7 +147,6 @@ public class VentanaInicio {
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
             }
         });
-
 
         itemNuevoEspectaculo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -175,8 +184,7 @@ public class VentanaInicio {
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
             }
         });
-
-
+        
         itemInscribirse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -192,8 +200,6 @@ public class VentanaInicio {
                 mostrarPanel(mostrarInscripciones.getJPTodasInscripciones());
             }
         });
-
-
 
         itemMetadatos.addActionListener(new ActionListener() {
             @Override
@@ -235,7 +241,7 @@ public class VentanaInicio {
 
     }
 
-    public JPanel getJPGeneral(JFrame f) {
+    public JPanel getJPGeneral() {
         return JPGeneral;
     }
 
