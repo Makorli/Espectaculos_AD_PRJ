@@ -47,13 +47,6 @@ public class ArrancarPrograma {
 
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.MySQL);
-                try {
-                    db.ConectarDb();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
 
                 JFrame f = new JFrame("Parque MySql ");
 
@@ -65,7 +58,7 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                 **/
                 f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
@@ -83,13 +76,6 @@ public class ArrancarPrograma {
                  * */
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.SQLite);
-                try {
-                    db.ConectarDb();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
 
                 JFrame f = new JFrame("Parque SQLite ");
 
@@ -99,7 +85,7 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
                 f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
@@ -119,13 +105,6 @@ public class ArrancarPrograma {
 
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.DB4o);
-                try {
-                    db.ConectarDb();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
 
                 JFrame f = new JFrame("Parque DB4O ");
 
@@ -135,7 +114,7 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
                 f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
@@ -162,7 +141,7 @@ public class ArrancarPrograma {
 
         //desde el frame estoy arrancado el menu para elegir la base de datos = parque.
         frame.setContentPane(new ArrancarPrograma(frame).JPGeneral);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 

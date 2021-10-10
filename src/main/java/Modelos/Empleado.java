@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Empleado {
+public class Empleado extends IDHolder {
 
     // ATRIBUTOS
 
@@ -39,13 +39,15 @@ public class Empleado {
 
     //GETTER & SETTERS
 
-    public int getIdEmpleado() {
-        return idEmpleado;
-    }
+    @Override
+    public int getId() { return idEmpleado; }
 
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
-    }
+    @Override
+    public void setId(int id) { this.idEmpleado = id; }
+
+    public int getIdEmpleado() { return idEmpleado; }
+
+    public void setIdEmpleado(int idEmpleado) { this.idEmpleado = idEmpleado; }
 
     public String getDni() {
         return dni;
@@ -115,10 +117,11 @@ public class Empleado {
 
     /**
      * Retorna una lista de objetos espectaculos de los cuales es responsable
+     *
      * @return ArrayList
      */
-    public List<Espectaculo> getEspectaculos(){
-        List <Espectaculo> espectaculosList = new ArrayList<>();
+    public List<Espectaculo> getEspectaculos() {
+        List<Espectaculo> espectaculosList = new ArrayList<>();
         //TODO
         return espectaculosList;
     }
@@ -127,6 +130,7 @@ public class Empleado {
 
     /**
      * Método de visualizacion rápida de los datos del objeto por consola
+     *
      * @return String con los valores del objeto
      */
     @Override
@@ -147,6 +151,7 @@ public class Empleado {
     /**
      * Metodo de comparación de objetos basados en los valores que tienen sus atributos.
      * Se comparan las claves primarias o identificadores únicos
+     *
      * @return Boolean
      */
     @Override
@@ -161,6 +166,7 @@ public class Empleado {
     /**
      * Metodo de comparación de objetos basados en los hashes que generan sus atributos.
      * Se realiza el hash con las claves primarias y campos únicos.
+     *
      * @return Boolean
      */
     @Override

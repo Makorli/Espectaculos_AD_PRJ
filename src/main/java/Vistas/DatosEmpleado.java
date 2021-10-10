@@ -56,8 +56,7 @@ public class DatosEmpleado {
                         Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), cbBaja.isSelected()
                 );
 
-
-                if (cc.validaciones(empleado).size() == 0) {
+                if (cc.validaciones(empleado).size()==0) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
 
                         empleado.setBaja(false);
@@ -89,7 +88,6 @@ public class DatosEmpleado {
                             JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
                         }
-
 
                     }
                 } else {

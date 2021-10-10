@@ -2,8 +2,14 @@ package Controllers;
 
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Empleado;
+import Modelos.IDHolder;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.events.*;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.query.Predicate;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,6 +37,8 @@ public class ControladorEmpleado {
 
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
+    private Predicate<Empleado> predicadoEmp = null;
+    private Db4oAutoincrement increment = null;
 
 
     public ControladorEmpleado() {
@@ -58,9 +66,9 @@ public class ControladorEmpleado {
     public boolean add(Empleado empleado) {
         realizado = false;
 
-        try {
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        //MySQL SQLite ORACLE..
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 System.out.println(empleado.getIdEmpleado());
 
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
@@ -75,23 +83,53 @@ public class ControladorEmpleado {
                 prepSentencia.setString(8, empleado.getCargo());
                 prepSentencia.setBoolean(9, empleado.getBaja());
 
-
-                if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
+                //Ejecutamos la setencia
+                prepSentencia.executeUpdate();
 
                 //cierro la sentencia
                 prepSentencia.close();
 
                 realizado = true;
-
-            } else {
-                System.out.println("hacer el store y close connection ");///////////////////////////////////////////////////// check maria borrar
-                realizado = true;
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
+        // DB4o
+        else {
+            //Seteamos la clase incremental y su registo de eventos para establecer el id automaticamente
+            increment = new Db4oAutoincrement(myObjCont);
+            EventRegistry eventRegistry = EventRegistryFactory.forObjectContainer(myObjCont);
+            eventRegistry.creating().addListener(
+                    (event4, objectArgs) -> {
+                        if (objectArgs.object() instanceof IDHolder) {
+                            IDHolder idHolder = (IDHolder) objectArgs.object();
+                            idHolder.setId(increment.getNextID(idHolder.getClass()));
+                        }
+                    });
+            eventRegistry.committing().addListener(
+                    (commitEventArgsEvent4, commitEventArgs) -> increment.storeState());
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            // https://bdooinfo.wordpress.com/db4o-consultas-nativas-nq-native-query/
+            //REalziamos la consulta a la base de datos en busca de un objeto empleado igual (DNI)
+            try {
+                ObjectSet<Empleado> empleadosOS = myObjCont.query(
+                        new Predicate<>() {
+                            @Override
+                            public boolean match(Empleado e) {
+                                return e.getDni().equalsIgnoreCase(empleado.getDni());
+                            }
+                        });
+                // Si no hay resultado podemos añadir el nuevo empleado.
+                if (empleadosOS.size() == 0) {
+                    myObjCont.store(empleado);
+                    realizado = true;
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
 
         return realizado;
@@ -105,13 +143,12 @@ public class ControladorEmpleado {
      * @param empleado
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean update(Empleado empleado)  {
+    public boolean update(Empleado empleado) {
         realizado = false;
 
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        //MySQL SQLite ORACLE..
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
                         attNames[6], attNames[7], attNames[8],
@@ -128,23 +165,52 @@ public class ControladorEmpleado {
                 prepSentencia.setBoolean(8, empleado.getBaja());
                 prepSentencia.setInt(9, empleado.getIdEmpleado());
 
-
-                if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Actualización");
+                prepSentencia.executeUpdate();
 
                 prepSentencia.close();
-                realizado = true;
 
-
-            } else {
-                System.out.println("hacer el update de db4 y close connection ");
                 realizado = true;
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Empleado con el mismo Id
+                ObjectSet<Empleado> empleadosOS = myObjCont.query(
+                        new Predicate<>() {
+                            @Override
+                            public boolean match(Empleado e) {
+                                return e.getIdEmpleado() == (empleado.getIdEmpleado());
+                            }
+                        });
+                // Si solo hay uno..que solo debería haber 1 lo almacenamos
+                if (empleadosOS.size() == 1) {
+                    //Recojemos el empleado de la BBDD
+                    Empleado e = empleadosOS.next();
+                    //modificamos todos sus campos por los nuevos..excepto el id
+                    e.setDni(empleado.getDni());
+                    e.setNombre(empleado.getNombre());
+                    e.setApellidos(empleado.getApellidos());
+                    e.setCargo(empleado.getCargo());
+                    e.setFechaContratacion(empleado.getFechaContratacion());
+                    e.setFechaNacimiento(empleado.getFechaNacimiento());
+                    e.setNacionalidad(empleado.getNacionalidad());
+                    e.setBaja(empleado.getBaja());
+                    //almacenamos el empleado
+                    myObjCont.store(e);
+                    realizado = true;
+                }
+
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         return realizado;
     }
@@ -159,11 +225,9 @@ public class ControladorEmpleado {
     public List<Empleado> selectAll() {
 
         List<Empleado> empleados = new ArrayList<>();
-
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        //MySQL SQLite ORACLE..
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 String sql = String.format("select * from " + tableName);
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
@@ -188,15 +252,25 @@ public class ControladorEmpleado {
 
                 //cierro la sentencia
                 sentencia.close();
-
-            } else {
-                System.out.println("hacer el update de db4 y close connection ");
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Empleados
+                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(new Empleado());
+                // Si tenemos empleados recorremos el Resultado para incorporar los objetos a la lista
+                if (empleadosOS.size() > 0) {
+                    while (empleadosOS.hasNext())
+                        empleados.add(empleadosOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
 
         return empleados;
@@ -211,23 +285,18 @@ public class ControladorEmpleado {
      */
     public Empleado selectById(int id) {
 
-        Empleado empleadoNew = new Empleado();
+        Empleado empleadoNew = null;
 
-
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
-
+        //MySQL SQLite ORACLE..
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 String sql = String.format("select * from " + tableName + " WHERE %s= %d",
                         attNames[0], id);
 
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
 
-
                 while (rs.next()) {
-
                     empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
                     empleadoNew.setDni(rs.getString(attNames[1]));
                     empleadoNew.setNombre(rs.getString(attNames[2]));
@@ -237,28 +306,34 @@ public class ControladorEmpleado {
                     empleadoNew.setNacionalidad(rs.getString(attNames[6]));
                     empleadoNew.setCargo(rs.getString(attNames[7]));
                     empleadoNew.setBaja(rs.getBoolean(attNames[8]));
-
                 }
 
                 //cierro la sentencia
                 sentencia.close();
-
-
-                return empleadoNew;
-
-            } else {
-                System.out.println("hacer el select by id de db4 y close connection ");
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-
+        // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Empleado con el mismo Id que el indicado
+                Empleado empbuscado = new Empleado();
+                empbuscado.setIdEmpleado(id);
+                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(empbuscado);
+                // Si solo hay uno..que solo debería haber 1 lo devolvemos
+                if (empleadosOS.size() == 1) {
+                    empleadoNew = empleadosOS.next();
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
         return empleadoNew;
     }
+
 
     /**
      * Funcion que devuelve la cadena de "?" para la sentencia insert, con tantos "?" como requiera la clase
@@ -305,9 +380,9 @@ public class ControladorEmpleado {
 
     }
 
-    public HashMap <String, String> validaciones (Empleado empleado){
+    public HashMap<String, String> validaciones(Empleado empleado) {
 
-        HashMap <String, String> errores = new HashMap<>();
+        HashMap<String, String> errores = new HashMap<>();
 
         //codigoo
 
