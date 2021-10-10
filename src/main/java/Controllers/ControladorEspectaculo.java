@@ -7,6 +7,7 @@ import com.db4o.ObjectContainer;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ControladorEspectaculo {
@@ -79,7 +80,6 @@ public class ControladorEspectaculo {
 
                 //cierro la sentencia
                 prepSentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
             } else {
@@ -138,7 +138,6 @@ public class ControladorEspectaculo {
 
                 //cierro la sentencia
                 prepSentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
                 realizado = true;
 
 
@@ -201,7 +200,6 @@ public class ControladorEspectaculo {
 
                 //cierro la sentencia
                 sentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
 
             } else {
                 System.out.println("hacer el update de db4 y close connection ");
@@ -256,7 +254,6 @@ public class ControladorEspectaculo {
 
                 //cierro la sentencia
                 sentencia.close();
-                messageok();///////////////////////////////////////////////////// check maria borrar
 
                 return espectaculoNew;
 
@@ -319,10 +316,15 @@ public class ControladorEspectaculo {
 
     }
 
-    public void messageok() {
-        String className = claseId.getClassName(this.espectaculo);
-        System.out.println("accion en: " + className + " ha ido ok");
+    public HashMap<String, String> validaciones (Espectaculo espectaculo){
 
+        HashMap <String, String> errores = new HashMap<>();
+
+        //codigoo
+        //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
+        //comprobar que antes de guardar se han pasado todos los datos necesarios, NUMERO, NOMBRE Y AFORO SON NOT NULL
+
+        return errores;
     }
 
 

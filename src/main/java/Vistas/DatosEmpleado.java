@@ -4,6 +4,7 @@ import Controllers.ControladorEmpleado;
 import Modelos.Empleado;
 
 import javax.swing.*;
+import javax.xml.stream.FactoryConfigurationError;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -39,13 +40,11 @@ public class DatosEmpleado {
 
     //ComboBox para mostrar los posibles cargos - Jefe, auxiliar, tecnico....
     private JComboBox cbCargo;
-    private JPanel JPListaEmpleado;
     private JList<Empleado> lstEmpleados;
-
+    private JScrollPane JPListaEmpleado;
 
 
     public DatosEmpleado() {
-
 
         btnGuardar.addActionListener(new ActionListener() {
             @Override
@@ -54,11 +53,14 @@ public class DatosEmpleado {
                 Empleado empleado = new Empleado(1, txtDni.getText(), txtNombre.getText(),
                         txtApellidos.getText(), txtFechaNacimiento.getText(),
                         txtFechaContratacion.getText(), txtNacionalidad.getText(),
-                        Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), false
+                        Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), cbBaja.isSelected()
                 );
 
                 if (cc.validaciones(empleado).size()==0) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
+
+                        empleado.setBaja(false);
+
                         if (cc.add(empleado)) {
                             JOptionPane.showMessageDialog(null, "Inserción correcta",
                                     "Resultado", JOptionPane.INFORMATION_MESSAGE
@@ -72,8 +74,8 @@ public class DatosEmpleado {
                         }
 
                     } else { //modificar --update
-                        empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
 
+                        empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
 
                         if (cc.update(empleado)) {
                             JOptionPane.showMessageDialog(null, "Modificacion correcta",
@@ -111,7 +113,6 @@ public class DatosEmpleado {
                 txtFechaNacimiento.setText(empleado.getFechaNacimiento());
                 txtFechaContratacion.setText(empleado.getFechaContratacion());
 
-
                 cbCargo.setSelectedItem(empleado.getCargo());
                 cbBaja.setSelected(empleado.getBaja());
 
@@ -119,6 +120,25 @@ public class DatosEmpleado {
 
         });
 
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                autoDestroy();
+            }
+        });
+
+        btnBaja.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (cbBaja.isSelected()){
+                    cbBaja.setSelected(false);
+                }else{
+                    cbBaja.setSelected(true);
+                }
+
+            }
+        });
     }
 
     public JPanel getJPGeneral(JFrame frame) {
@@ -127,7 +147,6 @@ public class DatosEmpleado {
 
     public JPanel getJPEmpleados() {
 
-        // empleados = cc.selectAll();
         return JPEmpleado;
 
     }
@@ -153,5 +172,14 @@ public class DatosEmpleado {
         JPEmpleado.repaint();
     }
 
+    public void setCbBajaState(boolean state) {
+        this.cbBaja.setEnabled(state);
+    }
 
+    public void setLstEmpleadosState (boolean state) {
+        this.lstEmpleados.setEnabled(state);    }
+
+    public void setBtnBajaState(boolean state) {
+        this.btnBaja.setEnabled(state);
+    }
 }
