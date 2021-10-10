@@ -50,11 +50,20 @@ public class DatosEmpleado {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Empleado empleado = new Empleado(1, txtDni.getText(), txtNombre.getText(),
+               /* Empleado empleado = new Empleado(1, txtDni.getText(), txtNombre.getText(),
                         txtApellidos.getText(), txtFechaNacimiento.getText(),
                         txtFechaContratacion.getText(), txtNacionalidad.getText(),
                         Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), cbBaja.isSelected()
-                );
+                );*/
+                Empleado empleado = new Empleado();
+                empleado.setDni(txtDni.getText());
+                empleado.setNombre(txtNombre.getText());
+                empleado.setApellidos(txtApellidos.getText());
+                empleado.setFechaNacimiento(txtFechaNacimiento.getText());
+                empleado.setFechaContratacion(txtFechaContratacion.getText());
+                empleado.setNacionalidad(txtNacionalidad.getText());
+                empleado.setCargo(Objects.requireNonNull(cbCargo.getSelectedItem()).toString());
+                empleado.setBaja(cbBaja.isSelected());
 
                 if (cc.validaciones(empleado).size()==0) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar

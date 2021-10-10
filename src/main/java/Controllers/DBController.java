@@ -170,6 +170,7 @@ public class DBController {
     private final DBTypes tipoDB; //Tipo de Base de datos que nos enviarán en el constructor
     private Object conexionDb; //Objeto de conexion para bases de datos. Puede ser Connection o ObjectContainer
     private Db4oAutoincrement increment; //Variable para persistencia de Ids autoincrementales en DB4o
+    private EventRegistry eventRegistry; // Registro de eventos para Db40
 
     // CONSTRUCTORES
     public DBController(DBTypes tipoDB) {
@@ -352,7 +353,7 @@ public class DBController {
     public void setDb4oAutoincrement(ObjectContainer objectContainer){
         //Seteamos la clase incremental y su registo de eventos para establecer el id automaticamente
         increment = new Db4oAutoincrement(objectContainer);
-        EventRegistry eventRegistry = EventRegistryFactory.forObjectContainer(objectContainer);
+        eventRegistry = EventRegistryFactory.forObjectContainer(objectContainer);
         eventRegistry.creating().addListener(
                 (event4, objectArgs) -> {
                     if (objectArgs.object() instanceof IDHolder) {
