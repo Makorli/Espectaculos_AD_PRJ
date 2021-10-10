@@ -7,6 +7,8 @@ import com.db4o.ObjectContainer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -18,8 +20,8 @@ public class ArrancarPrograma {
     // Botones para entrar en un parque.
     private JButton btnParque1, btnParque2, btnParque3;
 
-  //  public static Connection conexion;
-  //  public static ObjectContainer contenedor;
+    //  public static Connection conexion;
+    //  public static ObjectContainer contenedor;
 
     public static DBController db;
 
@@ -57,8 +59,8 @@ public class ArrancarPrograma {
                 * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
                 **/
-                f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                f.setContentPane(vi.getJPGeneral());
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
@@ -84,8 +86,8 @@ public class ArrancarPrograma {
                  * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
                  **/
-                f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                f.setContentPane(vi.getJPGeneral());
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
@@ -113,14 +115,16 @@ public class ArrancarPrograma {
                  * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
                  **/
-                f.setContentPane(vi.getJPGeneral(f));
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                //f.setContentPane(vi.getJPGeneral(f));
+                f.setContentPane(vi.getJPGeneral());
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
 
             }
         });
+
     }
 
     public JPanel getJPGeneral() {
@@ -139,9 +143,20 @@ public class ArrancarPrograma {
 
         JFrame frame = new JFrame("Parques");
 
+        /*Añadimos un listener al frame principal para que cierre la conexion de
+        * la base de datos que esté siendo usada.
+        */
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                db.DesconectarDb();
+                System.out.println("Base de datos desconectada");
+            }
+        });
+
         //desde el frame estoy arrancado el menu para elegir la base de datos = parque.
         frame.setContentPane(new ArrancarPrograma(frame).JPGeneral);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
