@@ -57,13 +57,12 @@ public class DatosEmpleado {
                         Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), false
                 );
 
-                if (cc.validaciones(empleado) == null) {
+                if (cc.validaciones(empleado).size()==0) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
                         if (cc.add(empleado)) {
                             JOptionPane.showMessageDialog(null, "Inserción correcta",
                                     "Resultado", JOptionPane.INFORMATION_MESSAGE
                             );
-
 
                             autoDestroy();
 
@@ -87,7 +86,6 @@ public class DatosEmpleado {
                             JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
                         }
-
 
                     }
                 } else {

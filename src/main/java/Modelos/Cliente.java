@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Cliente {
+public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrementales de DB4o
 
     // ATRIBUTOS 
 
@@ -30,6 +30,12 @@ public class Cliente {
     }
 
     //GETTER & SETTERS
+
+    @Override
+    public void setId(int id) { this.idCliente = idCliente; }
+
+    @Override
+    public int getId() { return idCliente; }
 
     public int getIdCliente() {
         return idCliente;
@@ -134,4 +140,6 @@ public class Cliente {
     public int hashCode() {
         return Objects.hash(idCliente, dni);
     }
+
+
 }
