@@ -1,6 +1,6 @@
 package Modelos;
 
-public class Inscripcion {
+public class Inscripcion extends IDHolder {
 
     //ATRIBUTOS
 
@@ -22,6 +22,12 @@ public class Inscripcion {
     }
 
     //GETTERS & SETTERS
+
+    @Override
+    public int getId() { return idInscripcion; }
+
+    @Override
+    public void setId(int id) { this.idInscripcion= id;}
 
     public int getIdInscripcion() {
         return idInscripcion;

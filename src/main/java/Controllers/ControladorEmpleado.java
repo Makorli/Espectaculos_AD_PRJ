@@ -99,21 +99,7 @@ public class ControladorEmpleado {
         }
         // DB4o
         else {
-            //Seteamos la clase incremental y su registo de eventos para establecer el id automaticamente
-            increment = new Db4oAutoincrement(myObjCont);
-            EventRegistry eventRegistry = EventRegistryFactory.forObjectContainer(myObjCont);
-            eventRegistry.creating().addListener(
-                    (event4, objectArgs) -> {
-                        if (objectArgs.object() instanceof IDHolder) {
-                            IDHolder idHolder = (IDHolder) objectArgs.object();
-                            idHolder.setId(increment.getNextID(idHolder.getClass()));
-                        }
-                    });
-            eventRegistry.committing().addListener(
-                    (commitEventArgsEvent4, commitEventArgs) -> increment.storeState());
 
-
-            // https://bdooinfo.wordpress.com/db4o-consultas-nativas-nq-native-query/
             //REalziamos la consulta a la base de datos en busca de un objeto empleado igual (DNI)
             try {
                 ObjectSet<Empleado> empleadosOS = myObjCont.query(
@@ -337,7 +323,6 @@ public class ControladorEmpleado {
     public Empleado getResponsableEspectaculo(Espectaculo espectaculo){
         return selectById(espectaculo.getIdResponsable());
     }
-
 
     /**
      * Funcion que devuelve la cadena de "?" para la sentencia insert, con tantos "?" como requiera la clase

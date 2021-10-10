@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Espectaculo {
+public class Espectaculo extends IDHolder {
 
     //ATRIBUTOS
 
@@ -42,6 +42,13 @@ public class Espectaculo {
         this.idResponsable = idResponsable;
     }
 //GETTERS & SETTERS
+
+    @Override
+    public int getId() { return idEspectaculo; }
+
+    @Override
+    public void setId(int id) { this.idEspectaculo = id; }
+
 
     public int getIdEspectaculo() {
         return idEspectaculo;
