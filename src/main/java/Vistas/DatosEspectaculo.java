@@ -1,5 +1,6 @@
 package Vistas;
 
+import Controllers.ControladorEmpleado;
 import Controllers.ControladorEspectaculo;
 import Modelos.Empleado;
 import Modelos.Espectaculo;
@@ -7,8 +8,10 @@ import Modelos.Espectaculo;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 
 public class DatosEspectaculo {
 
@@ -23,6 +26,7 @@ public class DatosEspectaculo {
      */
 
     private ControladorEspectaculo cc = new ControladorEspectaculo();
+    private ControladorEmpleado ce;
 
     private JPanel JPGeneral, JPEspectaculos;
 
@@ -178,6 +182,28 @@ public class DatosEspectaculo {
     public void setBtnBajaState(boolean state) {
         this.btnBaja.setEnabled(state);
     }
+
+/*
+    public Vector listaResponsables (){
+
+        List<Empleado> empleados = ce.selectAll();
+        int respCantidad = ce.selectAll().size();
+
+        Vector listaResponsables = new Vector();
+
+        //String [] listaResponsables = new String[respCantidad];
+
+        for (int j=0; j < respCantidad ; j++ ) {
+
+            listaResponsables.addElement( new Empleado (empleados.get(j).getIdEmpleado(), empleados.get(j).getApellidos()));
+
+        } return listaResponsables;
+
+    }
+
+*/
+
+
 }
 
 
