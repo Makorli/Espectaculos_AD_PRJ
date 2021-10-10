@@ -6,12 +6,11 @@ import Modelos.Empleado;
 import Modelos.Espectaculo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Vector;
 
 public class DatosEspectaculo {
 
@@ -26,7 +25,7 @@ public class DatosEspectaculo {
      */
 
     private ControladorEspectaculo cc = new ControladorEspectaculo();
-    private ControladorEmpleado ce;
+    private ControladorEmpleado ce = new ControladorEmpleado();
 
     private JPanel JPGeneral, JPEspectaculos;
 
@@ -53,18 +52,22 @@ public class DatosEspectaculo {
     private JList<Espectaculo> lstEspectaculos;
     private JScrollPane JPListaEspectaculos;
 
+
     public DatosEspectaculo() {
+
 
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+                Empleado responsable = (Empleado) cbResponsable.getSelectedItem();
+
                 Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt(txtNumero.getText()), txtNombre.getText(),
-                        (Integer) spnAforo.getValue() , txtDescripcion.getText(),
-                        txtLugar.getText(),Double.parseDouble( txtCoste.getText()), txtFecha.getText(),
+                        (Integer) spnAforo.getValue(), txtDescripcion.getText(),
+                        txtLugar.getText(), Double.parseDouble(txtCoste.getText()), txtFecha.getText(),
                         txtHorario.getText(), cbBaja.isSelected(),
-                        2
-                        //(Integer) cbResponsable.getSelectedItem() ///////////////////////////////////////Necesito recoger los id de empleados y meterlos en el cb para que sean seleccionables
+                        responsable.getIdEmpleado()
                 );
 
 
@@ -116,11 +119,21 @@ public class DatosEspectaculo {
             Espectaculo espectaculo = lstEspectaculos.getSelectedValue();
 
             if (espectaculo != null) {
+
+                Empleado responsable = ce.selectById(espectaculo.getIdResponsable());
+
                 lbIdEspectaculo.setText(String.format("%d", espectaculo.getIdEspectaculo()));
-                //txtNumero.setText(espectaculo.getNumero());
+                txtNumero.setText(String.format("%d", espectaculo.getNumero()));
                 txtNombre.setText(espectaculo.getNombre());
+                spnAforo.setValue(espectaculo.getAforo());
+                txtDescripcion.setText(espectaculo.getDescripcion());
+                txtLugar.setText(espectaculo.getLugar());
+                txtCoste.setText(espectaculo.getCoste().toString());
+                txtFecha.setText(espectaculo.getFecha());
+                txtHorario.setText(espectaculo.getHorario());
                 cbBaja.setSelected(espectaculo.getBaja());
-                ///////////////////////////////////////completar
+
+                cbResponsable.setSelectedItem(responsable);
 
             }
 
@@ -137,9 +150,9 @@ public class DatosEspectaculo {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (cbBaja.isSelected()){
+                if (cbBaja.isSelected()) {
                     cbBaja.setSelected(false);
-                }else{
+                } else {
                     cbBaja.setSelected(true);
                 }
 
@@ -176,32 +189,37 @@ public class DatosEspectaculo {
         this.cbBaja.setEnabled(state);
     }
 
-    public void setLstEmpleadosState (boolean state) {
-        this.lstEspectaculos.setEnabled(state);    }
+    public void setLstEmpleadosState(boolean state) {
+        this.lstEspectaculos.setEnabled(state);
+    }
 
     public void setBtnBajaState(boolean state) {
         this.btnBaja.setEnabled(state);
     }
 
-/*
-    public Vector listaResponsables (){
+    public void loadCbResponsable(List<Empleado> responsables) {
 
-        List<Empleado> empleados = ce.selectAll();
-        int respCantidad = ce.selectAll().size();
+        DefaultComboBoxModel<Empleado> defaultComboBoxModel = new DefaultComboBoxModel<Empleado>();
 
-        Vector listaResponsables = new Vector();
-
-        //String [] listaResponsables = new String[respCantidad];
-
-        for (int j=0; j < respCantidad ; j++ ) {
-
-            listaResponsables.addElement( new Empleado (empleados.get(j).getIdEmpleado(), empleados.get(j).getApellidos()));
-
-        } return listaResponsables;
-
+        for (Empleado e: responsables){
+            defaultComboBoxModel.addElement(e);
+        }
+        cbResponsable.setModel(defaultComboBoxModel);
+        cbResponsable.setRenderer(new responsableListCellRenderer());
     }
 
-*/
+    private class responsableListCellRenderer extends DefaultListCellRenderer{
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                      boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof Empleado) {
+                Empleado e = (Empleado) value;
+                value = e.getDni() + " - " + e.getApellidos();
+            }
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
+    }
 
 
 }
