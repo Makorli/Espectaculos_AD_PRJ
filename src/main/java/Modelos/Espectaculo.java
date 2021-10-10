@@ -1,5 +1,7 @@
 package Modelos;
 
+import Controllers.ControladorEmpleado;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -138,7 +140,7 @@ public class Espectaculo {
      */
     public Empleado getResponsable(){
         Empleado responsable = new Empleado();
-        //TODO
+        responsable = new ControladorEmpleado().getResponsableEspectaculo(this);
         return responsable;
     }
 

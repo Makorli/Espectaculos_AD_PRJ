@@ -1,5 +1,7 @@
 package Modelos;
 
+import Controllers.ControladorEspectaculo;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,7 +124,10 @@ public class Empleado extends IDHolder {
      */
     public List<Espectaculo> getEspectaculos() {
         List<Espectaculo> espectaculosList = new ArrayList<>();
-        //TODO
+
+        ControladorEspectaculo ce = new ControladorEspectaculo();
+
+
         return espectaculosList;
     }
 
