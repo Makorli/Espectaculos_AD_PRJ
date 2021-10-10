@@ -4,6 +4,10 @@ import Miscelaneous.IdentificadorDeClase;
 import Modelos.Espectaculo;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.query.Predicate;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ public class ControladorEspectaculo {
 
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
+    private Db4oAutoincrement increment = null;
 
 
     public ControladorEspectaculo() {
@@ -54,13 +59,9 @@ public class ControladorEspectaculo {
     public boolean add(Espectaculo espectaculo) {
         realizado = false;
 
-        // conecto
+        if (tipoDb != DBController.DBTypes.DB4o) {
 
-
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+            try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
                 prepSentencia.setString(1, null);
@@ -82,16 +83,34 @@ public class ControladorEspectaculo {
                 prepSentencia.close();
                 realizado = true;
 
-            } else {
-                System.out.println("hacer el store y close connection ");///////////////////////////////////////////////////// check maria borrar
-                realizado = true;
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } // DB4o
+        else {
+
+            //REalziamos la consulta a la base de datos en busca de un objeto espectaculo igual  (IdEspectaculo)
+            try {
+                ObjectSet<Espectaculo> espectaculosOS = myObjCont.query(
+                        new Predicate<>() {
+                            @Override
+                            public boolean match(Espectaculo e) {
+                                return e.getId() == espectaculo.getId();
+                            }
+                        });
+                // Si no hay resultado podemos añadir el nuevo empleado.
+                if (espectaculosOS.size() == 0) {
+                    myObjCont.store(espectaculo);
+                    realizado = true;
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
+
 
         return realizado;
 
@@ -108,12 +127,10 @@ public class ControladorEspectaculo {
     public boolean update(Espectaculo espectaculo) {
         realizado = false;
 
-        // conecto
 
+        if (tipoDb != DBController.DBTypes.DB4o) {
 
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
 
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + "WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
@@ -140,17 +157,50 @@ public class ControladorEspectaculo {
                 prepSentencia.close();
                 realizado = true;
 
-
-            } else {
-                System.out.println("hacer el update de db4 y close connection ");
-                realizado = true;
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        }         // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Espectaculo con el mismo Id
+                ObjectSet<Espectaculo> espectaculosOS = myObjCont.query(
+                        new Predicate<>() {
+                            @Override
+                            public boolean match(Espectaculo e) {
+                                return e.getIdEspectaculo() == (espectaculo.getIdEspectaculo());
+                            }
+                        });
+                // Si solo hay uno..que solo debería haber 1 lo almacenamos
+                if (espectaculosOS.size() == 1) {
+                    //Recojemos el empleado de la BBDD
+                    Espectaculo e = espectaculosOS.next();
+                    //modificamos todos sus campos por los nuevos..excepto el id
+
+                    e.setNumero(espectaculo.getNumero());
+                    e.setNombre(espectaculo.getNombre());
+                    e.setAforo(espectaculo.getAforo());
+                    e.setDescripcion(espectaculo.getDescripcion());
+                    e.setLugar(espectaculo.getLugar());
+                    e.setCoste(espectaculo.getCoste());
+                    e.setFecha(espectaculo.getFecha());
+                    e.setHorario(espectaculo.getHorario());
+                    e.setBaja(espectaculo.getBaja());
+                    e.setIdResponsable(espectaculo.getIdResponsable());
+
+                    //almacenamos el empleado
+                    myObjCont.store(e);
+                    realizado = true;
+                }
+
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
+
 
         return realizado;
     }
@@ -166,12 +216,9 @@ public class ControladorEspectaculo {
 
         List<Espectaculo> espectaculos = new ArrayList<>();
 
-        // conecto
+        if (tipoDb != DBController.DBTypes.DB4o) {
 
-
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
 
                 String sql = String.format("select * from " + tableName);
                 sentencia = mydb.createStatement();
@@ -201,15 +248,27 @@ public class ControladorEspectaculo {
                 //cierro la sentencia
                 sentencia.close();
 
-            } else {
-                System.out.println("hacer el update de db4 y close connection ");
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        }         // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Espectaculo
+                ObjectSet<Espectaculo> espectaculosOS = myObjCont.queryByExample(new Espectaculo());
+                // Si tenemos espectaculos recorremos el Resultado para incorporar los objetos a la lista
+                if (espectaculosOS.size() > 0) {
+                    while (espectaculosOS.hasNext())
+                        espectaculos.add(espectaculosOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
+
 
         return espectaculos;
     }
@@ -225,10 +284,8 @@ public class ControladorEspectaculo {
 
         Espectaculo espectaculoNew = new Espectaculo();
 
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
 
                 String sql = String.format("select * from " + tableName + " WHERE %s= %d",
                         attNames[0], id);
@@ -252,21 +309,29 @@ public class ControladorEspectaculo {
 
                 }
 
-                //cierro la sentencia
                 sentencia.close();
 
-                return espectaculoNew;
-
-            } else {
-                System.out.println("hacer el select by id de db4 y close connection ");
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        }  // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos espectaculo con el mismo Id que el indicado
+                Espectaculo espBuscado = new Espectaculo();
+                espBuscado.setIdEspectaculo(id);
+                ObjectSet<Espectaculo> espectaculosOS = myObjCont.queryByExample(espBuscado);
+                // Si solo hay uno..que solo debería haber 1 lo devolvemos
+                if (espectaculosOS.size() == 1) {
+                    espectaculoNew = espectaculosOS.next();
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
-
 
         return espectaculoNew;
     }
@@ -316,9 +381,9 @@ public class ControladorEspectaculo {
 
     }
 
-    public HashMap<String, String> validaciones (Espectaculo espectaculo){
+    public HashMap<String, String> validaciones(Espectaculo espectaculo) {
 
-        HashMap <String, String> errores = new HashMap<>();
+        HashMap<String, String> errores = new HashMap<>();
 
         //codigoo
         //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE

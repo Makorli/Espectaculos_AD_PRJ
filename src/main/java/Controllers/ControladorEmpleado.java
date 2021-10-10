@@ -324,7 +324,6 @@ public class ControladorEmpleado {
         return selectById(espectaculo.getIdResponsable());
     }
 
-
     /**
      * Funcion que devuelve la cadena de "?" para la sentencia insert, con tantos "?" como requiera la clase
      * valores posibles:

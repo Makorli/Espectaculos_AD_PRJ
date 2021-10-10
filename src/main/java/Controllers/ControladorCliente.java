@@ -7,8 +7,15 @@ import java.util.List;
 
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Cliente;
+import Modelos.IDHolder;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.events.EventRegistry;
+import com.db4o.events.EventRegistryFactory;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.query.Predicate;
 
 public class ControladorCliente {
 
@@ -30,6 +37,7 @@ public class ControladorCliente {
 
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
+    private Db4oAutoincrement increment = null;
 
 
     public ControladorCliente() {
@@ -54,11 +62,8 @@ public class ControladorCliente {
      */
     public boolean add(Cliente cliente) {
         realizado = false;
-
-
-        try {
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
                 prepSentencia.setString(1, null);
@@ -68,26 +73,39 @@ public class ControladorCliente {
                 prepSentencia.setString(5, cliente.getFechaNacimiento());
                 prepSentencia.setBoolean(6, cliente.getBaja());
 
-
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
 
                 //cierro la sentencia
                 prepSentencia.close();
                 realizado = true;
 
-            } else {
-                System.out.println("hacer el store y close connection ");///////////////////////////////////////////////////// check maria borrar
-                realizado = true;
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+
+            //REalziamos la consulta a la base de datos en busca de un objeto cliente igual (DNI)
+            try {
+                ObjectSet<Cliente> clientesOS = myObjCont.query(
+                        new Predicate<>() {
+                            @Override
+                            public boolean match(Cliente c) {
+                                return c.getDni().equalsIgnoreCase(cliente.getDni());
+                            }
+                        });
+                // Si no hay resultado podemos añadir el nuevo empleado.
+                if (clientesOS.size() == 0) {
+                    myObjCont.store(cliente);
+                    realizado = true;
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
-
         return realizado;
-
     }
 
     /**
@@ -100,11 +118,8 @@ public class ControladorCliente {
     public boolean update(Cliente cliente) {
         realizado = false;
 
-
-        try {
-
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s= ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
                         attNames[0]);
@@ -125,18 +140,41 @@ public class ControladorCliente {
                 prepSentencia.close();
                 realizado = true;
 
-
-            } else {
-                System.out.println("hacer el update de db4 y close connection ");
-                realizado = true;
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } else {
+            try {
+                //Recuperamos todos los objetos Cliente con el mismo Id
+                ObjectSet<Cliente> clientesOS = myObjCont.query(
+                        new Predicate<>() {
+                            @Override
+                            public boolean match(Cliente c) {
+                                return c.getIdCliente() == (cliente.getIdCliente());
+                            }
+                        });
+                // Si solo hay uno..que solo debería haber 1 lo almacenamos
+                if (clientesOS.size() == 1) {
+                    //Recojemos el empleado de la BBDD
+                    Cliente e = clientesOS.next();
+                    //modificamos todos sus campos por los nuevos..excepto el id
+                    e.setDni(cliente.getDni());
+                    e.setNombre(cliente.getNombre());
+                    e.setApellidos(cliente.getApellidos());
+                    e.setFechaNacimiento(cliente.getFechaNacimiento());
+                    e.setBaja(cliente.getBaja());
+                    //almacenamos el empleado
+                    myObjCont.store(e);
+                    realizado = true;
+                }
 
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
         return realizado;
     }
 
@@ -151,10 +189,9 @@ public class ControladorCliente {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        try {
 
-            if (tipoDb != DBController.DBTypes.DB4o) {
-
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
                 String sql = String.format("select * from " + tableName);
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
@@ -173,18 +210,25 @@ public class ControladorCliente {
 
                     clientes.add(clienteNew);
                 }
-
-                //cierro la sentencia
                 sentencia.close();
 
-            } else {
-                System.out.println("hacer el update de db4 y close connection ");
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            try {
+                //Recuperamos todos los objetos Cliente
+                ObjectSet<Cliente> clientesOS = myObjCont.queryByExample(new Cliente());
+                // Si tenemos clientes recorremos el Resultado para incorporar los objetos a la lista
+                if (clientesOS.size() > 0) {
+                    while (clientesOS.hasNext())
+                        clientes.add(clientesOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
 
         return clientes;
@@ -201,11 +245,10 @@ public class ControladorCliente {
 
         Cliente clienteNew = new Cliente();
 
-        try {
 
-            if (tipoDb != DBController.DBTypes.DB4o) {
+        if (tipoDb != DBController.DBTypes.DB4o) {
 
-
+            try {
                 String sql = String.format("select * from " + tableName + " WHERE %s= %d",
                         attNames[0], id);
 
@@ -226,14 +269,25 @@ public class ControladorCliente {
                 sentencia.close();
                 return clienteNew;
 
-            } else {
-                System.out.println("hacer el select by id de db4 y close connection ");
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException error) {
-            System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            try {
+                //Recuperamos todos los objetos Empleado con el mismo Id que el indicado
+                Cliente clibuscado = new Cliente();
+                clibuscado.setIdCliente(id);
+                ObjectSet<Cliente> clientesOS = myObjCont.queryByExample(clibuscado);
+                // Si solo hay uno..que solo debería haber 1 lo devolvemos
+                if (clientesOS.size() == 1) {
+                    clienteNew = clientesOS.next();
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -285,9 +339,9 @@ public class ControladorCliente {
 
     }
 
-    public HashMap<String, String> validaciones (Cliente cliente){
+    public HashMap<String, String> validaciones(Cliente cliente) {
 
-        HashMap <String, String> errores = new HashMap<>();
+        HashMap<String, String> errores = new HashMap<>();
 
         //codigoo
         //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
