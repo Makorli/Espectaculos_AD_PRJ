@@ -2,6 +2,9 @@ package Controllers;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.ext.Db4oIOException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -166,6 +169,7 @@ public class DBController {
     // CONSTRUCTORES
     public DBController(DBTypes tipoDB) {
         this.tipoDB = tipoDB;
+        this.ConectarDb();
     }
 
     // GETTERS
@@ -193,80 +197,140 @@ public class DBController {
 
     /**
      * Funcion de conexión a cualquier base de datos contemplada en el Enum de la clase.
+     * Utiliza una subclase para obtener los datos de conexión
      *
      * @return Object de conexión que puede corresponder a Connection ObjectContainer.
      * dependiendo del tipo de datos a la que haya conectado.
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public Object ConectarDb() throws ClassNotFoundException, SQLException {
-
-        String drv = null;
+    public void ConectarDb() {
 
         //Procedimiento de conexión a DB4o
         if (tipoDB == DBTypes.DB4o) {
-            try { //conectar con DB4o
-                conexionDb = Db4oEmbedded.openFile(
-                        Db4oEmbedded.newConfiguration(),
-                        Db4oDataConnect.getFullPathName());
-                //retornamos la conexión
-                return conexionDb; // ---------->>>>  Del tipo ObjectContainer
-            } catch (Exception error) {
-                System.out.format("Error al conectar con %s : \n%s", tipoDB, error.getMessage());
-                throw error;
-            }
-
-        }
-        //Procedmiento de conexión "general" para SQLite, MySQL y Oracle
-        else {
-
-            // Seleccionamos el driver correspondiente
-            if (tipoDB == DBTypes.SQLite) drv = SQLiteDataConnect.getDriver();
-            else if (tipoDB == DBTypes.MySQL) drv = MySqlDataConnect.getDriver();
-            else if (tipoDB == DBTypes.Oracle) drv = OracleDataConnect.getDriver();
-
-            try { //Cargamos el driver de conexion a la Base de datos SQL elegida
-                Class.forName(drv);
-            } catch (ClassNotFoundException error) {
-                System.out.format("Error en la carga del driver JDBC de %s: \n%s", tipoDB, error.getMessage());
-                throw error;
-            }
-            // TODO
-            try {//Realizamos la conexión con la base de datos
-                if (tipoDB == DBTypes.SQLite) {
-                    conexionDb = DriverManager.getConnection(
-                            SQLiteDataConnect.getConnectionStr());
-                } else if (tipoDB == DBTypes.MySQL) {
-                    conexionDb = DriverManager.getConnection(
-                            MySqlDataConnect.getConnectionStr(),
-                            MySqlDataConnect.getDbUser(),
-                            MySqlDataConnect.getDbUserPwd());
-                } else if (tipoDB == DBTypes.Oracle) {
-
-                    conexionDb = DriverManager.getConnection(
-                            OracleDataConnect.getConnectionStr(),
-                            OracleDataConnect.getDbUser(),
-                            OracleDataConnect.getDbUserPwd());
+            //conectar con DB4o
+            if (!isDbConnected()) { //Solo conectamos si la base de datos no esta lista.
+                try {
+                    conexionDb = Db4oEmbedded.openFile(
+                            Db4oEmbedded.newConfiguration(),
+                            Db4oDataConnect.getFullPathName());
+                } catch (Exception error) {
+                    System.out.format("Error al conectar con %s : \n%s", tipoDB, error.getMessage());
+                    throw error;
                 }
-                return conexionDb; // ---------->>>>  del tipo Connection
-            } catch (SQLException error) {
-                System.out.format("Error al conectar con %s : \n%s", tipoDB, error.getMessage());
-                throw error;
+            }
+        }
+
+        //Procedmiento "general" de conexión para SQLite, MySQL y Oracle
+        else {
+            //si no esta preparada cargamos el driver.
+            if (!isDbReady()) {
+                // Seleccionamos el driver correspondiente
+                String drv = null;
+                if (tipoDB == DBTypes.SQLite) drv = SQLiteDataConnect.getDriver();
+                else if (tipoDB == DBTypes.MySQL) drv = MySqlDataConnect.getDriver();
+                else if (tipoDB == DBTypes.Oracle) drv = OracleDataConnect.getDriver();
+
+                try { //Cargamos el driver de conexion a la Base de datos SQL elegida
+                    Class.forName(drv);
+                } catch (ClassNotFoundException error) {
+                    System.out.format("Error en la carga del driver JDBC de %s: \n%s", tipoDB, error.getMessage());
+                }
+            }
+            // Si no esta conectada establecesmos la conexion
+            if (!isDbConnected()) {
+                try {//Realizamos la conexión con la base de datos
+                    if (tipoDB == DBTypes.SQLite) {
+                        conexionDb = DriverManager.getConnection(
+                                SQLiteDataConnect.getConnectionStr());
+                    } else if (tipoDB == DBTypes.MySQL) {
+                        conexionDb = DriverManager.getConnection(
+                                MySqlDataConnect.getConnectionStr(),
+                                MySqlDataConnect.getDbUser(),
+                                MySqlDataConnect.getDbUserPwd());
+                    } else if (tipoDB == DBTypes.Oracle) {
+                        conexionDb = DriverManager.getConnection(
+                                OracleDataConnect.getConnectionStr(),
+                                OracleDataConnect.getDbUser(),
+                                OracleDataConnect.getDbUserPwd());
+                    }
+                } catch (SQLException error) {
+                    System.out.format("Error al conectar con %s : \n%s", tipoDB, error.getMessage());
+                }
             }
         }
 
     }
 
-    public void DesconectarDb() throws SQLException {
-        Connection c = null;
-        ObjectContainer o = null;
+    /**
+     * Cierra la base de datos adminsitrada.
+     */
+    public void DesconectarDb() {
+        //Desconexión de bases de datos MySQL, SQLite, Oracle..etc
         if (conexionDb instanceof Connection) {
-            c = (Connection) conexionDb;
-            c.close();
+            Connection c = (Connection) conexionDb;
+            try {
+                if (!c.getAutoCommit()) c.commit(); // Si no tiene autocommit. Hacemos commmit
+                c.close(); //Cerramos la conexión
+            } catch (SQLException s) {
+                s.printStackTrace();
+            }
         }
+        //Desconexión de base de datos DB4o
         if (conexionDb instanceof ObjectContainer) {
-            o = (ObjectContainer) conexionDb;
-            o.close();
+            ObjectContainer o = (ObjectContainer) conexionDb;
+            try {
+                o.commit();
+                o.close();
+            } catch (Db4oIOException |
+                    DatabaseClosedException |
+                    DatabaseReadOnlyException d) {
+                d.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Devuelve si la base de datos tiene una conexión activa (no está cerrada)
+     * @return boolean
+     */
+    public boolean isDbConnected() {
+        //Consulta a DB4o
+        if (tipoDB == DBTypes.DB4o) {
+            ObjectContainer o = getObjectContainerDb();
+            return !(o == null || o.ext().isClosed());
+        }
+        // Consulta "general" para SQLite, MySQL y Oracle
+        else {
+            Connection c = getConnectionDb();
+            try {
+                if (c != null) return !c.isClosed();
+            } catch (SQLException i) {
+                i.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * DEvuelve si la base de datos dispone de una conexión (activa o no)
+     * MYSQL, SQLite y ORacle verifica si el objeto conexión ya existe
+     * DB4o verifica que el objeto exista y que sea una conexion abierta.
+     *
+     * @return
+     */
+    public boolean isDbReady() {
+        //Consulta a DB4o
+        if (tipoDB == DBTypes.DB4o) return isDbConnected();
+            // Consulta "general" para SQLite, MySQL y Oracle
+        else {
+            Connection c = getConnectionDb();
+            try {
+                if (c != null) return !c.isClosed();
+            } catch (SQLException i) {
+                i.printStackTrace();
+            }
+            return false;
         }
     }
 

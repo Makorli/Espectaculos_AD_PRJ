@@ -198,11 +198,9 @@ public class VentanaInicio {
         itemSalirParque.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+
                     ArrancarPrograma.db.DesconectarDb();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(false);
                 JFrame frame = new JFrame("Parques");

@@ -33,9 +33,8 @@ public class Db4oAutoincrement {
             container.ext().store(state, 2);
         }
     }
-    // #end example
 
-    // #example: load the state from the database
+    
     private PersistedAutoIncrements ensureLoadedIncrements() {
         if (null == state) {
             state = loadOrCreateState();
@@ -44,17 +43,21 @@ public class Db4oAutoincrement {
 
     }
 
+    /**
+     * Clase que consulta si existe  no un objeto PersistedAutoincrements
+     * para la clase del ObjectContainer seleccionado.
+     * @return
+     */
     private PersistedAutoIncrements loadOrCreateState() {
         ObjectSet<PersistedAutoIncrements> existingState = container.query(PersistedAutoIncrements.class);
-        if (0 == existingState.size()) {
+        if (existingState.size() == 0) {
             return new PersistedAutoIncrements();
-        } else if (1 == existingState.size()) {
+        } else if (existingState.size() == 1) {
             return existingState.get(0);
         } else {
             throw new IllegalStateException("Cannot have more than one state stored in database");
         }
     }
-    // #end example
 
     /**
      * Clase que genera numeros autoincrementales para cada clase y los almacena en
