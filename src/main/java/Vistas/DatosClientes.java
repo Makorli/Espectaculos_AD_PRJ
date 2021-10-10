@@ -68,8 +68,15 @@ public class DatosClientes {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Cliente cliente = new Cliente(1, txtNombre.getText(), txtApellidos.getText(), txtDni.getText(),
-                        txtFechaNacimiento.getText(), cbBaja.isSelected());
+                /*Cliente cliente11 = new Cliente(1, txtNombre.getText(), txtApellidos.getText(), txtDni.getText(),
+                        txtFechaNacimiento.getText(), cbBaja.isSelected());*/
+
+                Cliente cliente = new Cliente();
+                cliente.setNombre(txtNombre.getText());
+                cliente.setApellidos(txtApellidos.getText());
+                cliente.setDni(txtDni.getText());
+                cliente.setFechaNacimiento(txtFechaNacimiento.getText());
+                cliente.setBaja(cbBaja.isSelected());
 
 
                 if (cc.validaciones(cliente).size() == 0) {
