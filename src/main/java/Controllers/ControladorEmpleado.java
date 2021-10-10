@@ -297,6 +297,7 @@ public class ControladorEmpleado {
                 ResultSet rs = sentencia.executeQuery(sql);
                 empleadoNew = new Empleado();
                 while (rs.next()) {
+
                     empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
                     empleadoNew.setDni(rs.getString(attNames[1]));
                     empleadoNew.setNombre(rs.getString(attNames[2]));

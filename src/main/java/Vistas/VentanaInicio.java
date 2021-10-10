@@ -8,9 +8,6 @@ import Modelos.Empleado;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.List;
 
 public class VentanaInicio {
@@ -116,7 +113,7 @@ public class VentanaInicio {
                 modificarCliente.setCbBajaState(false); //
 
                 cc = new ControladorCliente();
-                modificarCliente .mostrarClientes(cc.selectAll());
+                modificarCliente.mostrarClientes(cc.selectAll());
                 mostrarPanel(modificarCliente.getJPClientes());
             }
         });
@@ -159,7 +156,11 @@ public class VentanaInicio {
                 nuevoEspectaculo.setBtnBajaState(false);
 
                 cs = new ControladorEspectaculo();
+                ce = new ControladorEmpleado();
+
                 nuevoEspectaculo.mostrarEspectaculos(cs.selectAll());
+                nuevoEspectaculo.loadCbResponsable(ce.selectAll());
+
                 mostrarPanel(nuevoEspectaculo.getJPEspectaculos());
             }
         });
@@ -169,15 +170,18 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 DatosEspectaculo modificarEspectaculo = new DatosEspectaculo();
 
-                modificarEspectaculo .renombrarBtnGuardar("Modificar");
-                modificarEspectaculo .setCbBajaState(false); //
+                modificarEspectaculo.renombrarBtnGuardar("Modificar");
+                modificarEspectaculo.setCbBajaState(false); //
+
                 cs = new ControladorEspectaculo();
-                modificarEspectaculo .mostrarEspectaculos(cs.selectAll());
+                ce = new ControladorEmpleado();
+
+                modificarEspectaculo.mostrarEspectaculos(cs.selectAll());
+                modificarEspectaculo.loadCbResponsable(ce.selectAll());
+
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
             }
         });
-
-
 
 
         itemInscribirse.addActionListener(new ActionListener() {
@@ -196,6 +200,8 @@ public class VentanaInicio {
             }
         });
 
+
+
         itemMetadatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -208,7 +214,7 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    ArrancarPrograma.db.DesconectarDb();
+                ArrancarPrograma.db.DesconectarDb();
 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(false);
