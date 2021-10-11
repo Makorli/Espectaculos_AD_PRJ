@@ -9,7 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class DatosEspectaculo {
@@ -60,8 +61,10 @@ public class DatosEspectaculo {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                if (!(txtNumero.getText().equals("") || txtCoste.getText().equals(""))) {
 
-                Empleado responsable = (Empleado) cbResponsable.getSelectedItem();
+
+                    Empleado responsable = (Empleado) cbResponsable.getSelectedItem();
 
                 /*Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt(txtNumero.getText()), txtNombre.getText(),
                         (Integer) spnAforo.getValue(), txtDescripcion.getText(),
@@ -69,59 +72,77 @@ public class DatosEspectaculo {
                         txtHorario.getText(), cbBaja.isSelected(),
                         responsable.getIdEmpleado()
                 );*/
-                Espectaculo espectaculo = new Espectaculo();
-                espectaculo.setNumero(Integer.parseInt(txtNumero.getText()));
-                espectaculo.setNombre(txtNombre.getText());
-                espectaculo.setAforo((Integer) spnAforo.getValue());
-                espectaculo.setDescripcion(txtDescripcion.getText());
-                espectaculo.setLugar(txtLugar.getText());
-                espectaculo.setCoste(Double.parseDouble(txtCoste.getText()));
-                espectaculo.setFecha(txtFecha.getText());
-                espectaculo.setHorario(txtHorario.getText());
-                espectaculo.setBaja(cbBaja.isSelected());
-                espectaculo.setIdResponsable(responsable.getIdEmpleado());
 
 
-                if (cc.validaciones(espectaculo)== null) {
-                    if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
+                    Espectaculo espectaculo = new Espectaculo();
+                    espectaculo.setNumero(Integer.parseInt(txtNumero.getText()));
+                    espectaculo.setNombre(txtNombre.getText());
+                    espectaculo.setAforo((Integer) spnAforo.getValue());
+                    espectaculo.setDescripcion(txtDescripcion.getText());
+                    espectaculo.setLugar(txtLugar.getText());
+                    espectaculo.setCoste(Double.parseDouble(txtCoste.getText()));
+                    espectaculo.setFecha(txtFecha.getText());
+                    espectaculo.setHorario(txtHorario.getText());
+                    espectaculo.setBaja(cbBaja.isSelected());
+                    espectaculo.setIdResponsable(responsable.getIdEmpleado());
 
-                        espectaculo.setBaja(false);
 
-                        if (cc.add(espectaculo)) {
-                            JOptionPane.showMessageDialog(null, "Inserción correcta",
-                                    "Resultado", JOptionPane.INFORMATION_MESSAGE
-                            );
+                    if (cc.validaciones(espectaculo) == null) {
 
-                            autoDestroy();
 
-                        } else {
+                        if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
+
+                            espectaculo.setBaja(false);
+
+                            if (cc.add(espectaculo)) {
+                                JOptionPane.showMessageDialog(null, "Inserción correcta",
+                                        "Resultado", JOptionPane.INFORMATION_MESSAGE
+                                );
+
+                                autoDestroy();
+
+                            } /*else {
                             JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
-                        }
+                        }*/
 
-                    } else { //modificar --update
+                        } else { //modificar --update
 
-                        espectaculo.setIdEspectaculo(Integer.parseInt(lbIdEspectaculo.getText()));
+                            espectaculo.setIdEspectaculo(Integer.parseInt(lbIdEspectaculo.getText()));
 
-                        if (cc.update(espectaculo)) {
-                            JOptionPane.showMessageDialog(null, "Modificacion correcta",
-                                    "Resultado", JOptionPane.INFORMATION_MESSAGE
-                            );
+                            if (cc.update(espectaculo)) {
+                                JOptionPane.showMessageDialog(null, "Modificacion correcta",
+                                        "Resultado", JOptionPane.INFORMATION_MESSAGE
+                                );
 
-                            autoDestroy();
+                                autoDestroy();
 
-                        } else {
+                            }/* else {
                             JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
-                        }
+                        }*/
 
+
+                        }
+                    } else {
+
+                        String texto = cc.validaciones(espectaculo);
+
+                        JOptionPane.showMessageDialog(null, texto, "Resultado", JOptionPane.ERROR_MESSAGE
+                        );
 
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error - Verifica los datos de entrada", "Resultado", JOptionPane.ERROR_MESSAGE
-                    );
 
+                    if (!(txtNumero.getText().equals(""))) {
+                        JOptionPane.showMessageDialog(null, "El campo  Coste debe contener un valor");
+                    }
+                    if (!(txtCoste.getText().equals(""))) {
+                        JOptionPane.showMessageDialog(null, "El campo  Numero debe contener un valor");
+                    }
                 }
+
+
             }
 
         });
@@ -169,7 +190,30 @@ public class DatosEspectaculo {
 
             }
         });
+
+        txtNumero.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char validar = e.getKeyChar();
+                if (Character.isLetter(validar)) {
+                    txtNumero.setText("");
+                    JOptionPane.showMessageDialog(null, "Solo numeros");
+                }
+            }
+        });  // fin txtNumero.addKeyListener
+        txtCoste.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char validar = e.getKeyChar();
+                if ((validar < '0' || validar > '9') && (validar < '.' || validar > '.')) {
+                    txtCoste.setText("");
+                    JOptionPane.showMessageDialog(null, "Solo numeros");
+                }
+
+            }
+        });
     }
+
 
     public JPanel getJPEspectaculos() {
         return JPEspectaculos;
@@ -212,14 +256,15 @@ public class DatosEspectaculo {
 
         DefaultComboBoxModel<Empleado> defaultComboBoxModel = new DefaultComboBoxModel<Empleado>();
 
-        for (Empleado e: responsables){
+        for (Empleado e : responsables) {
             defaultComboBoxModel.addElement(e);
         }
         cbResponsable.setModel(defaultComboBoxModel);
         cbResponsable.setRenderer(new responsableListCellRenderer());
     }
 
-    private class responsableListCellRenderer extends DefaultListCellRenderer{
+
+    private class responsableListCellRenderer extends DefaultListCellRenderer {
 
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index,
