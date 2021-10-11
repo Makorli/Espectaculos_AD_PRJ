@@ -38,8 +38,6 @@ public class ControladorEmpleado {
 
     private Statement sentencia = null;
     private PreparedStatement prepSentencia = null;
-    private Predicate<Empleado> predicadoEmp = null;
-
 
 
     public ControladorEmpleado() {
