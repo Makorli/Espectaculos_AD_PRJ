@@ -1,7 +1,11 @@
 package Controllers;
 
+import Modelos.IDHolder;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.config.Configuration;
+import com.db4o.events.EventRegistry;
+import com.db4o.events.EventRegistryFactory;
 import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.ext.Db4oIOException;
@@ -165,6 +169,8 @@ public class DBController {
     // ATRIBUTOS
     private final DBTypes tipoDB; //Tipo de Base de datos que nos enviarán en el constructor
     private Object conexionDb; //Objeto de conexion para bases de datos. Puede ser Connection o ObjectContainer
+    private Db4oAutoincrement increment; //Variable para persistencia de Ids autoincrementales en DB4o
+    private EventRegistry eventRegistry; // Registro de eventos para Db40
 
     // CONSTRUCTORES
     public DBController(DBTypes tipoDB) {
@@ -214,6 +220,16 @@ public class DBController {
                     conexionDb = Db4oEmbedded.openFile(
                             Db4oEmbedded.newConfiguration(),
                             Db4oDataConnect.getFullPathName());
+                    //Seteamos la base de datos para Autoicrementar los ids
+
+                    //https://github.com/lytico/db4o/blob/master/reference/CodeExamples/java/src/com/db4odoc/disconnectedobj/idexamples/AutoIncrement.java
+                    //https://forge.fiware.org/scm/viewvc.php/*checkout*/trunk/cookbooks/GESoftware/tmp/db4o-8.0/doc/reference/Content/advanced_topics/callbacks/possible_usecases/autoincrement.htm?revision=819&root=testbed
+                    setDb4oAutoincrement(getObjectContainerDb());
+
+                    //Indexamos por el campo ID para acelerar las busquedas.
+                    Configuration conf = getObjectContainerDb().ext().configure();
+                    conf.objectClass(IDHolder.class).objectField("id").indexed(true);
+
                 } catch (Exception error) {
                     System.out.format("Error al conectar con %s : \n%s", tipoDB, error.getMessage());
                     throw error;
@@ -334,6 +350,23 @@ public class DBController {
         }
     }
 
+    public void setDb4oAutoincrement(ObjectContainer objectContainer){
+        //Seteamos la clase incremental y su registo de eventos para establecer el id automaticamente
+        increment = new Db4oAutoincrement(objectContainer);
+        eventRegistry = EventRegistryFactory.forObjectContainer(objectContainer);
+        eventRegistry.creating().addListener(
+                (event4, objectArgs) -> {
+                    if (objectArgs.object() instanceof IDHolder) {
+                        IDHolder idHolder = (IDHolder) objectArgs.object();
+                        idHolder.setId(increment.getNextID(idHolder.getClass()));
+                    }
+                });
+        eventRegistry.committing().addListener(
+                (commitEventArgsEvent4, commitEventArgs) -> increment.storeState());
+
+
+        // https://bdooinfo.wordpress.com/db4o-consultas-nativas-nq-native-query/
+    }
 }
 
 

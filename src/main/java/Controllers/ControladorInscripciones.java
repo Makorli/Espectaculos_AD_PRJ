@@ -1,7 +1,7 @@
 package Controllers;
 
 import Miscelaneous.IdentificadorDeClase;
-import Modelos.Espectaculo;
+import Modelos.Inscripcion;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ControladorEspectaculo {
+public class ControladorInscripciones {
 
     DBController dbController = ArrancarPrograma.db;
     DBController.DBTypes tipoDb = dbController.getTipoDB();
@@ -22,7 +22,7 @@ public class ControladorEspectaculo {
     ObjectContainer myObjCont = dbController.getObjectContainerDb();
 
     private boolean realizado;
-    private Espectaculo espectaculo;
+    private Inscripcion inscripcion;
     private IdentificadorDeClase claseId;
 
     private String tableName;
@@ -35,12 +35,12 @@ public class ControladorEspectaculo {
     private PreparedStatement prepSentencia = null;
 
 
-    public ControladorEspectaculo() {
-        this.espectaculo = new Espectaculo();
-        this.claseId = new IdentificadorDeClase(this.espectaculo);
+    public ControladorInscripciones() {
+        this.inscripcion = new Inscripcion();
+        this.claseId = new IdentificadorDeClase(this.inscripcion);
 
-        this.tableName = claseId.getClassName(this.espectaculo);
-        this.attNames = claseId.getAttNames(this.espectaculo);
+        this.tableName = claseId.getClassName(this.inscripcion);
+        this.attNames = claseId.getAttNames(this.inscripcion);
 
         this.myInsert = crearMyInsert();
         this.myUpdate = crearMyUpdate();
@@ -48,14 +48,14 @@ public class ControladorEspectaculo {
     }
 
     /**
-     * Funcion que recibe objeto espectaculo conecta a bdd e inserta datos  en bdd. diferencia entre relacionales y bdoo en if tipoDb
+     * Funcion que recibe objeto inscripcion conecta a bdd e inserta datos  en bdd.diferencia entre relacionales y bdoo en if tipoDb
      * se pasa id como string null (no como integer) para que la bdd asigne numero automatico
      * valores posibles:
      *
-     * @param espectaculo
+     * @param inscripcion Objeto inscripcion
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean add(Espectaculo espectaculo) {
+    public boolean add(Inscripcion inscripcion) {
         realizado = false;
 
         if (tipoDb != DBController.DBTypes.DB4o) {
@@ -64,16 +64,9 @@ public class ControladorEspectaculo {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
                 prepSentencia.setString(1, null);
-                prepSentencia.setInt(2, espectaculo.getNumero());
-                prepSentencia.setString(3, espectaculo.getNombre());
-                prepSentencia.setInt(4, espectaculo.getAforo());
-                prepSentencia.setString(5, espectaculo.getDescripcion());
-                prepSentencia.setString(6, espectaculo.getLugar());
-                prepSentencia.setDouble(7, espectaculo.getCoste());
-                prepSentencia.setString(8, espectaculo.getFecha());
-                prepSentencia.setString(9, espectaculo.getHorario());
-                prepSentencia.setBoolean(10, espectaculo.getBaja());
-                prepSentencia.setInt(11, espectaculo.getIdResponsable());
+                prepSentencia.setInt(2, inscripcion.getIdCliente());
+                prepSentencia.setInt(3, inscripcion.getIdInscripcion());
+                prepSentencia.setString(4, inscripcion.getFecha());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
@@ -91,18 +84,18 @@ public class ControladorEspectaculo {
         } // DB4o
         else {
 
-            //REalziamos la consulta a la base de datos en busca de un objeto espectaculo igual  (IdEspectaculo)
+            //REalziamos la consulta a la base de datos en busca de un objeto inscripcion igual  (IdInscripcion)
             try {
-                ObjectSet<Espectaculo> espectaculosOS = myObjCont.query(
+                ObjectSet<Inscripcion> inscripcionesOS = myObjCont.query(
                         new Predicate<>() {
                             @Override
-                            public boolean match(Espectaculo e) {
-                                return e.getId() == espectaculo.getId();
+                            public boolean match(Inscripcion e) {
+                                return e.getId() == inscripcion.getId();
                             }
                         });
                 // Si no hay resultado podemos añadir el nuevo empleado.
-                if (espectaculosOS.size() == 0) {
-                    myObjCont.store(espectaculo);
+                if (inscripcionesOS.size() == 0) {
+                    myObjCont.store(inscripcion);
                     realizado = true;
                 }
             } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
@@ -110,20 +103,18 @@ public class ControladorEspectaculo {
             }
         }
 
-
         return realizado;
-
 
     }
 
     /**
-     * Funcion que recibe objeto espectaculo, conecta a bdd y modifica datos en bdd segun su id. diferencia entre relacionales y bdoo en if tipoDb
+     * Funcion que recibe objeto inscripcion, conecta a bdd y modifica datos en bdd segun su id. diferencia entre relacionales y bdoo en if tipoDb
      * valores posibles:
      *
-     * @param espectaculo
+     * @param inscripcion
      * @return true si ha ido ok, false si no para tratar en vistas
      */
-    public boolean update(Espectaculo espectaculo) {
+    public boolean update(Inscripcion inscripcion) {
         realizado = false;
 
 
@@ -132,23 +123,15 @@ public class ControladorEspectaculo {
             try {
 
                 String sentencia = String.format("update " + tableName + " set " + myUpdate + "WHERE %s= ?",
-                        attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
-                        attNames[6], attNames[7], attNames[8], attNames[9], attNames[10],
+                        attNames[1], attNames[2], attNames[3],
                         attNames[0]); // para el where
                 prepSentencia = mydb.prepareStatement(sentencia);
 
-                prepSentencia.setInt(1, espectaculo.getNumero());
-                prepSentencia.setString(2, espectaculo.getNombre());
-                prepSentencia.setInt(3, espectaculo.getAforo());
-                prepSentencia.setString(4, espectaculo.getDescripcion());
-                prepSentencia.setString(5, espectaculo.getLugar());
-                prepSentencia.setDouble(6, espectaculo.getCoste());
-                prepSentencia.setString(7, espectaculo.getFecha());
-                prepSentencia.setString(8, espectaculo.getHorario());
-                prepSentencia.setBoolean(9, espectaculo.getBaja());
-                prepSentencia.setInt(10, espectaculo.getIdResponsable());
+                prepSentencia.setInt(1, inscripcion.getIdCliente());
+                prepSentencia.setInt(2, inscripcion.getIdInscripcion());
+                prepSentencia.setString(3, inscripcion.getFecha());
 
-                prepSentencia.setInt(11, espectaculo.getIdEspectaculo()); // para el where
+                prepSentencia.setInt(11, inscripcion.getIdInscripcion()); // para el where
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Actualización");
 
@@ -165,30 +148,23 @@ public class ControladorEspectaculo {
         }         // DB4o
         else {
             try {
-                //Recuperamos todos los objetos Espectaculo con el mismo Id
-                ObjectSet<Espectaculo> espectaculosOS = myObjCont.query(
+                //Recuperamos todos los objetos Inscripcion con el mismo Id
+                ObjectSet<Inscripcion> inscripcionesOS = myObjCont.query(
                         new Predicate<>() {
                             @Override
-                            public boolean match(Espectaculo e) {
-                                return e.getIdEspectaculo() == (espectaculo.getIdEspectaculo());
+                            public boolean match(Inscripcion e) {
+                                return e.getIdInscripcion() == (inscripcion.getIdInscripcion());
                             }
                         });
                 // Si solo hay uno..que solo debería haber 1 lo almacenamos
-                if (espectaculosOS.size() == 1) {
-                    //Recojemos el empleado de la BBDD
-                    Espectaculo e = espectaculosOS.next();
+                if (inscripcionesOS.size() == 1) {
+                    //Recojemos la inscripcion de la BBDD
+                    Inscripcion e = inscripcionesOS.next();
                     //modificamos todos sus campos por los nuevos..excepto el id
 
-                    e.setNumero(espectaculo.getNumero());
-                    e.setNombre(espectaculo.getNombre());
-                    e.setAforo(espectaculo.getAforo());
-                    e.setDescripcion(espectaculo.getDescripcion());
-                    e.setLugar(espectaculo.getLugar());
-                    e.setCoste(espectaculo.getCoste());
-                    e.setFecha(espectaculo.getFecha());
-                    e.setHorario(espectaculo.getHorario());
-                    e.setBaja(espectaculo.getBaja());
-                    e.setIdResponsable(espectaculo.getIdResponsable());
+                    e.setIdCliente(inscripcion.getIdCliente());
+                    e.setIdInscripcion(inscripcion.getIdInscripcion());
+                    e.setFecha(inscripcion.getFecha());
 
                     //almacenamos el empleado
                     myObjCont.store(e);
@@ -205,15 +181,15 @@ public class ControladorEspectaculo {
     }
 
     /**
-     * Funcion que devuelve todos los objetos espectaculos en una lista
+     * Funcion que devuelve todos los objetos inscripciones en una lista
      * * valores posibles:
      *
      * @param
      * @return arraylist de clientes
      */
-    public List<Espectaculo> selectAll() {
+    public List<Inscripcion> selectAll() {
 
-        List<Espectaculo> espectaculos = new ArrayList<>();
+        List<Inscripcion> inscripciones = new ArrayList<>();
 
         if (tipoDb != DBController.DBTypes.DB4o) {
 
@@ -226,22 +202,14 @@ public class ControladorEspectaculo {
 
                 while (rs.next()) {
 
-                    Espectaculo espectaculoNew = new Espectaculo();
+                    Inscripcion inscripcionNew = new Inscripcion();
 
-                    espectaculoNew.setIdEspectaculo(rs.getInt(attNames[0]));
-                    espectaculoNew.setNumero(rs.getInt(attNames[1]));
-                    espectaculoNew.setNombre(rs.getString(attNames[2]));
-                    espectaculoNew.setAforo(rs.getInt(attNames[3]));
-                    espectaculoNew.setDescripcion(rs.getString(attNames[4]));
-                    espectaculoNew.setLugar(rs.getString(attNames[5]));
-                    espectaculoNew.setCoste(rs.getDouble(attNames[6]));
-                    espectaculoNew.setFecha(rs.getString(attNames[7]));
-                    espectaculoNew.setHorario(rs.getString(attNames[8]));
-                    espectaculoNew.setBaja(rs.getBoolean(attNames[9]));
-                    espectaculoNew.setIdResponsable(rs.getInt(attNames[10]));
+                    inscripcionNew.setIdInscripcion(rs.getInt(attNames[0]));
+                    inscripcionNew.setIdCliente(rs.getInt(attNames[1]));
+                    inscripcionNew.setIdEspectaculo(rs.getInt(attNames[2]));
+                    inscripcionNew.setFecha(rs.getString(attNames[3]));
 
-
-                    espectaculos.add(espectaculoNew);
+                    inscripciones.add(inscripcionNew);
                 }
 
                 //cierro la sentencia
@@ -256,12 +224,12 @@ public class ControladorEspectaculo {
         }         // DB4o
         else {
             try {
-                //Recuperamos todos los objetos Espectaculo
-                ObjectSet<Espectaculo> espectaculosOS = myObjCont.queryByExample(new Espectaculo());
-                // Si tenemos espectaculos recorremos el Resultado para incorporar los objetos a la lista
-                if (espectaculosOS.size() > 0) {
-                    while (espectaculosOS.hasNext())
-                        espectaculos.add(espectaculosOS.next());
+                //Recuperamos todos los objetos Inscripcion
+                ObjectSet<Inscripcion> inscripcionesOS = myObjCont.queryByExample(new Inscripcion());
+                // Si tenemos inscripciones recorremos el Resultado para incorporar los objetos a la lista
+                if (inscripcionesOS.size() > 0) {
+                    while (inscripcionesOS.hasNext())
+                        inscripciones.add(inscripcionesOS.next());
                 }
             } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
                 e.printStackTrace();
@@ -269,19 +237,19 @@ public class ControladorEspectaculo {
         }
 
 
-        return espectaculos;
+        return inscripciones;
     }
 
     /**
-     * Funcion que recibe el id de un espectaculo y devuelve el objeto espectaculo
+     * Funcion que recibe el id de un inscripcion y devuelve el objeto inscripcion
      * valores posibles:
      *
      * @param id
      * @return objeto cliente
      */
-    public Espectaculo selectById(int id) {
+    public Inscripcion selectById(int id) {
 
-        Espectaculo espectaculoNew = new Espectaculo();
+        Inscripcion inscripcionNew = new Inscripcion();
 
         if (tipoDb != DBController.DBTypes.DB4o) {
             try {
@@ -294,17 +262,10 @@ public class ControladorEspectaculo {
 
 
                 while (rs.next()) {
-                    espectaculoNew.setIdEspectaculo(rs.getInt(attNames[0]));
-                    espectaculoNew.setNumero(rs.getInt(attNames[1]));
-                    espectaculoNew.setNombre(rs.getString(attNames[2]));
-                    espectaculoNew.setAforo(rs.getInt(attNames[3]));
-                    espectaculoNew.setDescripcion(rs.getString(attNames[4]));
-                    espectaculoNew.setLugar(rs.getString(attNames[5]));
-                    espectaculoNew.setCoste(rs.getDouble(attNames[6]));
-                    espectaculoNew.setFecha(rs.getString(attNames[7]));
-                    espectaculoNew.setHorario(rs.getString(attNames[8]));
-                    espectaculoNew.setBaja(rs.getBoolean(attNames[9]));
-                    espectaculoNew.setIdResponsable(rs.getInt(attNames[10]));
+                    inscripcionNew.setIdInscripcion(rs.getInt(attNames[0]));
+                    inscripcionNew.setIdCliente(rs.getInt(attNames[1]));
+                    inscripcionNew.setIdInscripcion(rs.getInt(attNames[2]));
+                    inscripcionNew.setFecha(rs.getString(attNames[3]));
 
                 }
 
@@ -319,20 +280,20 @@ public class ControladorEspectaculo {
         }  // DB4o
         else {
             try {
-                //Recuperamos todos los objetos espectaculo con el mismo Id que el indicado
-                Espectaculo espBuscado = new Espectaculo();
-                espBuscado.setIdEspectaculo(id);
-                ObjectSet<Espectaculo> espectaculosOS = myObjCont.queryByExample(espBuscado);
+                //Recuperamos todos los objetos inscripcion con el mismo Id que el indicado
+                Inscripcion espBuscado = new Inscripcion();
+                espBuscado.setIdInscripcion(id);
+                ObjectSet<Inscripcion> inscripcionesOS = myObjCont.queryByExample(espBuscado);
                 // Si solo hay uno..que solo debería haber 1 lo devolvemos
-                if (espectaculosOS.size() == 1) {
-                    espectaculoNew = espectaculosOS.next();
+                if (inscripcionesOS.size() == 1) {
+                    inscripcionNew = inscripcionesOS.next();
                 }
             } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
                 e.printStackTrace();
             }
         }
 
-        return espectaculoNew;
+        return inscripcionNew;
     }
 
     /**
@@ -380,7 +341,7 @@ public class ControladorEspectaculo {
 
     }
 
-    public HashMap<String, String> validaciones(Espectaculo espectaculo) {
+    public HashMap<String, String> validaciones(Inscripcion inscripcion) {
 
         HashMap<String, String> errores = new HashMap<>();
 
@@ -390,6 +351,5 @@ public class ControladorEspectaculo {
 
         return errores;
     }
-
-
+    
 }

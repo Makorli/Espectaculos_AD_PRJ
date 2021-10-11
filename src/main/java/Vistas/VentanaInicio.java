@@ -37,12 +37,15 @@ public class VentanaInicio {
         // Items a agregar a cada menu.
         JMenuItem itemNuevoCliente = new JMenuItem("Nuevo");
         JMenuItem itemModificarCliente = new JMenuItem("Modificar");
+        JMenuItem itemListarClientes = new JMenuItem("Listados");
 
         JMenuItem itemNuevoEmpleado = new JMenuItem("Nuevo");
         JMenuItem itemModificarEmpleado = new JMenuItem("Modificar");
+        JMenuItem itemListarEmpleados = new JMenuItem("Listados");
 
         JMenuItem itemNuevoEspectaculo = new JMenuItem("Nuevo");
         JMenuItem itemModificarEspectaculo = new JMenuItem("Modificar");
+        JMenuItem itemListarEspectaculos = new JMenuItem("Listados");
 
         JMenuItem itemInscribirse = new JMenuItem("Inscripción");
         JMenuItem itemMostrarTodasInscripciones = new JMenuItem("Mostrar inscripciones");
@@ -54,12 +57,15 @@ public class VentanaInicio {
         // Aqui añadimos el item a cada menu.
         MenuEmpleados.add(itemNuevoEmpleado);
         MenuEmpleados.add(itemModificarEmpleado);
+        MenuEmpleados.add(itemListarEmpleados);
 
         MenuClientes.add(itemNuevoCliente);
         MenuClientes.add(itemModificarCliente);
+        MenuClientes.add(itemListarClientes);
 
         MenuEspectaculos.add(itemNuevoEspectaculo);
         MenuEspectaculos.add(itemModificarEspectaculo);
+        MenuEspectaculos.add(itemListarEspectaculos);
 
         MenuInscripciones.add(itemInscribirse);
         MenuInscripciones.add(itemMostrarTodasInscripciones);
@@ -184,7 +190,7 @@ public class VentanaInicio {
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
             }
         });
-        
+
         itemInscribirse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

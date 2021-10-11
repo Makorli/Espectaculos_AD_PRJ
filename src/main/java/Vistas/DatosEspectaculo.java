@@ -63,12 +63,23 @@ public class DatosEspectaculo {
 
                 Empleado responsable = (Empleado) cbResponsable.getSelectedItem();
 
-                Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt(txtNumero.getText()), txtNombre.getText(),
+                /*Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt(txtNumero.getText()), txtNombre.getText(),
                         (Integer) spnAforo.getValue(), txtDescripcion.getText(),
                         txtLugar.getText(), Double.parseDouble(txtCoste.getText()), txtFecha.getText(),
                         txtHorario.getText(), cbBaja.isSelected(),
                         responsable.getIdEmpleado()
-                );
+                );*/
+                Espectaculo espectaculo = new Espectaculo();
+                espectaculo.setNumero(Integer.parseInt(txtNumero.getText()));
+                espectaculo.setNombre(txtNombre.getText());
+                espectaculo.setAforo((Integer) spnAforo.getValue());
+                espectaculo.setDescripcion(txtDescripcion.getText());
+                espectaculo.setLugar(txtLugar.getText());
+                espectaculo.setCoste(Double.parseDouble(txtCoste.getText()));
+                espectaculo.setFecha(txtFecha.getText());
+                espectaculo.setHorario(txtHorario.getText());
+                espectaculo.setBaja(cbBaja.isSelected());
+                espectaculo.setIdResponsable(responsable.getIdEmpleado());
 
 
                 if (cc.validaciones(espectaculo).size() == 0) {
