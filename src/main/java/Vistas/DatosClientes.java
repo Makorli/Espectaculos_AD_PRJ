@@ -79,7 +79,7 @@ public class DatosClientes {
                 cliente.setBaja(cbBaja.isSelected());
 
 
-                if (cc.validaciones(cliente).size() == 0) {
+                if (cc.validaciones(cliente)== null) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
 
                         cliente.setBaja(false);

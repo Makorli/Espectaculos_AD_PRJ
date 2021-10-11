@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Cliente;
@@ -339,15 +340,25 @@ public class ControladorCliente {
 
     }
 
-    public HashMap<String, String> validaciones(Cliente cliente) {
+    public String  validaciones(Cliente cliente) {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        //codigoo
-        //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
-        //comprobar que antes de guardar se han pasado todos los datos necesarios, DNI, NOMBRE Y APELLIDOS SON NOT NULL
+        // codigoooo
 
-        return errores;
+        //Utilizamos esta variable para guardar el mensaje de error.
+        StringBuilder texto = new StringBuilder();
+
+        if (errores.size() > 0) {
+            for (Map.Entry<String, String> entry : errores.entrySet()) {
+                String k = entry.getKey();
+                String v = entry.getValue();
+                texto.append(v + "\n");
+            }
+            return texto.toString();
+        } else {
+            return null;
+        }
     }
 
 }

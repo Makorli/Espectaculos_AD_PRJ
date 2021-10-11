@@ -1,5 +1,6 @@
 package Controllers;
 
+import Miscelaneous.DateValidatorByDateTimeFormatter;
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Empleado;
 import Modelos.Espectaculo;
@@ -13,9 +14,11 @@ import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.query.Predicate;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ControladorEmpleado {
 
@@ -367,13 +370,74 @@ public class ControladorEmpleado {
 
     }
 
-    public HashMap<String, String> validaciones(Empleado empleado) {
+    public String validaciones(Empleado empleado) {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        //codigoo
+        if (empleado.getDni().length() > 9 || empleado.getDni().equals("")) {
+            if (empleado.getDni().length() > 9) {
+                errores.put("DNI", "El DNI excede en longitud. MAX 9.");
+            } else {
+                errores.put("DNI", "El DNI no puede estar vacio.");
+            }
 
-        return errores;
+        }
+        if (empleado.getNombre().length() > 40 || empleado.getNombre().equals("")) {
+            if (empleado.getNombre().length() > 40) {
+                errores.put("Nombre", "El nombre excede en longitud. MAX 40.");
+            } else {
+                errores.put("Nombre", "El nombre no puede estar vacio.");
+            }
+
+        }
+        if (empleado.getApellidos().length() > 40 || empleado.getApellidos().equals("")) {
+            if (empleado.getApellidos().length() > 40) {
+                errores.put("Apellidos", "El apellido excede en longitud. MAX 40.");
+            } else {
+                errores.put("Apellidos", "El apellido no puede estar vacio.");
+            }
+
+        }
+
+
+        // Validar la fecha tanto de contratación como naciemiento, utilizamos la clase DateValidatorByDateTimeFormateer.java
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (!empleado.getFechaContratacion().equals("")) {
+            DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
+            if (!(d.isValid(empleado.getFechaContratacion()))) {
+                errores.put("FechaContratacion", "La fecha de contratación no es correcta (dd/mm/yyyy).");
+            }
+        }
+
+
+        if (!empleado.getFechaNacimiento().equals("")) {
+            DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
+            if (!(d.isValid(empleado.getFechaNacimiento()))) {
+                errores.put("FechaNacimiento", "La fecha de nacimiento no es correcta (dd/mm/yyyy).");
+            }
+        }
+
+        if (empleado.getNacionalidad().length() > 40) {
+            errores.put("Nacionalidad", "La nacionalidad excede en longitud. MAX 40.");
+        }
+
+
+        //Utilizamos esta variable para guardar el mensaje de error.
+        StringBuilder texto = new StringBuilder();
+
+        if (errores.size() > 0) {
+            for (Map.Entry<String, String> entry : errores.entrySet()) {
+                String k = entry.getKey();
+                String v = entry.getValue();
+                texto.append(v + "\n");
+            }
+            return texto.toString();
+        } else {
+            return null;
+        }
+
     }
+
 
 }

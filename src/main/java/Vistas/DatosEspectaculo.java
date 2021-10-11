@@ -82,7 +82,7 @@ public class DatosEspectaculo {
                 espectaculo.setIdResponsable(responsable.getIdEmpleado());
 
 
-                if (cc.validaciones(espectaculo).size() == 0) {
+                if (cc.validaciones(espectaculo)== null) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
 
                         espectaculo.setBaja(false);

@@ -65,41 +65,38 @@ public class DatosEmpleado {
                 empleado.setCargo(Objects.requireNonNull(cbCargo.getSelectedItem()).toString());
                 empleado.setBaja(cbBaja.isSelected());
 
-                if (cc.validaciones(empleado).size()==0) {
+                if (cc.validaciones(empleado) == null) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
-
                         empleado.setBaja(false);
-
                         if (cc.add(empleado)) {
                             JOptionPane.showMessageDialog(null, "Inserción correcta",
                                     "Resultado", JOptionPane.INFORMATION_MESSAGE
                             );
-
                             autoDestroy();
-
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
-                            );
                         }
 
+                        //incorpora MJ verificacion
+                        /*else {
+                            JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
+                            );
+                        }*/
+
                     } else { //modificar --update
-
                         empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
-
                         if (cc.update(empleado)) {
                             JOptionPane.showMessageDialog(null, "Modificacion correcta",
                                     "Resultado", JOptionPane.INFORMATION_MESSAGE
                             );
-
                             autoDestroy();
-
-                        } else {
+                        }
+                        //incorpora MJ verificacion
+                        /* else {
                             JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
-                        }
-
+                        }*/
                     }
                 } else {
+                    String texto = cc.validaciones(empleado);
                     JOptionPane.showMessageDialog(null, "Error - Verifica los datos de entrada", "Resultado", JOptionPane.ERROR_MESSAGE
                     );
 

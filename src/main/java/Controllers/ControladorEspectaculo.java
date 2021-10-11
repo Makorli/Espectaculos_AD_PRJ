@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ControladorEspectaculo {
 
@@ -380,16 +381,26 @@ public class ControladorEspectaculo {
 
     }
 
-    public HashMap<String, String> validaciones(Espectaculo espectaculo) {
+
+    public String  validaciones(Espectaculo espectaculo) {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        //codigoo
-        //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
-        //comprobar que antes de guardar se han pasado todos los datos necesarios, NUMERO, NOMBRE Y AFORO SON NOT NULL
+        // codigoooo
 
-        return errores;
+        //Utilizamos esta variable para guardar el mensaje de error.
+        StringBuilder texto = new StringBuilder();
+
+        if (errores.size() > 0) {
+            for (Map.Entry<String, String> entry : errores.entrySet()) {
+                String k = entry.getKey();
+                String v = entry.getValue();
+                texto.append(v + "\n");
+            }
+            return texto.toString();
+        } else {
+            return null;
+        }
     }
-
 
 }
