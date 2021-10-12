@@ -131,11 +131,13 @@ public class VentanaInicio {
         itemListarClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListadoClientesEnEspectaculos listarClienteEspectaculo = new ListadoClientesEnEspectaculos();
+                ListadoClientes listadoClientes = new ListadoClientes();
+                cc = new ControladorCliente();
+                listadoClientes.mostrarClientes(cc.selectAll());
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
-                mostrarPanel(listarClienteEspectaculo.getJPMostrarClienteEspectaculo());
+                mostrarPanel(listadoClientes.getJPListadoClientes());
             }
         });
 

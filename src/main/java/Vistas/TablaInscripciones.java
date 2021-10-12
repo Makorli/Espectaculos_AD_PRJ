@@ -20,7 +20,6 @@ public class TablaInscripciones extends AbstractTableModel {
     }
 
     public TablaInscripciones(List<Inscripcion> inscripciones, List<Cliente> clientes, List<Espectaculo> espectaculos) {
-        inscripcionesT = new ArrayList<>();
 
         inscripcionesT = inscripciones;
         clientesT = clientes;
