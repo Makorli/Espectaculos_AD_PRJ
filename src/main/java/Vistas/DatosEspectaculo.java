@@ -191,6 +191,7 @@ public class DatosEspectaculo {
             }
         });
 
+        // Validacion de campos numericos Numero y Coste.
         txtNumero.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -262,7 +263,6 @@ public class DatosEspectaculo {
         cbResponsable.setModel(defaultComboBoxModel);
         cbResponsable.setRenderer(new responsableListCellRenderer());
     }
-
 
     private class responsableListCellRenderer extends DefaultListCellRenderer {
 
