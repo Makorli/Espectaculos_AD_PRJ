@@ -25,7 +25,6 @@ public class TablaInscripciones extends AbstractTableModel {
         clientesT = clientes;
         espectaculosT = espectaculos;
 
-
     }
 
 

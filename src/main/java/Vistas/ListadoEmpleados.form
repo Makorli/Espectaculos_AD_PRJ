@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vistas.ListadoEmpleados">
+  <grid id="27dc6" binding="JPGeneral" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="20" y="20" width="765" height="759"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="9f534" class="javax.swing.JLabel" binding="lbTituloParque">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="5" height="5"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16445119"/>
+          <font size="26" style="1"/>
+          <foreground color="-4473925"/>
+          <horizontalAlignment value="0"/>
+          <text value="Paque RioGrande en Fuensencilla de Torredolones"/>
+        </properties>
+      </component>
+      <grid id="238df" binding="JPListadoEmpleados" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="1000" height="500"/>
+            <maximum-size width="5000" height="5000"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="7b4e7" class="javax.swing.JList" binding="lstEmpleados">
+            <constraints>
+              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+                <maximum-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="b74f6" class="javax.swing.JButton" binding="btnVolver">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Volver"/>
+            </properties>
+          </component>
+          <grid id="1c34d" binding="JPEmpleado" layout-manager="GridLayoutManager" row-count="12" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="24fb1" class="javax.swing.JLabel" binding="lbIdEmpleado">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="idEmpleado"/>
+                </properties>
+              </component>
+              <component id="5a187" class="javax.swing.JLabel" binding="lbNombre">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="82" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Nombre"/>
+                </properties>
+              </component>
+              <component id="6f9f5" class="javax.swing.JLabel" binding="lbApellidos">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="82" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Apellidos"/>
+                </properties>
+              </component>
+              <component id="55e29" class="javax.swing.JLabel" binding="lbNacionalidad">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="82" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Nacionalidad"/>
+                </properties>
+              </component>
+              <component id="d29e6" class="javax.swing.JLabel" binding="lbDni">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="DNI"/>
+                </properties>
+              </component>
+              <component id="42f22" class="javax.swing.JLabel" binding="lbFechaNacimiento">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Fecha Nacimiento"/>
+                </properties>
+              </component>
+              <component id="49d4d" class="javax.swing.JLabel" binding="lbFechaContratacion">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Fecha Contratación"/>
+                </properties>
+              </component>
+              <component id="f0ad7" class="javax.swing.JLabel" binding="lbCargo">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Cargo"/>
+                </properties>
+              </component>
+              <component id="2e0f7" class="javax.swing.JLabel" binding="lbBaja">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Baja"/>
+                </properties>
+              </component>
+              <component id="7a071" class="javax.swing.JCheckBox" binding="cbBaja">
+                <constraints>
+                  <grid row="9" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <selected value="false"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="b30fb" class="javax.swing.JComboBox" binding="cbCargo">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Jefe Area"/>
+                    <item value="Acrobata"/>
+                    <item value="Mago"/>
+                    <item value="Responsable atracción"/>
+                    <item value="Taquillero"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="a083d" class="javax.swing.JLabel" binding="lbEmpleado">
+                <constraints>
+                  <grid row="11" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="20" style="1"/>
+                  <text value="EMPLEADO"/>
+                </properties>
+              </component>
+              <component id="fd3b9" class="javax.swing.JTextField" binding="txtDni">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="7095d" class="javax.swing.JTextField" binding="txtFechaNacimiento">
+                <constraints>
+                  <grid row="5" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="4232b" class="javax.swing.JTextField" binding="txtNombre">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="163da" class="javax.swing.JTextField" binding="txtApellidos">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="d88d5" class="javax.swing.JTextField" binding="txtNacionalidad">
+                <constraints>
+                  <grid row="3" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="b462e" class="javax.swing.JTextField" binding="txtFechaContratacion">
+                <constraints>
+                  <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
