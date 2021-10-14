@@ -1,5 +1,6 @@
 package Controllers;
 
+import Miscelaneous.DateValidatorByDateTimeFormatter;
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Inscripcion;
 import Vistas.ArrancarPrograma;
@@ -10,9 +11,11 @@ import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.query.Predicate;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ControladorInscripciones {
 
@@ -60,13 +63,23 @@ public class ControladorInscripciones {
 
         if (tipoDb != DBController.DBTypes.DB4o) {
 
+            /***He modificado los parameterindex de inscripcion para que entrara bien en la base de datos de sqlite
+             * los campos están:
+             * idClient
+             * idEspectaculo
+             * fecha
+             * idInscripcion
+             *
+             * **/
+
+
             try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
-                prepSentencia.setString(1, null);
-                prepSentencia.setInt(2, inscripcion.getIdCliente());
-                prepSentencia.setInt(3, inscripcion.getIdInscripcion());
-                prepSentencia.setString(4, inscripcion.getFecha());
+                prepSentencia.setString(4, null);
+                prepSentencia.setInt(1, inscripcion.getIdCliente());
+                prepSentencia.setInt(2, inscripcion.getIdEspectaculo());
+                prepSentencia.setString(3, inscripcion.getFecha());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
@@ -341,15 +354,32 @@ public class ControladorInscripciones {
 
     }
 
-    public HashMap<String, String> validaciones(Inscripcion inscripcion) {
+
+    public String  validaciones(Inscripcion inscripcion) {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        //codigoo
-        //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
-        //comprobar que antes de guardar se han pasado todos los datos necesarios, NUMERO, NOMBRE Y AFORO SON NOT NULL
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (!inscripcion.getFecha().equals("")) {
+            DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
+            if (!(d.isValid(inscripcion.getFecha()))) {
+                errores.put("Fecha", "La fecha de inscripcion no es correcta (dd/mm/yyyy).");
+            }
+        }
 
-        return errores;
+        //Utilizamos esta variable para guardar el mensaje de error.
+        StringBuilder texto = new StringBuilder();
+
+        if (errores.size() > 0) {
+            for (Map.Entry<String, String> entry : errores.entrySet()) {
+                String k = entry.getKey();
+                String v = entry.getValue();
+                texto.append(v + "\n");
+            }
+            return texto.toString();
+        } else {
+            return null;
+        }
     }
-    
+
 }

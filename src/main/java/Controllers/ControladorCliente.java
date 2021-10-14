@@ -1,21 +1,21 @@
 package Controllers;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import Miscelaneous.DateValidatorByDateTimeFormatter;
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Cliente;
-import Modelos.IDHolder;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.events.EventRegistry;
-import com.db4o.events.EventRegistryFactory;
 import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.query.Predicate;
+
+import java.sql.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ControladorCliente {
 
@@ -339,15 +339,62 @@ public class ControladorCliente {
 
     }
 
-    public HashMap<String, String> validaciones(Cliente cliente) {
+    public String  validaciones(Cliente cliente) {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        //codigoo
-        //comprobar que antes de dar a modificarse ha seleccionado algun cliente, ACTUALMENTE CASCA EN MODIFICAR PUES NO CONTEMPLAMOS UQE NO SE SELECCIONE NADIE
-        //comprobar que antes de guardar se han pasado todos los datos necesarios, DNI, NOMBRE Y APELLIDOS SON NOT NULL
+        if (cliente.getDni().length() > 9 || cliente.getDni().equals("")) {
+            if (cliente.getDni().length() > 9) {
+                errores.put("DNI", "El DNI excede en longitud. MAX 9.");
+            } else {
+                errores.put("DNI", "El DNI no puede estar vacio.");
+            }
 
-        return errores;
+        }
+        if (cliente.getNombre().length() > 40 || cliente.getNombre().equals("")) {
+            if (cliente.getNombre().length() > 40) {
+                errores.put("Nombre", "El nombre excede en longitud. MAX 40.");
+            } else {
+                errores.put("Nombre", "El nombre no puede estar vacio.");
+            }
+
+        }
+        if (cliente.getApellidos().length() > 40 || cliente.getApellidos().equals("")) {
+            if (cliente.getApellidos().length() > 40) {
+                errores.put("Apellidos", "El apellido excede en longitud. MAX 40.");
+            } else {
+                errores.put("Apellidos", "El apellido no puede estar vacio.");
+            }
+
+        }
+
+
+        // Validar la fecha tanto de contratación como naciemiento, utilizamos la clase DateValidatorByDateTimeFormateer.java
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+
+
+        if (!cliente.getFechaNacimiento().equals("")) {
+            DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
+            if (!(d.isValid(cliente.getFechaNacimiento()))) {
+                errores.put("FechaNacimiento", "La fecha de nacimiento no es correcta (dd/mm/yyyy).");
+            }
+        }
+
+        //Utilizamos esta variable para guardar el mensaje de error.
+        StringBuilder texto = new StringBuilder();
+
+        if (errores.size() > 0) {
+            for (Map.Entry<String, String> entry : errores.entrySet()) {
+                String k = entry.getKey();
+                String v = entry.getValue();
+                texto.append(v + "\n");
+            }
+            return texto.toString();
+        } else {
+            return null;
+        }
     }
 
 }

@@ -106,14 +106,15 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
      */
     @Override
     public String toString() {
-        return "\"Modelos.Cliente --> " +
+       /* return "\"Modelos.Cliente --> " +
                 "idCliente=" + idCliente +
                 ", dni='" + dni + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", baja=" + baja +
-                '}';
+                '}';*/
+       return nombre + " " + apellidos + " " + dni;
     }
 
 
