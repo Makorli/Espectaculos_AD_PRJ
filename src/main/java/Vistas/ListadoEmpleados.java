@@ -1,7 +1,9 @@
 package Vistas;
 
-import Modelos.Cliente;
+import Controllers.ControladorEspectaculo;
 import Modelos.Empleado;
+import Modelos.Espectaculo;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,41 +12,28 @@ import java.util.List;
 
 public class ListadoEmpleados {
     private JPanel JPGeneral, JPListadoEmpleados;
-    private JLabel lbTituloParque;
     private JList<Empleado> lstEmpleados;
     private JButton btnVolver;
     private JPanel JPEmpleado;
-    private JLabel lbIdEmpleado;
-    private JLabel lbNombre;
-    private JLabel lbApellidos;
-    private JLabel lbNacionalidad;
-    private JLabel lbDni;
-    private JLabel lbFechaNacimiento;
-    private JLabel lbFechaContratacion;
-    private JLabel lbCargo;
-    private JLabel lbBaja;
-    private JCheckBox cbBaja;
-    private JComboBox cbCargo;
-    private JTextField txtNombre;
-    private JTextField txtApellidos;
-    private JTextField txtNacionalidad;
-    private JTextField txtDni;
-    private JTextField txtFechaNacimiento;
-    private JTextField txtFechaContratacion;
-    private JLabel lbEmpleado;
-    private DatosEmpleado datosEmpleado ;
+    private JLabel lbTituloParque, lbEmpleado, lbNombre, lbApellidos, lbNacionalidad, lbDni, lbFechaNacimiento, lbFechaContratacion, lbCargo;
+    private JTextField txtCargo, txtNombre, txtApellidos, txtNacionalidad, txtFechaNacimiento, txtDni, txtFechaContratacion;
+    private JList lstResponsableEspectaculos;
+    private ControladorEspectaculo cs=new ControladorEspectaculo();
 
     public ListadoEmpleados() {
 
         lstEmpleados.addListSelectionListener(e -> {
 
-            lbNombre.setText(lstEmpleados.getSelectedValue().getNombre());
-            lbApellido.setText(lstClientes.getSelectedValue().getApellidos());
-            lbFechaNacimiento.setText(lstClientes.getSelectedValue().getFechaNacimiento());
-            lbDni.setText(lstClientes.getSelectedValue().getDni());
 
-            mostrarEmpleado(lstEmpleados.getSelectedValue().getIdEmpleado());
+            txtNombre.setText(lstEmpleados.getSelectedValue().getNombre());
+            txtApellidos.setText(lstEmpleados.getSelectedValue().getApellidos());
+            txtFechaNacimiento.setText(lstEmpleados.getSelectedValue().getFechaNacimiento());
+            txtDni.setText(lstEmpleados.getSelectedValue().getDni());
+            txtCargo.setText(lstEmpleados.getSelectedValue().getCargo());
+            txtNacionalidad.setText(lstEmpleados.getSelectedValue().getNacionalidad());
+            txtFechaContratacion.setText(lstEmpleados.getSelectedValue().getFechaContratacion());
 
+            mostrarEspectaculosResponsable(lstEmpleados.getSelectedValue().getIdEmpleado());
 
         });
 
@@ -58,18 +47,35 @@ public class ListadoEmpleados {
 
     }
 
-    private void mostrarEmpleado(int idEmpleado) {
 
-        JPEmpleado = datosEmpleado.getJPEmpleados();
+
+
+    public void mostrarEspectaculosResponsable(int idEmpleado){
+
+        DefaultListModel<Espectaculo> modelo = new DefaultListModel<>();
+
+        List<Espectaculo> espectaculos;
+        espectaculos = cs.selectAll();
+
+
+
+                for(Espectaculo e: espectaculos){
+                    if(e.getIdEspectaculo() == idEmpleado){
+                        modelo.addElement(e);
+                    }
+                }
+
+
+
+        lstResponsableEspectaculos.setModel(modelo);
+
 
     }
-
-
     public void mostrarEmpleados(List<Empleado> empleados) {
 
         DefaultListModel<Empleado> modelo = new DefaultListModel<>();
 
-        for (Empleado  empleado : empleados) {
+        for (Empleado empleado : empleados) {
             modelo.addElement(empleado);
         }
 
