@@ -1,5 +1,6 @@
 package Controllers;
 
+import Miscelaneous.DateValidatorByDateTimeFormatter;
 import Miscelaneous.IdentificadorDeClase;
 import Modelos.Inscripcion;
 import Vistas.ArrancarPrograma;
@@ -10,6 +11,7 @@ import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.query.Predicate;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +63,23 @@ public class ControladorInscripciones {
 
         if (tipoDb != DBController.DBTypes.DB4o) {
 
+            /***He modificado los parameterindex de inscripcion para que entrara bien en la base de datos de sqlite
+             * los campos están:
+             * idClient
+             * idEspectaculo
+             * fecha
+             * idInscripcion
+             *
+             * **/
+
+
             try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
-                prepSentencia.setString(1, null);
-                prepSentencia.setInt(2, inscripcion.getIdCliente());
-                prepSentencia.setInt(3, inscripcion.getIdInscripcion());
-                prepSentencia.setString(4, inscripcion.getFecha());
+                prepSentencia.setString(4, null);
+                prepSentencia.setInt(1, inscripcion.getIdCliente());
+                prepSentencia.setInt(2, inscripcion.getIdEspectaculo());
+                prepSentencia.setString(3, inscripcion.getFecha());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");
@@ -347,7 +359,13 @@ public class ControladorInscripciones {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        // codigoooo
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (!inscripcion.getFecha().equals("")) {
+            DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
+            if (!(d.isValid(inscripcion.getFecha()))) {
+                errores.put("Fecha", "La fecha de inscripcion no es correcta (dd/mm/yyyy).");
+            }
+        }
 
         //Utilizamos esta variable para guardar el mensaje de error.
         StringBuilder texto = new StringBuilder();

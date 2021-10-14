@@ -3,6 +3,7 @@ package Vistas;
 import Controllers.ControladorCliente;
 import Controllers.ControladorEmpleado;
 import Controllers.ControladorEspectaculo;
+import Controllers.ControladorInscripciones;
 import Modelos.Empleado;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class VentanaInicio {
     private ControladorEspectaculo cs;
     private ControladorEmpleado ce;
     private ControladorCliente cc;
+    private ControladorInscripciones ci;
     private JLabel lbTituloParque;
     private JPanel JPGeneral;
     private JPanel JPVacio;
@@ -126,6 +128,19 @@ public class VentanaInicio {
             }
         });
 
+        itemListarClientes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListadoClientes listadoClientes = new ListadoClientes();
+                cc = new ControladorCliente();
+                listadoClientes.mostrarClientes(cc.selectAll());
+
+                //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
+
+                mostrarPanel(listadoClientes.getJPListadoClientes());
+            }
+        });
+
         itemNuevoEmpleado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,6 +210,12 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosInscripciones nuevaInscripcion = new DatosInscripciones();
+                cs = new ControladorEspectaculo();
+                cc = new ControladorCliente();
+
+                nuevaInscripcion.mostrarClientes( cc.selectAll());
+                nuevaInscripcion.mostrarEspectaculos( cs.selectAll());
+
                 mostrarPanel(nuevaInscripcion.getJPInscripciones());
             }
         });
@@ -203,6 +224,8 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MostrarInscripciones mostrarInscripciones = new MostrarInscripciones();
+
+
                 mostrarPanel(mostrarInscripciones.getJPTodasInscripciones());
             }
         });

@@ -180,7 +180,7 @@ public class Espectaculo extends IDHolder {
      */
     @Override
     public String toString() {
-        return "Modelos.Espectaculo{" +
+        /*return "Modelos.Espectaculo{" +
                 "idEspectaculo=" + idEspectaculo +
                 ", numero=" + numero +
                 ", nombre='" + nombre + '\'' +
@@ -192,7 +192,8 @@ public class Espectaculo extends IDHolder {
                 ", horario='" + horario + '\'' +
                 ", baja=" + baja +
                 ", idResponsable=" + idResponsable +
-                '}';
+                '}';*/
+        return nombre + " " + lugar;
     }
 
 
@@ -221,4 +222,6 @@ public class Espectaculo extends IDHolder {
     public int hashCode() {
         return Objects.hash(idEspectaculo, numero, nombre);
     }
+
+
 }

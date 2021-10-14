@@ -4,7 +4,6 @@ import Controllers.ControladorEmpleado;
 import Modelos.Empleado;
 
 import javax.swing.*;
-import javax.xml.stream.FactoryConfigurationError;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -97,7 +96,7 @@ public class DatosEmpleado {
                     }
                 } else {
                     String texto = cc.validaciones(empleado);
-                    JOptionPane.showMessageDialog(null, "Error - Verifica los datos de entrada", "Resultado", JOptionPane.ERROR_MESSAGE
+                    JOptionPane.showMessageDialog(null, texto, "Resultado", JOptionPane.ERROR_MESSAGE
                     );
 
                 }

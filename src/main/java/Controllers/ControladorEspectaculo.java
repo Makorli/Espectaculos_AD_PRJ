@@ -1,6 +1,8 @@
 package Controllers;
 
+import Miscelaneous.DateValidatorByDateTimeFormatter;
 import Miscelaneous.IdentificadorDeClase;
+import Miscelaneous.TimeValidator;
 import Modelos.Espectaculo;
 import Vistas.ArrancarPrograma;
 import com.db4o.ObjectContainer;
@@ -10,6 +12,7 @@ import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.query.Predicate;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -382,11 +385,56 @@ public class ControladorEspectaculo {
     }
 
 
-    public String  validaciones(Espectaculo espectaculo) {
+    public String validaciones(Espectaculo espectaculo) {
 
         HashMap<String, String> errores = new HashMap<>();
 
-        // codigoooo
+        //Datos de tipo String
+        if (espectaculo.getNombre().length() > 40 || espectaculo.getNombre().equals("")) {
+            if (espectaculo.getNombre().length() > 40) {
+                errores.put("Nombre", "El nombre excede en longitud. MAX 40.");
+            } else {
+                errores.put("Nombre", "El nombre no puede estar vacio.");
+            }
+        }
+
+        if (espectaculo.getDescripcion().length() > 100 || espectaculo.getDescripcion().equals("")) {
+            if (espectaculo.getDescripcion().length() > 100) {
+                errores.put("Descripcion", "La descripción excede en longitud. MAX 100.");
+            } else {
+                errores.put("Descripcion", "La descripción no puede estar vacio.");
+            }
+        }
+
+        if (espectaculo.getLugar().length() > 40 || espectaculo.getLugar().equals("")) {
+            if (espectaculo.getLugar().length() > 40) {
+                errores.put("Lugar", "El lugar excede en longitud. MAX 40.");
+            } else {
+                errores.put("Lugar", "El lugar no puede estar vacio.");
+            }
+        }
+
+
+        //Datos de tipo fecha/horario
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (!espectaculo.getFecha().equals("")) {
+            DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
+            if (!(d.isValid(espectaculo.getFecha()))) {
+                errores.put("FechaEspectaculo", "La fecha del espectaculo no es correcta (dd/mm/yyyy).");
+            }
+        }
+
+        TimeValidator time = new TimeValidator();
+
+        if (!espectaculo.getHorario().equals("")) {
+
+            if (!(time.validate(espectaculo.getHorario()))) {
+                errores.put("Hora", "La hora del espectaculo no es correcta (hh:mm).");
+            }
+        }
+
+        //Datos de tipo int y double se controlan en la vista
 
         //Utilizamos esta variable para guardar el mensaje de error.
         StringBuilder texto = new StringBuilder();

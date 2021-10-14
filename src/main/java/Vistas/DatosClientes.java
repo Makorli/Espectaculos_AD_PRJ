@@ -91,10 +91,11 @@ public class DatosClientes {
 
                             autoDestroy();
 
-                        } else {
+                        }
+                        /*else {
                             JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
-                        }
+                        }*/
 
                     } else { //modificar --update
 
@@ -107,15 +108,19 @@ public class DatosClientes {
 
                             autoDestroy();
 
-                        } else {
+                        }/* else {
                             JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
                             );
-                        }
+                        }*/
 
 
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error - Verifica los datos de entrada", "Resultado", JOptionPane.ERROR_MESSAGE
+
+                    //En este string guardamos todos los errores, y lo mostramos.
+                    String texto = cc.validaciones(cliente);
+
+                    JOptionPane.showMessageDialog(null, texto, "Resultado", JOptionPane.ERROR_MESSAGE
                     );
 
                 }
