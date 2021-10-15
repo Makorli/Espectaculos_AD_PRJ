@@ -29,7 +29,8 @@ public class DatosInscripciones {
                 inscripcion.setIdCliente(lstClientes.getSelectedValue().getIdCliente());
                 inscripcion.setIdEspectaculo(lstEspectaculos.getSelectedValue().getIdEspectaculo());
                 inscripcion.setFecha(txtFechaInscripcion.getText());
-                System.out.println(txtFechaInscripcion.getText());
+
+
                 if(ci.validaciones(inscripcion) == null) {
                     if(ci.add(inscripcion)){
                         JOptionPane.showMessageDialog(null, "Inserción correcta",
