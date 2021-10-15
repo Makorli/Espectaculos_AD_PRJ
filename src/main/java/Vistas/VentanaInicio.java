@@ -219,6 +219,19 @@ public class VentanaInicio {
             }
         });
 
+        itemListarEspectaculos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListadoEspectaculos listadoEspectaculos = new ListadoEspectaculos();
+                cs = new ControladorEspectaculo();
+                listadoEspectaculos.mostrarEspectaculos(cs.selectAll());
+
+                //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
+
+                mostrarPanel(listadoEspectaculos.getJPListadoEspectaculo());
+            }
+        });
+
         itemInscribirse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
