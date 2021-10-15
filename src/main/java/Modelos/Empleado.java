@@ -3,7 +3,6 @@ package Modelos;
 import Controllers.ControladorEspectaculo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -140,7 +139,7 @@ public class Empleado extends IDHolder {
      */
     @Override
     public String toString() {
-        return "Modelos.Empleado-->" +
+/*        return "Modelos.Empleado-->" +
                 "idEmpleado=" + idEmpleado +
                 ", dni='" + dni + '\'' +
                 ", nombre='" + nombre + '\'' +
@@ -150,7 +149,8 @@ public class Empleado extends IDHolder {
                 ", nacionalidad='" + nacionalidad + '\'' +
                 ", cargo='" + cargo + '\'' +
                 ", baja=" + baja +
-                '}';
+                '}';*/
+        return nombre + " " + apellidos + " " + dni;
     }
 
     /**

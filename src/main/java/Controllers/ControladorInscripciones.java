@@ -76,10 +76,10 @@ public class ControladorInscripciones {
             try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
-                prepSentencia.setString(4, null);
-                prepSentencia.setInt(1, inscripcion.getIdCliente());
-                prepSentencia.setInt(2, inscripcion.getIdEspectaculo());
-                prepSentencia.setString(3, inscripcion.getFecha());
+                prepSentencia.setString(1, null);
+                prepSentencia.setInt(2, inscripcion.getIdCliente());
+                prepSentencia.setInt(3, inscripcion.getIdEspectaculo());
+                prepSentencia.setString(4, inscripcion.getFecha());
 
 
                 if (prepSentencia.executeUpdate() != 1) throw new Exception("Error en la Inserción");

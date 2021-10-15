@@ -169,6 +169,19 @@ public class VentanaInicio {
             }
         });
 
+        itemListarEmpleados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListadoEmpleados listadoEmpleados = new ListadoEmpleados();
+                ce = new ControladorEmpleado();
+                listadoEmpleados.mostrarEmpleados(ce.selectAll());
+
+                //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
+
+                mostrarPanel(listadoEmpleados.getJPListadoEmpleados());
+            }
+        });
+
         itemNuevoEspectaculo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DatosEspectaculo nuevoEspectaculo = new DatosEspectaculo();
@@ -203,6 +216,19 @@ public class VentanaInicio {
                 modificarEspectaculo.loadCbResponsable(ce.selectAll());
 
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
+            }
+        });
+
+        itemListarEspectaculos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListadoEspectaculos listadoEspectaculos = new ListadoEspectaculos();
+                cs = new ControladorEspectaculo();
+                listadoEspectaculos.mostrarEspectaculos(cs.selectAll());
+
+                //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
+
+                mostrarPanel(listadoEspectaculos.getJPListadoEspectaculo());
             }
         });
 
