@@ -296,6 +296,10 @@ public class VentanaInicio {
 
     }
 
+    public void setLbTituloParque(String lbTituloParque) {
+        this.lbTituloParque.setText(lbTituloParque);
+    }
+
     public JPanel getJPGeneral() {
         return JPGeneral;
     }

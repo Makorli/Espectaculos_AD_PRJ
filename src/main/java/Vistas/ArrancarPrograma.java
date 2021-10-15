@@ -1,16 +1,12 @@
 package Vistas;
 
 import Controllers.DBController;
-import com.db4o.ObjectContainer;
-
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class ArrancarPrograma {
 
@@ -59,6 +55,7 @@ public class ArrancarPrograma {
                 * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
                 **/
+                vi.setLbTituloParque("jasdklfjalsdfs");
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
@@ -86,6 +83,9 @@ public class ArrancarPrograma {
                  * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
                  **/
+
+               vi.setLbTituloParque("jasdklfjalsdfs");
+
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
@@ -116,6 +116,7 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
                 //f.setContentPane(vi.getJPGeneral(f));
+                vi.setLbTituloParque("jasdklfjalsdfs");
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
