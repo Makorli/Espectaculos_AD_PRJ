@@ -149,8 +149,10 @@ public class ArrancarPrograma {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                db.DesconectarDb();
-                System.out.println("Base de datos desconectada");
+                if (db!=null) {
+                    db.DesconectarDb();
+                    System.out.println("Base de datos desconectada");
+                }
             }
         });
 
