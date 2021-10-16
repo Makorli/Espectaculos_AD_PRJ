@@ -55,7 +55,8 @@ public class ArrancarPrograma {
                 * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
                 **/
-                vi.setLbTituloParque("jasdklfjalsdfs");
+                vi.setLbTituloParque("\tEL SUPER  MONEGRO S.L.    C\\Castillo S/N\n" +
+                        "\t\tPeracense   \tTERUEL      06/04/1990   A32145698");
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
@@ -84,7 +85,8 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
 
-               vi.setLbTituloParque("jasdklfjalsdfs");
+               vi.setLbTituloParque("\t\tPARQUE RECREOLANDIA S.L.    Avda Ferrocarril 25\n" +
+                       "   Lagartera  \tALBACETE     10/12/1980  A65428796");
 
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,7 +118,8 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
                 //f.setContentPane(vi.getJPGeneral(f));
-                vi.setLbTituloParque("jasdklfjalsdfs");
+                vi.setLbTituloParque("\t\tDIVERSIONES A CASCOPORRO S.L.  Pol. Diversion S/N  \n" +
+                        "  Tomelloso  \tCUENCA   05/10/1978  A012345678");
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
