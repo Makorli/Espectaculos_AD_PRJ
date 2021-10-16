@@ -10,9 +10,7 @@ import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.ext.Db4oIOException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Clase que se encargará de establecer las conexiones a las difernetes Bases de datos.
@@ -308,6 +306,7 @@ public class DBController {
 
     /**
      * Devuelve si la base de datos tiene una conexión activa (no está cerrada)
+     *
      * @return boolean
      */
     public boolean isDbConnected() {
@@ -350,7 +349,13 @@ public class DBController {
         }
     }
 
-    public void setDb4oAutoincrement(ObjectContainer objectContainer){
+    /**
+     * Establece el seteo automatico de valores autoincrementales en el objeto contenedor
+     * de DB4o para todas las clases en el contenidas.
+     *
+     * @param objectContainer
+     */
+    public void setDb4oAutoincrement(ObjectContainer objectContainer) {
         //Seteamos la clase incremental y su registo de eventos para establecer el id automaticamente
         increment = new Db4oAutoincrement(objectContainer);
         eventRegistry = EventRegistryFactory.forObjectContainer(objectContainer);
@@ -366,6 +371,183 @@ public class DBController {
 
 
         // https://bdooinfo.wordpress.com/db4o-consultas-nativas-nq-native-query/
+    }
+
+    public StringBuilder getDBMetadata() {
+        StringBuilder dbMetadataSb = new StringBuilder();
+        switch (this.tipoDB) {
+            case MySQL:
+                try {
+                    DatabaseMetaData dbmd = getConnectionDb().getMetaData();
+                    //NOMBRE BD
+                    dbMetadataSb.append(
+                            String.format("Nombre BD: %s \n", dbmd.getDatabaseProductName()));
+                    //DRIVEr BD
+                    dbMetadataSb.append(
+                            String.format("Driver : %s \n", dbmd.getDriverName()));
+                    //DRIVER VERSION
+                    dbMetadataSb.append(
+                            String.format("Driver Version: %s \n", dbmd.getDriverVersion()));
+                    //URL BD
+                    dbMetadataSb.append(
+                            String.format("URL BD: %s \n", dbmd.getURL()));
+                    //USUARIO BD
+                    dbMetadataSb.append(
+                            String.format("Usuario BD: %s \n", dbmd.getUserName()));
+                    //Tablas y sus detalles
+                    //Obtenemos las tablas del esquema
+                    dbMetadataSb.append("\n Composicion de la Base de datos...\n\n");
+                    ResultSet resultSet =
+                            dbmd.getTables(
+                                    null,
+                                    MySqlDataConnect.getDbName(),
+                                    null,
+                                    new String[]{"Table","View"});
+                    //recorremos el resultset para recorrer las tablas contenidas en el y sacar sus detalles.
+                    String nombreTabla;
+                    while (resultSet.next()) {
+                        //pinteamos la tabla y el tipo
+                        nombreTabla = resultSet.getString("TABLE_NAME");
+                        dbMetadataSb.append(
+                                String.format("   %s: %s \n",
+                                        resultSet.getString("TABLE_TYPE"),
+                                        nombreTabla)
+                        );
+                        //Por cada tabla extraemos las columnas / campos y su tipo
+                        ResultSet resultSet1 = dbmd.getColumns(
+                                dbmd.getCatalogSeparator(),
+                                dbmd.getSchemaTerm(),
+                                nombreTabla,
+                                null);
+
+                        //Extraemos los datos de la tabla
+                        while (resultSet1.next()) {
+                            dbMetadataSb.append(
+                                    String.format("     Campo: %-40s\tTipo: %-20s\tNulable: %B\n",
+                                            resultSet1.getString("COLUMN_NAME"),
+                                            resultSet1.getString("TYPE_NAME"),
+                                            resultSet1.getBoolean("NULLABLE")
+                                    )
+                            );
+                        }
+                        dbMetadataSb.append("\n");
+
+
+                    }
+                } catch (SQLException s) {
+                    dbMetadataSb.append("Error en consulta de Metadatos");
+                }
+                break;
+            case SQLite:
+                try {
+                    DatabaseMetaData dbmd = getConnectionDb().getMetaData();
+                    //NOMBRE BD
+                    dbMetadataSb.append(
+                            String.format("Nombre BD: %s \n", dbmd.getDatabaseProductName()));
+                    //DRIVEr BD
+                    dbMetadataSb.append(
+                            String.format("Driver : %s \n", dbmd.getDriverName()));
+                    //DRIVER VERSION
+                    dbMetadataSb.append(
+                            String.format("Driver Version: %s \n", dbmd.getDriverVersion()));
+                    //URL BD
+                    dbMetadataSb.append(
+                            String.format("URL BD: %s \n", dbmd.getURL()));
+                    //USUARIO BD
+                    dbMetadataSb.append(
+                            String.format("Usuario BD: %s \n", dbmd.getUserName()));
+                    //Tablas y sus detalles
+                    //Obtenemos las tablas del esquema
+                    dbMetadataSb.append("\n Composicion de la Base de datos...\n\n");
+                    ResultSet resultSet =
+                            dbmd.getTables(
+                                    null,
+                                    SQLiteDataConnect.getDbName(),
+                                    null,
+                                    new String[]{"Table","View"});
+                    //recorremos el resultset para recorrer las tablas contenidas en el y sacar sus detalles.
+                    String nombreTabla;
+                    while (resultSet.next()) {
+                        //pinteamos la tabla y el tipo
+                        nombreTabla = resultSet.getString("TABLE_NAME");
+                        dbMetadataSb.append(
+                                String.format("   %s: %s \n",
+                                        resultSet.getString("TABLE_TYPE"),
+                                        nombreTabla)
+                        );
+                        //Por cada tabla extraemos las columnas / campos y su tipo
+                        ResultSet resultSet1 = dbmd.getColumns(
+                                dbmd.getCatalogSeparator(),
+                                dbmd.getSchemaTerm(),
+                                nombreTabla,
+                                null);
+
+                        //Extraemos los datos de la tabla
+                        while (resultSet1.next()) {
+                            dbMetadataSb.append(
+                                    String.format("     Campo: %-40s\tTipo: %-20s\tNulable: %B\n",
+                                            resultSet1.getString("COLUMN_NAME"),
+                                            resultSet1.getString("TYPE_NAME"),
+                                            resultSet1.getBoolean("NULLABLE")
+                                            )
+                            );
+                        }
+                        dbMetadataSb.append("\n");
+
+
+                    }
+                } catch (SQLException s) {
+                    dbMetadataSb.append("Error en consulta de Metadatos");
+                }
+                break;
+            case DB4o:
+                break;
+            case Oracle:
+                try {
+                    DatabaseMetaData dbmd = getConnectionDb().getMetaData();
+                    //NOMBRE BD
+                    dbMetadataSb.append(
+                            String.format("Nombre BD: %s \n", dbmd.getDatabaseProductName()));
+                    //DRIVER BD
+                    dbMetadataSb.append(
+                            String.format("Driver : %s \n", dbmd.getDriverName()));
+                    //DRIVER VERSION
+                    dbMetadataSb.append(
+                            String.format("Driver Version: %s \n", dbmd.getDriverVersion()));
+                    //URL BD
+                    dbMetadataSb.append(
+                            String.format("URL BD: %s \n", dbmd.getURL()));
+                    //USUARIO BD
+                    dbMetadataSb.append(
+                            String.format("Usuario BD: %s \n", dbmd.getUserName()));
+                    //Tablas y sus detalles
+                    //Obtenemos las tablas del esquema
+                    ResultSet resultSet =
+                            dbmd.getTables(
+                                    OracleDataConnect.getDbSID(),
+                                    null,
+                                    null,
+                                    new String[]{"Table"});
+                    //recorremos el resultset para recorrer las tablas contenidas en el y sacar sus detalles.
+                    dbMetadataSb.append(
+                            String.format("string 1: %s \n", resultSet.getString(1)));
+                    dbMetadataSb.append(
+                            String.format("string 2: %s \n", resultSet.getString(2)));
+                    dbMetadataSb.append(
+                            String.format("string 3: %s \n", resultSet.getString(3)));
+                    dbMetadataSb.append(
+                            String.format("string 4: %s \n", resultSet.getString(4)));
+
+                } catch (SQLException s) {
+                    dbMetadataSb.append("Error en consulta de Metadatos");
+                }
+                break;
+            default:
+                dbMetadataSb.append("Base de datos no reconocida");
+                break;
+        }
+        return dbMetadataSb;
+
     }
 }
 
