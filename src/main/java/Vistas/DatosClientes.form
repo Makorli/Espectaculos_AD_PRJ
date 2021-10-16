@@ -172,7 +172,7 @@
         </constraints>
         <properties>
           <background color="-16445119"/>
-          <font size="26" style="1"/>
+          <font size="20" style="1"/>
           <foreground color="-4473925"/>
           <horizontalAlignment value="0"/>
           <text value="Paque RioGrande en Fuensencilla de Torredolones"/>
