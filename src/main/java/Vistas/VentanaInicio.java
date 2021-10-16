@@ -230,6 +230,8 @@ public class VentanaInicio {
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
                 mostrarPanel(listadoEspectaculos.getJPListadoEspectaculo());
+
+
             }
         });
 

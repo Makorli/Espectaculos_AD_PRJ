@@ -140,7 +140,7 @@ public class Cliente extends IDHolder { //extiende de IDHolder para autoincremen
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", baja=" + baja +
                 '}';*/
-        return nombre + " " + apellidos + " " + dni;
+        return dni + " - " + nombre + " " + apellidos ;
     }
 
 

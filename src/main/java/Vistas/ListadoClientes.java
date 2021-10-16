@@ -23,6 +23,9 @@ public class ListadoClientes {
     private JButton btnVolver;
     private JList<Espectaculo> lstCliEspectaculos;
     private JCheckBox cbHistorico;
+
+    private JScrollPane JPListadoCli;
+
     private ControladorInscripciones ci = new ControladorInscripciones();
     private ControladorEspectaculo cs = new ControladorEspectaculo();
 
@@ -122,11 +125,15 @@ public class ListadoClientes {
         return cbHistorico;
     }
 
+
+
     public void autoDestroy() {
 
         JPListadoClientes.removeAll();
         JPListadoClientes.repaint();
     }
+
+
 
 
 }

@@ -37,7 +37,6 @@ public class DatosClientes {
     //Etiquetas
     private JLabel lbIdCliente, lbNombre, lbApellidos, lbDni, lbFechaNacimiento, lbBaja, lbCliente;
 
-    //lbIdClienteAuto, borrado
 
     //TextField
     private JTextField txtNombre, txtApellidos, txtDni, txtFechaNacimiento;
@@ -62,14 +61,12 @@ public class DatosClientes {
         this.JPClientes = JPClientes;
     }
 
+
     public DatosClientes() {
 
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                /*Cliente cliente11 = new Cliente(1, txtNombre.getText(), txtApellidos.getText(), txtDni.getText(),
-                        txtFechaNacimiento.getText(), cbBaja.isSelected());*/
 
                 Cliente cliente = new Cliente();
                 cliente.setNombre(txtNombre.getText());

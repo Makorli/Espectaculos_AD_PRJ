@@ -150,7 +150,7 @@ public class Empleado extends IDHolder {
                 ", cargo='" + cargo + '\'' +
                 ", baja=" + baja +
                 '}';*/
-        return nombre + " " + apellidos + " " + dni;
+        return  dni + " - " + nombre + " " + apellidos ;
     }
 
     /**

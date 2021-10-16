@@ -66,13 +66,6 @@ public class DatosEspectaculo {
 
                     Empleado responsable = (Empleado) cbResponsable.getSelectedItem();
 
-                /*Espectaculo espectaculo = new Espectaculo(1, Integer.parseInt(txtNumero.getText()), txtNombre.getText(),
-                        (Integer) spnAforo.getValue(), txtDescripcion.getText(),
-                        txtLugar.getText(), Double.parseDouble(txtCoste.getText()), txtFecha.getText(),
-                        txtHorario.getText(), cbBaja.isSelected(),
-                        responsable.getIdEmpleado()
-                );*/
-
 
                     Espectaculo espectaculo = new Espectaculo();
                     espectaculo.setNumero(Integer.parseInt(txtNumero.getText()));

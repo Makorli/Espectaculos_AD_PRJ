@@ -15,8 +15,12 @@ public class ListadoEspectaculos {
     private JCheckBox cbBaja;
     private JComboBox cbResponsable;
     private JTextField txtNombre, txtDescripcion, txtNumero, txtLugar, txtFecha, txtHorario, txtCoste, txtAforo;
-    private JList<Espectaculo> lstEspectaculos;
+
     private JButton btnVolver;
+
+    private JScrollPane JPListaEspectaculos;
+    private JList<Espectaculo> lstEspectaculos;
+
 
     private ControladorEspectaculo cs;
 

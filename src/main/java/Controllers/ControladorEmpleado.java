@@ -82,7 +82,7 @@ public class ControladorEmpleado {
                 prepSentencia.setString(5, empleado.getFechaNacimiento());
                 prepSentencia.setString(6, empleado.getFechaContratacion());
                 prepSentencia.setString(7, empleado.getNacionalidad());
-                prepSentencia.setString(8, empleado.getCargo());
+                prepSentencia.setString(8, empleado.getCargo().toUpperCase());
                 prepSentencia.setBoolean(9, empleado.getBaja());
 
                 //Ejecutamos la setencia
@@ -184,7 +184,7 @@ public class ControladorEmpleado {
                     e.setDni(empleado.getDni());
                     e.setNombre(empleado.getNombre());
                     e.setApellidos(empleado.getApellidos());
-                    e.setCargo(empleado.getCargo());
+                    e.setCargo(empleado.getCargo().toUpperCase());
                     e.setFechaContratacion(empleado.getFechaContratacion());
                     e.setFechaNacimiento(empleado.getFechaNacimiento());
                     e.setNacionalidad(empleado.getNacionalidad());
@@ -216,6 +216,61 @@ public class ControladorEmpleado {
         if (tipoDb != DBController.DBTypes.DB4o) {
             try {
                 String sql = String.format("select * from " + tableName);
+                sentencia = mydb.createStatement();
+                ResultSet rs = sentencia.executeQuery(sql);
+
+
+                while (rs.next()) {
+
+                    Empleado empleadoNew = new Empleado();
+
+                    empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
+                    empleadoNew.setDni(rs.getString(attNames[1]));
+                    empleadoNew.setNombre(rs.getString(attNames[2]));
+                    empleadoNew.setApellidos(rs.getString(attNames[3]));
+                    empleadoNew.setFechaNacimiento(rs.getString(attNames[4]));
+                    empleadoNew.setFechaContratacion(rs.getString(attNames[5]));
+                    empleadoNew.setNacionalidad(rs.getString(attNames[6]));
+                    empleadoNew.setCargo(rs.getString(attNames[7]));
+                    empleadoNew.setBaja(rs.getBoolean(attNames[8]));
+
+                    empleados.add(empleadoNew);
+                }
+
+                //cierro la sentencia
+                sentencia.close();
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Empleados
+                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(new Empleado());
+                // Si tenemos empleados recorremos el Resultado para incorporar los objetos a la lista
+                if (empleadosOS.size() > 0) {
+                    while (empleadosOS.hasNext())
+                        empleados.add(empleadosOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return empleados;
+    }
+
+    public List<Empleado> selectResponsables() {
+
+        List<Empleado> empleados = new ArrayList<>();
+        //MySQL SQLite ORACLE..
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
+
+                String sql = String.format("select * from " + tableName + " WHERE cargo = RESPONSABLE");
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
 

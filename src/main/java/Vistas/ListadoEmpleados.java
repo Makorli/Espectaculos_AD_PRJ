@@ -19,6 +19,7 @@ public class ListadoEmpleados {
     private JTextField txtCargo, txtNombre, txtApellidos, txtNacionalidad, txtFechaNacimiento, txtDni, txtFechaContratacion;
     private JList lstResponsableEspectaculos;
     private ControladorEspectaculo cs=new ControladorEspectaculo();
+    private JCheckBox cbEmpleadosBaja;
 
     public ListadoEmpleados() {
 
@@ -46,7 +47,6 @@ public class ListadoEmpleados {
         });
 
     }
-
 
     public void mostrarEspectaculosResponsable(int idEmpleado){
 
