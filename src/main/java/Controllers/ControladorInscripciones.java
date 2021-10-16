@@ -354,7 +354,6 @@ public class ControladorInscripciones {
 
     }
 
-
     public String  validaciones(Inscripcion inscripcion) {
 
         HashMap<String, String> errores = new HashMap<>();

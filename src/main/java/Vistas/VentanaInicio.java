@@ -134,6 +134,7 @@ public class VentanaInicio {
                 ListadoClientes listadoClientes = new ListadoClientes();
                 cc = new ControladorCliente();
                 listadoClientes.mostrarClientes(cc.selectAll());
+                listadoClientes.getCbHistorico().setEnabled(false);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 

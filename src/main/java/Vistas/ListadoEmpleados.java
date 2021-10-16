@@ -48,8 +48,6 @@ public class ListadoEmpleados {
     }
 
 
-
-
     public void mostrarEspectaculosResponsable(int idEmpleado){
 
         DefaultListModel<Espectaculo> modelo = new DefaultListModel<>();
@@ -57,15 +55,11 @@ public class ListadoEmpleados {
         List<Espectaculo> espectaculos;
         espectaculos = cs.selectAll();
 
-
-
                 for(Espectaculo e: espectaculos){
-                    if(e.getIdEspectaculo() == idEmpleado){
+                    if(e.getIdResponsable() == idEmpleado){
                         modelo.addElement(e);
                     }
                 }
-
-
 
         lstResponsableEspectaculos.setModel(modelo);
 

@@ -24,8 +24,6 @@ public class ListadoEspectaculos {
 
         lstEspectaculos.addListSelectionListener(e -> {
 
-
-
             txtAforo.setText(String.valueOf(lstEspectaculos.getSelectedValue().getAforo()));
 
             txtNombre.setText(lstEspectaculos.getSelectedValue().getNombre());
@@ -37,9 +35,14 @@ public class ListadoEspectaculos {
             txtCoste.setText(Double.toString(lstEspectaculos.getSelectedValue().getCoste()));
 
 
-
         });
 
+        cbBaja.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                refrescar();
+            }
+        });
 
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -62,19 +65,18 @@ public class ListadoEspectaculos {
         lstEspectaculos.setModel(modelo);
     }
 
-    public void mostrarEspectaculo(int idEspectaculo){
+    public void mostrarEspectaculo(int idEspectaculo) {
 
         DefaultListModel<Espectaculo> modelo = new DefaultListModel<>();
 
         List<Espectaculo> espectaculos;
         espectaculos = cs.selectAll();
 
-        for(Espectaculo e: espectaculos){
-            if(e.getIdEspectaculo() == idEspectaculo){
+        for (Espectaculo e : espectaculos) {
+            if (e.getIdEspectaculo() == idEspectaculo) {
                 modelo.addElement(e);
             }
         }
-
 
 
         lstEspectaculos.setModel(modelo);
@@ -89,6 +91,10 @@ public class ListadoEspectaculos {
     public void autoDestroy() {
 
         JPListadoEspectaculo.removeAll();
+        JPListadoEspectaculo.repaint();
+    }
+
+    public void refrescar() {
         JPListadoEspectaculo.repaint();
     }
 

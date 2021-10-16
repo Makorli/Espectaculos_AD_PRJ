@@ -1,5 +1,13 @@
 package Modelos;
 
+
+import Controllers.ControladorCliente;
+import Controllers.ControladorEspectaculo;
+import Controllers.ControladorInscripciones;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Inscripcion extends IDHolder {
 
     //ATRIBUTOS
@@ -68,8 +76,10 @@ public class Inscripcion extends IDHolder {
      * @return Modelos.Cliente
      */
     public Cliente getCliente(){
-        Cliente cliente = new Cliente();
-        //TODO
+
+        ControladorCliente cc = new ControladorCliente();
+        Cliente cliente = cc.selectById(this.getIdCliente());
+        
         return cliente;
     }
 
@@ -78,9 +88,15 @@ public class Inscripcion extends IDHolder {
      * @return Modelos.Espectaculo
      */
     public Espectaculo getEspectaculo(){
-        Espectaculo espectaculo = new Espectaculo();
-        //TODO
+
+        ControladorEspectaculo cs = new ControladorEspectaculo();
+        Espectaculo espectaculo = cs.selectById(this.getIdEspectaculo());
+
         return espectaculo;
     }
+
+
+
+
 
 }
