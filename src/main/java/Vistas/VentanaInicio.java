@@ -108,8 +108,11 @@ public class VentanaInicio {
                 nuevoCliente.setLstEmpleadosState(false);
                 nuevoCliente.setBtnBajaState(false);
 
+                nuevoCliente.getCbHistorico().setEnabled(false);
+                nuevoCliente.getLstClientes().setEnabled(false);
+
                 cc = new ControladorCliente();
-                nuevoCliente.mostrarClientes(cc.selectAll());
+                nuevoCliente.mostrarClientes(cc.selectByState(false));
                 mostrarPanel(nuevoCliente.getJPClientes());
             }
         });
@@ -123,7 +126,7 @@ public class VentanaInicio {
                 modificarCliente.setCbBajaState(false); //
 
                 cc = new ControladorCliente();
-                modificarCliente.mostrarClientes(cc.selectAll());
+                modificarCliente.mostrarClientes(cc.selectByState(false));
                 mostrarPanel(modificarCliente.getJPClientes());
             }
         });
@@ -133,6 +136,7 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 ListadoClientes listadoClientes = new ListadoClientes();
                 cc = new ControladorCliente();
+
                 listadoClientes.mostrarClientes(cc.selectAll());
                 listadoClientes.getCbHistorico().setEnabled(false);
 
@@ -152,8 +156,11 @@ public class VentanaInicio {
                 nuevoEmpleado.setLstEmpleadosState(false);
                 nuevoEmpleado.setBtnBajaState(false);
 
+                nuevoEmpleado.getCbHistoricoEmple().setEnabled(false);
+                nuevoEmpleado.getLstEmpleados().setEnabled(false);
+
                 ce = new ControladorEmpleado();
-                nuevoEmpleado.mostrarEmpleados(ce.selectAll());
+                nuevoEmpleado.mostrarEmpleados(ce.selectByState(false));
                 mostrarPanel(nuevoEmpleado.getJPEmpleados());
             }
         });
@@ -162,10 +169,12 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado modificarEmpleado = new DatosEmpleado();
+
                 modificarEmpleado.renombrarBtnGuardar("Modificar");
                 modificarEmpleado.setCbBajaState(false); //
+
                 ce = new ControladorEmpleado();
-                modificarEmpleado.mostrarEmpleados(ce.selectAll());
+                modificarEmpleado.mostrarEmpleados(ce.selectByState(false));
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
             }
         });

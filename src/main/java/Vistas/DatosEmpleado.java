@@ -41,6 +41,7 @@ public class DatosEmpleado {
     private JComboBox cbCargo;
     private JList<Empleado> lstEmpleados;
     private JScrollPane JPListaEmpleado;
+    private JCheckBox cbHistoricoEmple;
 
 
     public DatosEmpleado() {
@@ -136,14 +137,52 @@ public class DatosEmpleado {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (cbBaja.isSelected()){
+
+                if ((lstEmpleados.getSelectedValue()==null)){
                     cbBaja.setSelected(false);
-                }else{
-                    cbBaja.setSelected(true);
+                    cbBaja.setEnabled(false);
+                    btnGuardar.setEnabled(false);
                 }
 
+                else if (cbBaja.isSelected() && (lstEmpleados.getSelectedValue()!=null)) {
+                    cbBaja.setSelected(false);
+                    if (btnBaja.getText() == "Alta") {
+                        btnGuardar.setEnabled(true);
+                    }
+
+
+                } else {
+                    cbBaja.setSelected(true);
+                    if (btnBaja.getText() == "Alta") {
+                        btnGuardar.setEnabled(false);
+                    }
+
+                }
             }
         });
+
+        cbHistoricoEmple.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = cbHistoricoEmple.isSelected();
+
+                if (state) {
+                    limpiar();
+                    mostrarEmpleados(cc.selectByState(true));
+                    btnGuardar.setEnabled(false);
+                    btnBaja.setText("Alta");
+
+                } else {
+                    limpiar();
+                    mostrarEmpleados(cc.selectByState(false));
+                    btnGuardar.setEnabled(true);
+                    btnBaja.setText("Baja");
+
+                }
+            }
+        });
+
+
     }
 
     public JPanel getJPGeneral(JFrame frame) {
@@ -186,5 +225,27 @@ public class DatosEmpleado {
 
     public void setBtnBajaState(boolean state) {
         this.btnBaja.setEnabled(state);
+    }
+
+    public JCheckBox getCbHistoricoEmple() {
+        return cbHistoricoEmple;
+    }
+
+    public JList<Empleado> getLstEmpleados() {
+        return lstEmpleados;
+    }
+
+    public void limpiar(){
+
+        lbIdEmpleado.setText("");
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDni.setText("");
+        txtFechaNacimiento.setText("");
+        txtFechaContratacion.setText("");
+        txtNacionalidad.setText("");
+        cbBaja.setSelected(false);
+
+
     }
 }

@@ -125,8 +125,6 @@ public class ListadoClientes {
         return cbHistorico;
     }
 
-
-
     public void autoDestroy() {
 
         JPListadoClientes.removeAll();

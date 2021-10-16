@@ -263,6 +263,62 @@ public class ControladorEmpleado {
         return empleados;
     }
 
+    public List<Empleado> selectByState(boolean state) {
+
+        List<Empleado> empleados = new ArrayList<>();
+        //MySQL SQLite ORACLE..
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
+                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                sentencia = mydb.createStatement();
+                ResultSet rs = sentencia.executeQuery(sql);
+
+
+                while (rs.next()) {
+
+                    Empleado empleadoNew = new Empleado();
+
+                    empleadoNew.setIdEmpleado(rs.getInt(attNames[0]));
+                    empleadoNew.setDni(rs.getString(attNames[1]));
+                    empleadoNew.setNombre(rs.getString(attNames[2]));
+                    empleadoNew.setApellidos(rs.getString(attNames[3]));
+                    empleadoNew.setFechaNacimiento(rs.getString(attNames[4]));
+                    empleadoNew.setFechaContratacion(rs.getString(attNames[5]));
+                    empleadoNew.setNacionalidad(rs.getString(attNames[6]));
+                    empleadoNew.setCargo(rs.getString(attNames[7]));
+                    empleadoNew.setBaja(rs.getBoolean(attNames[8]));
+
+                    empleados.add(empleadoNew);
+                }
+
+                //cierro la sentencia
+                sentencia.close();
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Empleados
+                Empleado empleado = new Empleado();
+                empleado.setBaja(state);
+                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(empleado);
+                // Si tenemos empleados recorremos el Resultado para incorporar los objetos a la lista
+                if (empleadosOS.size() > 0) {
+                    while (empleadosOS.hasNext())
+                        empleados.add(empleadosOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return empleados;
+    }
+
     public List<Empleado> selectResponsables() {
 
         List<Empleado> empleados = new ArrayList<>();

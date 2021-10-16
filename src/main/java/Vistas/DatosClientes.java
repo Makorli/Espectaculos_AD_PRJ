@@ -47,6 +47,7 @@ public class DatosClientes {
 
     private JList<Cliente> lstClientes;
     private JScrollPane JPListaCliente;
+    private JCheckBox cbHistorico;
 
 
     public void setJPGeneral(JPanel JPGeneral) {
@@ -64,6 +65,8 @@ public class DatosClientes {
 
     public DatosClientes() {
 
+
+
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,7 +79,7 @@ public class DatosClientes {
                 cliente.setBaja(cbBaja.isSelected());
 
 
-                if (cc.validaciones(cliente)== null) {
+                if (cc.validaciones(cliente) == null) {
                     if (btnGuardar.getText().equalsIgnoreCase("Guardar")) { //guardar
 
                         cliente.setBaja(false);
@@ -128,6 +131,7 @@ public class DatosClientes {
         lstClientes.addListSelectionListener(e -> {
             Cliente cliente = lstClientes.getSelectedValue();
 
+
             if (cliente != null) {
 
                 lbIdCliente.setText(String.format("%d", cliente.getIdCliente()));
@@ -153,20 +157,52 @@ public class DatosClientes {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (cbBaja.isSelected()){
+                if (cbBaja.isSelected()) {
                     cbBaja.setSelected(false);
-                }else{
+                    if (btnBaja.getText() == "Alta") {
+                        btnGuardar.setEnabled(true);
+                    }
+
+                } else {
                     cbBaja.setSelected(true);
+                    if (btnBaja.getText() == "Alta") {
+                        btnGuardar.setEnabled(false);
+                    }
+
                 }
 
             }
         });
 
+        cbHistorico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = cbHistorico.isSelected();
+
+                if (state) {
+                    limpiar();
+                    mostrarClientes(cc.selectByState(true));
+                    btnGuardar.setEnabled(false);
+                    btnBaja.setText("Alta");
+
+                } else {
+                    limpiar();
+                    mostrarClientes(cc.selectByState(false));
+                    btnGuardar.setEnabled(true);
+                    btnBaja.setText("Baja");
+
+                }
+            }
+        });
+
+
     }
 
     public void mostrarClientes(List<Cliente> clientes) {
 
+
         DefaultListModel<Cliente> modelo = new DefaultListModel<>();
+
 
         for (Cliente cliente : clientes) {
             modelo.addElement(cliente);
@@ -174,6 +210,7 @@ public class DatosClientes {
 
         lstClientes.setModel(modelo);
     }
+
 
     public void renombrarBtnGuardar(String nombre) {
         this.btnGuardar.setText(nombre);
@@ -189,11 +226,36 @@ public class DatosClientes {
         this.cbBaja.setEnabled(state);
     }
 
-    public void setLstEmpleadosState (boolean state) {
-        this.lstClientes.setEnabled(state);    }
+    public void setLstEmpleadosState(boolean state) {
+        this.lstClientes.setEnabled(state);
+    }
 
     public void setBtnBajaState(boolean state) {
         this.btnBaja.setEnabled(state);
     }
+
+    public JCheckBox getCbBaja() {
+        return cbBaja;
+    }
+
+    public JCheckBox getCbHistorico() {
+        return cbHistorico;
+    }
+
+    public JList<Cliente> getLstClientes() {
+        return lstClientes;
+    }
+
+    public void limpiar(){
+
+        lbIdCliente.setText("");
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDni.setText("");
+        txtFechaNacimiento.setText("");
+
+    }
+
+
 
 }
