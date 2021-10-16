@@ -39,8 +39,11 @@ public class ListadoClientes {
             lbApellido.setText(lstClientes.getSelectedValue().getApellidos());
             lbFechaNacimiento.setText(lstClientes.getSelectedValue().getFechaNacimiento());
             lbDni.setText(lstClientes.getSelectedValue().getDni());
-            cbHistorico.setEnabled(true);
 
+
+            if (lstClientes.getSelectedValue().getEspectaculosByCliente().size()>0) {
+                cbHistorico.setEnabled(true);
+            } else {cbHistorico.setEnabled(false);}
 
             try {
                 mostrarEspectaculosInscritos(lstClientes.getSelectedValue(), cbHistorico.isSelected());
@@ -59,7 +62,7 @@ public class ListadoClientes {
         cbHistorico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    if (lstClientes.getSelectedValue() != null) {
+                    if (lstClientes.getSelectedValue() != null ) {
                         try {
                         mostrarEspectaculosInscritos(lstClientes.getSelectedValue(), cbHistorico.isSelected());
                     } catch(ParseException ex){

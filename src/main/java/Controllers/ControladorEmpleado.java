@@ -184,7 +184,7 @@ public class ControladorEmpleado {
                     e.setDni(empleado.getDni());
                     e.setNombre(empleado.getNombre());
                     e.setApellidos(empleado.getApellidos());
-                    e.setCargo(empleado.getCargo().toUpperCase());
+                    e.setCargo(empleado.getCargo());
                     e.setFechaContratacion(empleado.getFechaContratacion());
                     e.setFechaNacimiento(empleado.getFechaNacimiento());
                     e.setNacionalidad(empleado.getNacionalidad());
@@ -326,10 +326,9 @@ public class ControladorEmpleado {
         if (tipoDb != DBController.DBTypes.DB4o) {
             try {
 
-                String sql = String.format("select * from " + tableName + " WHERE cargo = RESPONSABLE");
+                String sql = String.format("select * from " + tableName + " WHERE cargo = 'RESPONSABLE' ");
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
-
 
                 while (rs.next()) {
 

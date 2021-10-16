@@ -11,9 +11,14 @@ import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.query.Predicate;
 
+import javax.swing.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +140,7 @@ public class ControladorEspectaculo {
 
             try {
 
-                String sentencia = String.format("update " + tableName + " set " + myUpdate + "WHERE %s= ?",
+                String sentencia = String.format("update " + tableName + " set " + myUpdate + " WHERE %s = ?",
                         attNames[1], attNames[2], attNames[3], attNames[4], attNames[5],
                         attNames[6], attNames[7], attNames[8], attNames[9], attNames[10],
                         attNames[0]); // para el where
@@ -276,6 +281,69 @@ public class ControladorEspectaculo {
         return espectaculos;
     }
 
+    public List<Espectaculo> selectByState(boolean state) {
+
+        List<Espectaculo> espectaculos = new ArrayList<>();
+
+        if (tipoDb != DBController.DBTypes.DB4o) {
+
+            try {
+
+                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                sentencia = mydb.createStatement();
+                ResultSet rs = sentencia.executeQuery(sql);
+
+
+                while (rs.next()) {
+
+                    Espectaculo espectaculoNew = new Espectaculo();
+
+                    espectaculoNew.setIdEspectaculo(rs.getInt(attNames[0]));
+                    espectaculoNew.setNumero(rs.getInt(attNames[1]));
+                    espectaculoNew.setNombre(rs.getString(attNames[2]));
+                    espectaculoNew.setAforo(rs.getInt(attNames[3]));
+                    espectaculoNew.setDescripcion(rs.getString(attNames[4]));
+                    espectaculoNew.setLugar(rs.getString(attNames[5]));
+                    espectaculoNew.setCoste(rs.getDouble(attNames[6]));
+                    espectaculoNew.setFecha(rs.getString(attNames[7]));
+                    espectaculoNew.setHorario(rs.getString(attNames[8]));
+                    espectaculoNew.setBaja(rs.getBoolean(attNames[9]));
+                    espectaculoNew.setIdResponsable(rs.getInt(attNames[10]));
+
+
+                    espectaculos.add(espectaculoNew);
+                }
+
+                //cierro la sentencia
+                sentencia.close();
+
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }         // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Espectaculo
+                Espectaculo espectaculo= new Espectaculo();
+                espectaculo.setBaja(state);
+                ObjectSet<Espectaculo> espectaculosOS = myObjCont.queryByExample(espectaculo);
+                // Si tenemos espectaculos recorremos el Resultado para incorporar los objetos a la lista
+                if (espectaculosOS.size() > 0) {
+                    while (espectaculosOS.hasNext())
+                        espectaculos.add(espectaculosOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return espectaculos;
+    }
+
     /**
      * Funcion que recibe el id de un espectaculo y devuelve el objeto espectaculo
      * valores posibles:
@@ -384,7 +452,53 @@ public class ControladorEspectaculo {
 
     }
 
+    public List<Espectaculo> espectaculosActuales () throws ParseException {
+        List<Espectaculo> espectaculosAll = this.selectAll();
+        List<Espectaculo> espectaculosList =null;
 
+        java.util.Date date = new java.util.Date();
+        DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+        String ahora = fechaHora.format(date);
+
+        for (Espectaculo e : espectaculosAll){
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date date1 = sdf.parse(ahora);
+            Date date2 = sdf.parse(e.getFecha());
+
+            if (date1.compareTo(date2) < 0) {
+
+               espectaculosList.add(e);
+            }
+
+        }return  espectaculosList;
+
+    }
+
+    public void actualizarEstadosautomatico() throws ParseException {
+
+        List<Espectaculo> espectaculosList = this.selectAll();
+
+        for (Espectaculo e : espectaculosList){
+
+            java.util.Date date = new java.util.Date();
+            DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+            String ahora = fechaHora.format(date);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date date1 = sdf.parse(ahora);
+            Date date2 = sdf.parse(e.getFecha());
+
+                if (date1.compareTo(date2) > 0) {
+                    e.setBaja(true);
+                    update(e);
+                }
+
+        }
+
+    }
+
+    //TODO agregar que fecha PARA INGRESAR/MODIFICAR ESPECTACULO sea posterior a hoy
     public String validaciones(Espectaculo espectaculo) {
 
         HashMap<String, String> errores = new HashMap<>();

@@ -125,11 +125,13 @@ public class VentanaInicio {
                 modificarCliente.renombrarBtnGuardar("Modificar");
                 modificarCliente.setCbBajaState(false); //
 
+
                 cc = new ControladorCliente();
                 modificarCliente.mostrarClientes(cc.selectByState(false));
                 mostrarPanel(modificarCliente.getJPClientes());
             }
         });
+
 
         itemListarClientes.addActionListener(new ActionListener() {
             @Override
@@ -137,7 +139,7 @@ public class VentanaInicio {
                 ListadoClientes listadoClientes = new ListadoClientes();
                 cc = new ControladorCliente();
 
-                listadoClientes.mostrarClientes(cc.selectAll());
+                listadoClientes.mostrarClientes(cc.selectByState(false));
                 listadoClientes.getCbHistorico().setEnabled(false);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
@@ -173,6 +175,7 @@ public class VentanaInicio {
                 modificarEmpleado.renombrarBtnGuardar("Modificar");
                 modificarEmpleado.setCbBajaState(false); //
 
+
                 ce = new ControladorEmpleado();
                 modificarEmpleado.mostrarEmpleados(ce.selectByState(false));
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
@@ -184,7 +187,8 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 ListadoEmpleados listadoEmpleados = new ListadoEmpleados();
                 ce = new ControladorEmpleado();
-                listadoEmpleados.mostrarEmpleados(ce.selectAll());
+                listadoEmpleados.mostrarEmpleados(ce.selectByState(false));
+                listadoEmpleados.getCbHistorico().setEnabled(false);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
@@ -201,11 +205,15 @@ public class VentanaInicio {
                 nuevoEspectaculo.setLstEmpleadosState(false);
                 nuevoEspectaculo.setBtnBajaState(false);
 
+
+                nuevoEspectaculo.getCbHistorico().setEnabled(false);
+                nuevoEspectaculo.getLstEspectaculos().setEnabled(false);
+
                 cs = new ControladorEspectaculo();
                 ce = new ControladorEmpleado();
 
-                nuevoEspectaculo.mostrarEspectaculos(cs.selectAll());
-                nuevoEspectaculo.loadCbResponsable(ce.selectAll());
+                nuevoEspectaculo.mostrarEspectaculos(cs.selectByState(false));
+                nuevoEspectaculo.loadCbResponsable(ce.selectResponsables());
 
                 mostrarPanel(nuevoEspectaculo.getJPEspectaculos());
             }
@@ -222,8 +230,8 @@ public class VentanaInicio {
                 cs = new ControladorEspectaculo();
                 ce = new ControladorEmpleado();
 
-                modificarEspectaculo.mostrarEspectaculos(cs.selectAll());
-                modificarEspectaculo.loadCbResponsable(ce.selectAll());
+                modificarEspectaculo.mostrarEspectaculos(cs.selectByState(false));
+                modificarEspectaculo.loadCbResponsable(ce.selectResponsables());
 
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
             }

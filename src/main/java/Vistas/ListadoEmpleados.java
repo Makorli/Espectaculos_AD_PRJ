@@ -8,6 +8,7 @@ import Modelos.Espectaculo;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.List;
 
 public class ListadoEmpleados {
@@ -19,7 +20,7 @@ public class ListadoEmpleados {
     private JTextField txtCargo, txtNombre, txtApellidos, txtNacionalidad, txtFechaNacimiento, txtDni, txtFechaContratacion;
     private JList lstResponsableEspectaculos;
     private ControladorEspectaculo cs=new ControladorEspectaculo();
-    private JCheckBox cbEmpleadosBaja;
+    private JCheckBox cbHistorico;
 
     public ListadoEmpleados() {
 
@@ -36,8 +37,17 @@ public class ListadoEmpleados {
 
             mostrarEspectaculosResponsable(lstEmpleados.getSelectedValue().getIdEmpleado());
 
+
         });
 
+        cbHistorico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //todo
+
+            }
+        });
 
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -84,5 +94,9 @@ public class ListadoEmpleados {
 
         JPListadoEmpleados.removeAll();
         JPListadoEmpleados.repaint();
+    }
+
+    public JCheckBox getCbHistorico() {
+        return cbHistorico;
     }
 }

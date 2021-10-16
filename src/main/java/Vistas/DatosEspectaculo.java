@@ -52,6 +52,7 @@ public class DatosEspectaculo {
     private JList<Empleado> lstEmpleados;
     private JList<Espectaculo> lstEspectaculos;
     private JScrollPane JPListaEspectaculos;
+    private JCheckBox cbHistorico;
 
 
     public DatosEspectaculo() {
@@ -175,14 +176,51 @@ public class DatosEspectaculo {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (cbBaja.isSelected()) {
+                if ((lstEspectaculos.getSelectedValue() == null)) {
                     cbBaja.setSelected(false);
+                    cbBaja.setEnabled(false);
+                    btnGuardar.setEnabled(false);
+
                 } else {
-                    cbBaja.setSelected(true);
+                    if (cbBaja.isSelected()) {
+                        cbBaja.setSelected(false);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(true);
+                        }
+
+                    } else {
+                        cbBaja.setSelected(true);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(false);
+                        }
+                    }
+
                 }
 
             }
         });
+
+        cbHistorico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = cbHistorico.isSelected();
+
+                if (state) {
+                    limpiar();
+                    mostrarEspectaculos(cc.selectByState(true));
+                    btnGuardar.setEnabled(false);
+                    btnBaja.setText("Alta");
+
+                } else {
+                    limpiar();
+                    mostrarEspectaculos(cc.selectByState(false));
+                    btnGuardar.setEnabled(true);
+                    btnBaja.setText("Baja");
+
+                }
+            }
+        });
+
 
         // Validacion de campos numericos Numero y Coste.
         txtNumero.addKeyListener(new KeyAdapter() {
@@ -207,7 +245,6 @@ public class DatosEspectaculo {
             }
         });
     }
-
 
     public JPanel getJPEspectaculos() {
         return JPEspectaculos;
@@ -268,6 +305,32 @@ public class DatosEspectaculo {
             }
             return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
+    }
+
+    public JCheckBox getCbHistorico() {
+        return cbHistorico;
+    }
+
+    public JList<Espectaculo> getLstEspectaculos() {
+        return lstEspectaculos;
+    }
+
+    public void limpiar() {
+
+        lbIdEspectaculo.setText("");
+        txtNumero.setText("");
+        txtNombre.setText("");
+        spnAforo.setValue(0);
+        txtDescripcion.setText("");
+        txtLugar.setText("");
+        txtCoste.setText("");
+        txtFecha.setText("");
+        txtHorario.setText("");
+        cbBaja.setSelected(false);
+        cbResponsable.setSelectedItem(null);
+
+
+
     }
 
 

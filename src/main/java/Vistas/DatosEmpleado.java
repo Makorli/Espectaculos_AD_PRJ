@@ -4,6 +4,7 @@ import Controllers.ControladorEmpleado;
 import Modelos.Empleado;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -50,11 +51,7 @@ public class DatosEmpleado {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-               /* Empleado empleado = new Empleado(1, txtDni.getText(), txtNombre.getText(),
-                        txtApellidos.getText(), txtFechaNacimiento.getText(),
-                        txtFechaContratacion.getText(), txtNacionalidad.getText(),
-                        Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), cbBaja.isSelected()
-                );*/
+
                 Empleado empleado = new Empleado();
                 empleado.setDni(txtDni.getText());
                 empleado.setNombre(txtNombre.getText());
@@ -75,11 +72,6 @@ public class DatosEmpleado {
                             autoDestroy();
                         }
 
-                        //incorpora MJ verificacion
-                        /*else {
-                            JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
-                            );
-                        }*/
 
                     } else { //modificar --update
                         empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
@@ -89,11 +81,7 @@ public class DatosEmpleado {
                             );
                             autoDestroy();
                         }
-                        //incorpora MJ verificacion
-                        /* else {
-                            JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
-                            );
-                        }*/
+
                     }
                 } else {
                     String texto = cc.validaciones(empleado);
@@ -119,6 +107,7 @@ public class DatosEmpleado {
                 txtFechaNacimiento.setText(empleado.getFechaNacimiento());
                 txtFechaContratacion.setText(empleado.getFechaContratacion());
 
+
                 cbCargo.setSelectedItem(empleado.getCargo());
                 cbBaja.setSelected(empleado.getBaja());
 
@@ -138,23 +127,23 @@ public class DatosEmpleado {
             public void actionPerformed(ActionEvent e) {
 
 
-                if ((lstEmpleados.getSelectedValue()==null)){
+                if ((lstEmpleados.getSelectedValue() == null)) {
                     cbBaja.setSelected(false);
                     cbBaja.setEnabled(false);
                     btnGuardar.setEnabled(false);
-                }
-
-                else if (cbBaja.isSelected() && (lstEmpleados.getSelectedValue()!=null)) {
-                    cbBaja.setSelected(false);
-                    if (btnBaja.getText() == "Alta") {
-                        btnGuardar.setEnabled(true);
-                    }
-
 
                 } else {
-                    cbBaja.setSelected(true);
-                    if (btnBaja.getText() == "Alta") {
-                        btnGuardar.setEnabled(false);
+                    if (cbBaja.isSelected()) {
+                        cbBaja.setSelected(false);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(true);
+                        }
+
+                    } else {
+                        cbBaja.setSelected(true);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(false);
+                        }
                     }
 
                 }
@@ -220,8 +209,9 @@ public class DatosEmpleado {
         this.cbBaja.setEnabled(state);
     }
 
-    public void setLstEmpleadosState (boolean state) {
-        this.lstEmpleados.setEnabled(state);    }
+    public void setLstEmpleadosState(boolean state) {
+        this.lstEmpleados.setEnabled(state);
+    }
 
     public void setBtnBajaState(boolean state) {
         this.btnBaja.setEnabled(state);
@@ -235,7 +225,7 @@ public class DatosEmpleado {
         return lstEmpleados;
     }
 
-    public void limpiar(){
+    public void limpiar() {
 
         lbIdEmpleado.setText("");
         txtNombre.setText("");
@@ -248,4 +238,6 @@ public class DatosEmpleado {
 
 
     }
+
+
 }

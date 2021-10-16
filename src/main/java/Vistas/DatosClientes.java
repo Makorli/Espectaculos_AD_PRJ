@@ -157,16 +157,23 @@ public class DatosClientes {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (cbBaja.isSelected()) {
+                if ((lstClientes.getSelectedValue() == null)) {
                     cbBaja.setSelected(false);
-                    if (btnBaja.getText() == "Alta") {
-                        btnGuardar.setEnabled(true);
-                    }
+                    cbBaja.setEnabled(false);
+                    btnGuardar.setEnabled(false);
 
                 } else {
-                    cbBaja.setSelected(true);
-                    if (btnBaja.getText() == "Alta") {
-                        btnGuardar.setEnabled(false);
+                    if (cbBaja.isSelected()) {
+                        cbBaja.setSelected(false);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(true);
+                        }
+
+                    } else {
+                        cbBaja.setSelected(true);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(false);
+                        }
                     }
 
                 }

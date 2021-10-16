@@ -132,11 +132,11 @@
             </constraints>
             <properties>
               <model>
-                <item value="Jefe Area"/>
-                <item value="Acrobata"/>
-                <item value="Mago"/>
-                <item value="Responsable atracción"/>
-                <item value="Taquillero"/>
+                <item value="JEFE AREA"/>
+                <item value="ACROBATA"/>
+                <item value="MAGO"/>
+                <item value="RESPONSABLE"/>
+                <item value="TAQUILLERO"/>
               </model>
             </properties>
           </component>

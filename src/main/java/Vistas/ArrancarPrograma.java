@@ -1,5 +1,6 @@
 package Vistas;
 
+import Controllers.ControladorEspectaculo;
 import Controllers.DBController;
 
 import javax.swing.*;
@@ -7,8 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 
 public class ArrancarPrograma {
+
+
 
     private JLabel lbEleccionParque;
     private JPanel JPVentanaInicio;
@@ -24,7 +28,7 @@ public class ArrancarPrograma {
     /**
      * En el constructor de ArrancarPrograma estoy pasando por parametro el JFrame que me abre al arrancar
      * Cuando pulse uno de los 3 botones se tiene que ocultar.
-     * */
+     */
 
     public ArrancarPrograma(JFrame frame) {
 
@@ -46,15 +50,24 @@ public class ArrancarPrograma {
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.MySQL);
 
+                ControladorEspectaculo ce = new ControladorEspectaculo();
+
+                try {
+                    ce.actualizarEstadosautomatico();
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+
+
                 JFrame f = new JFrame("Parque MySql ");
 
                 ////////////////////////////////////////
 
                 VentanaInicio vi = new VentanaInicio(f);
                 /** Recordar que aquí (Al crear la ventana de inicio) debemos añadir la conexion que necesitemos.
-                * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
+                 * Y deberá enviarse constantemente -- quizas se pueda poner una constante que se modifique en
                  * el momento que hemos elegido el parque
-                **/
+                 **/
                 vi.setLbTituloParque("\tEL SUPER  MONEGRO S.L.    C\\Castillo S/N\n" +
                         "\t\tPeracense   \tTERUEL      06/04/1990   A32145698");
                 f.setContentPane(vi.getJPGeneral());
@@ -62,6 +75,7 @@ public class ArrancarPrograma {
                 f.pack();
                 f.setVisible(true);
                 frame.setVisible(false);
+
 
             }
         });
@@ -77,6 +91,15 @@ public class ArrancarPrograma {
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.SQLite);
 
+                ControladorEspectaculo ce = new ControladorEspectaculo();
+
+                try {
+                    ce.actualizarEstadosautomatico();
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+
+
                 JFrame f = new JFrame("Parque SQLite ");
 
                 VentanaInicio vi = new VentanaInicio(f);
@@ -85,8 +108,8 @@ public class ArrancarPrograma {
                  * el momento que hemos elegido el parque
                  **/
 
-               vi.setLbTituloParque("\t\tPARQUE RECREOLANDIA S.L.    Avda Ferrocarril 25\n" +
-                       "   Lagartera  \tALBACETE     10/12/1980  A65428796");
+                vi.setLbTituloParque("\t\tPARQUE RECREOLANDIA S.L.    Avda Ferrocarril 25\n" +
+                        "   Lagartera  \tALBACETE     10/12/1980  A65428796");
 
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,6 +132,15 @@ public class ArrancarPrograma {
 
                 ////////////////////////
                 db = new DBController(DBController.DBTypes.DB4o);
+
+                ControladorEspectaculo ce = new ControladorEspectaculo();
+
+                try {
+                    ce.actualizarEstadosautomatico();
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+
 
                 JFrame f = new JFrame("Parque DB4O ");
 
@@ -148,13 +180,15 @@ public class ArrancarPrograma {
         JFrame frame = new JFrame("Parques");
 
         /*Añadimos un listener al frame principal para que cierre la conexion de
-        * la base de datos que esté siendo usada.
-        */
+         * la base de datos que esté siendo usada.
+         */
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                db.DesconectarDb();
-                System.out.println("Base de datos desconectada");
+                if(db !=null) {
+                    db.DesconectarDb();
+                    System.out.println("Base de datos desconectada");
+                }
             }
         });
 

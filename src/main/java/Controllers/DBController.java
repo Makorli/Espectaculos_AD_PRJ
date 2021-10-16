@@ -402,7 +402,7 @@ public class DBController {
                                     null,
                                     MySqlDataConnect.getDbName(),
                                     null,
-                                    new String[]{"Table","View"});
+                                    new String[]{"Table"});
                     //recorremos el resultset para recorrer las tablas contenidas en el y sacar sus detalles.
                     String nombreTabla;
                     while (resultSet.next()) {
@@ -415,8 +415,8 @@ public class DBController {
                         );
                         //Por cada tabla extraemos las columnas / campos y su tipo
                         ResultSet resultSet1 = dbmd.getColumns(
-                                dbmd.getCatalogSeparator(),
-                                dbmd.getSchemaTerm(),
+                                null,
+                                MySqlDataConnect.getDbName(),
                                 nombreTabla,
                                 null);
 
