@@ -10,6 +10,7 @@ public class MostrarMetadatos {
 
 
 
+
         /*System.out.println("INFORMACIN SOBRE LA BASE DE DATOS:"+ nombre);
   	System.out.println("Driver : " + driver );
   	System.out.println("URL    : " + url );
@@ -33,4 +34,5 @@ public class MostrarMetadatos {
     public JPanel getJPMetadatos() {
         return JPMetadatos;
     }
+
 }
