@@ -8,6 +8,8 @@ import Modelos.Inscripcion;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class DatosInscripciones {
@@ -28,6 +30,11 @@ public class DatosInscripciones {
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdCliente(lstClientes.getSelectedValue().getIdCliente());
                 inscripcion.setIdEspectaculo(lstEspectaculos.getSelectedValue().getIdEspectaculo());
+
+                java.util.Date date = new java.util.Date();
+                DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+                String ahora = fechaHora.format(date);
+
                 inscripcion.setFecha(txtFechaInscripcion.getText());
 
 
@@ -76,5 +83,13 @@ public class DatosInscripciones {
 
         JPInscripciones.removeAll();
         JPInscripciones.repaint();
+    }
+
+    public JTextField getTxtFechaInscripcion() {
+        return txtFechaInscripcion;
+    }
+
+    public void setTxtFechaInscripcion(JTextField txtFechaInscripcion) {
+        this.txtFechaInscripcion = txtFechaInscripcion;
     }
 }

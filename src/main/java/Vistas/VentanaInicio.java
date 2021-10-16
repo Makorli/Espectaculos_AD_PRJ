@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class VentanaInicio {
@@ -259,8 +261,13 @@ public class VentanaInicio {
                 cs = new ControladorEspectaculo();
                 cc = new ControladorCliente();
 
-                nuevaInscripcion.mostrarClientes( cc.selectAll());
-                nuevaInscripcion.mostrarEspectaculos( cs.selectAll());
+                java.util.Date date = new java.util.Date();
+                DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+                String ahora = fechaHora.format(date);
+
+                nuevaInscripcion.getTxtFechaInscripcion().setText(ahora);
+                nuevaInscripcion.mostrarClientes( cc.selectByState(false));
+                nuevaInscripcion.mostrarEspectaculos( cs.selectByState(false));
 
                 mostrarPanel(nuevaInscripcion.getJPInscripciones());
             }
@@ -270,7 +277,6 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MostrarInscripciones mostrarInscripciones = new MostrarInscripciones();
-
 
                 mostrarPanel(mostrarInscripciones.getJPTodasInscripciones());
             }
