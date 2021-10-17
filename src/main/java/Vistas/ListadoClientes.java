@@ -106,12 +106,12 @@ public class ListadoClientes {
 
           if (historico) {
 
-              if (date1.compareTo(date2) < 0) {
+              if (date1.compareTo(date2) > 0) {
                   modelo.addElement(e);
               }
           } else {
 
-              if (date1.compareTo(date2) > 0) {
+              if (date1.compareTo(date2) < 0) {
                   modelo.addElement(e);
               }
 

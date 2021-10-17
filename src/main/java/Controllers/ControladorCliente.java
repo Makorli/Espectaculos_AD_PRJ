@@ -153,6 +153,7 @@ public class ControladorCliente {
                         new Predicate<>() {
                             @Override
                             public boolean match(Cliente c) {
+
                                 return c.getIdCliente() == (cliente.getIdCliente());
                             }
                         });

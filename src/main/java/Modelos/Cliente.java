@@ -39,7 +39,7 @@ public class Cliente extends IDHolder { //extiende de IDHolder para autoincremen
 
     @Override
     public void setId(int id) {
-        this.idCliente = idCliente;
+        this.idCliente = id;
     }
 
     @Override
