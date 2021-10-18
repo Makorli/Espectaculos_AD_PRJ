@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class VentanaInicio {
@@ -108,8 +110,11 @@ public class VentanaInicio {
                 nuevoCliente.setLstEmpleadosState(false);
                 nuevoCliente.setBtnBajaState(false);
 
+                nuevoCliente.getCbHistorico().setEnabled(false);
+                nuevoCliente.getLstClientes().setEnabled(false);
+
                 cc = new ControladorCliente();
-                nuevoCliente.mostrarClientes(cc.selectAll());
+                nuevoCliente.mostrarClientes(cc.selectByState(false));
                 mostrarPanel(nuevoCliente.getJPClientes());
             }
         });
@@ -122,18 +127,22 @@ public class VentanaInicio {
                 modificarCliente.renombrarBtnGuardar("Modificar");
                 modificarCliente.setCbBajaState(false); //
 
+
                 cc = new ControladorCliente();
-                modificarCliente.mostrarClientes(cc.selectAll());
+                modificarCliente.mostrarClientes(cc.selectByState(false));
                 mostrarPanel(modificarCliente.getJPClientes());
             }
         });
+
 
         itemListarClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ListadoClientes listadoClientes = new ListadoClientes();
                 cc = new ControladorCliente();
-                listadoClientes.mostrarClientes(cc.selectAll());
+
+                listadoClientes.mostrarClientes(cc.selectByState(false));
+                listadoClientes.getCbHistorico().setEnabled(false);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
@@ -151,8 +160,11 @@ public class VentanaInicio {
                 nuevoEmpleado.setLstEmpleadosState(false);
                 nuevoEmpleado.setBtnBajaState(false);
 
+                nuevoEmpleado.getCbHistoricoEmple().setEnabled(false);
+                nuevoEmpleado.getLstEmpleados().setEnabled(false);
+
                 ce = new ControladorEmpleado();
-                nuevoEmpleado.mostrarEmpleados(ce.selectAll());
+                nuevoEmpleado.mostrarEmpleados(ce.selectByState(false));
                 mostrarPanel(nuevoEmpleado.getJPEmpleados());
             }
         });
@@ -161,10 +173,13 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DatosEmpleado modificarEmpleado = new DatosEmpleado();
+
                 modificarEmpleado.renombrarBtnGuardar("Modificar");
                 modificarEmpleado.setCbBajaState(false); //
+
+
                 ce = new ControladorEmpleado();
-                modificarEmpleado.mostrarEmpleados(ce.selectAll());
+                modificarEmpleado.mostrarEmpleados(ce.selectByState(false));
                 mostrarPanel(modificarEmpleado.getJPEmpleados());
             }
         });
@@ -174,7 +189,8 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 ListadoEmpleados listadoEmpleados = new ListadoEmpleados();
                 ce = new ControladorEmpleado();
-                listadoEmpleados.mostrarEmpleados(ce.selectAll());
+                listadoEmpleados.mostrarEmpleados(ce.selectByState(false));
+                listadoEmpleados.getCbHistorico().setEnabled(false);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
@@ -191,11 +207,15 @@ public class VentanaInicio {
                 nuevoEspectaculo.setLstEmpleadosState(false);
                 nuevoEspectaculo.setBtnBajaState(false);
 
+
+                nuevoEspectaculo.getCbHistorico().setEnabled(false);
+                nuevoEspectaculo.getLstEspectaculos().setEnabled(false);
+
                 cs = new ControladorEspectaculo();
                 ce = new ControladorEmpleado();
 
-                nuevoEspectaculo.mostrarEspectaculos(cs.selectAll());
-                nuevoEspectaculo.loadCbResponsable(ce.selectAll());
+                nuevoEspectaculo.mostrarEspectaculos(cs.selectByState(false));
+                nuevoEspectaculo.loadCbResponsable(ce.selectResponsables());
 
                 mostrarPanel(nuevoEspectaculo.getJPEspectaculos());
             }
@@ -212,8 +232,8 @@ public class VentanaInicio {
                 cs = new ControladorEspectaculo();
                 ce = new ControladorEmpleado();
 
-                modificarEspectaculo.mostrarEspectaculos(cs.selectAll());
-                modificarEspectaculo.loadCbResponsable(ce.selectAll());
+                modificarEspectaculo.mostrarEspectaculos(cs.selectByState(false));
+                modificarEspectaculo.loadCbResponsable(ce.selectResponsables());
 
                 mostrarPanel(modificarEspectaculo.getJPEspectaculos());
             }
@@ -229,6 +249,8 @@ public class VentanaInicio {
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
                 mostrarPanel(listadoEspectaculos.getJPListadoEspectaculo());
+
+
             }
         });
 
@@ -239,8 +261,13 @@ public class VentanaInicio {
                 cs = new ControladorEspectaculo();
                 cc = new ControladorCliente();
 
-                nuevaInscripcion.mostrarClientes( cc.selectAll());
-                nuevaInscripcion.mostrarEspectaculos( cs.selectAll());
+                java.util.Date date = new java.util.Date();
+                DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+                String ahora = fechaHora.format(date);
+
+                nuevaInscripcion.getTxtFechaInscripcion().setText(ahora);
+                nuevaInscripcion.mostrarClientes( cc.selectByState(false));
+                nuevaInscripcion.mostrarEspectaculos( cs.selectByState(false));
 
                 mostrarPanel(nuevaInscripcion.getJPInscripciones());
             }
@@ -250,7 +277,6 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MostrarInscripciones mostrarInscripciones = new MostrarInscripciones();
-
 
                 mostrarPanel(mostrarInscripciones.getJPTodasInscripciones());
             }

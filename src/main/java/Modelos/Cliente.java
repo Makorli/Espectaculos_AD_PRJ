@@ -1,10 +1,13 @@
 package Modelos;
 
+import Controllers.ControladorEspectaculo;
+import Controllers.ControladorInscripciones;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrementales de DB4o
+public class Cliente extends IDHolder { //extiende de IDHolder para autoincrementales de DB4o
 
     // ATRIBUTOS 
 
@@ -14,6 +17,9 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
     private String apellidos;
     private String fechaNacimiento;
     private Boolean baja;
+
+
+
 
     //CONSTRUCTORES
 
@@ -32,10 +38,14 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
     //GETTER & SETTERS
 
     @Override
-    public void setId(int id) { this.idCliente = idCliente; }
+    public void setId(int id) {
+        this.idCliente = id;
+    }
 
     @Override
-    public int getId() { return idCliente; }
+    public int getId() {
+        return idCliente;
+    }
 
     public int getIdCliente() {
         return idCliente;
@@ -89,12 +99,27 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
 
     /**
      * Retorna una lista de objetos espectaculos de los cuales es responsable
+     *
      * @return ArrayList
      */
-    public List<Espectaculo> getEspectaculos(){
-        List <Espectaculo> espectaculosList = new ArrayList<>();
-        //TODO
-        return espectaculosList;
+    public List<Espectaculo> getEspectaculosByCliente() {
+
+        ControladorInscripciones ci = new ControladorInscripciones();
+        List<Inscripcion> inscripciones;
+        inscripciones = ci.selectAll();
+
+        Espectaculo e;
+        List<Espectaculo> espectaculosClienteList = new ArrayList<>();
+
+        for (Inscripcion i : inscripciones) {
+            if (i.getCliente().equals(this)) {
+                e = i.getEspectaculo();
+                espectaculosClienteList.add(e);
+            }
+
+        }
+
+        return espectaculosClienteList;
     }
 
 
@@ -102,6 +127,7 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
 
     /**
      * Método de visualziacion raípad de los datos del objeto por consola
+     *
      * @return String con los valores del objeto
      */
     @Override
@@ -114,13 +140,14 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", baja=" + baja +
                 '}';*/
-       return nombre + " " + apellidos + " " + dni;
+        return dni + " - " + nombre + " " + apellidos ;
     }
 
 
     /**
      * Metodo de comparación de objetos basados en los valores que tienen sus atributos.
      * Se comparan las claves primarias o identificadores únicos
+     *
      * @return Boolean
      */
     @Override
@@ -135,6 +162,7 @@ public class Cliente extends IDHolder{ //extiende de IDHolder para autoincrement
     /**
      * Metodo de comparación de objetos basados en los hashes que generan sus atributos.
      * Se realiza el hash con las claves primarias y campos únicos.
+     *
      * @return Boolean
      */
     @Override

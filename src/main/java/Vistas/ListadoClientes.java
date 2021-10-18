@@ -12,21 +12,26 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ListadoClientes {
-    private JLabel lbTituloParque,lbNombre,lbApellido, lbFechaNacimiento, lbDni;
+    private JLabel lbTituloParque, lbNombre, lbApellido, lbFechaNacimiento, lbDni;
     private JPanel JPGeneral, JPListadoClientes;
     private JList<Cliente> lstClientes;
     private JButton btnVolver;
     private JList<Espectaculo> lstCliEspectaculos;
     private JCheckBox cbHistorico;
-    private ControladorInscripciones ci =new ControladorInscripciones();
-    private ControladorEspectaculo cs=new ControladorEspectaculo();
+
+    private JScrollPane JPListadoCli;
+
+    private ControladorInscripciones ci = new ControladorInscripciones();
+    private ControladorEspectaculo cs = new ControladorEspectaculo();
 
 
     public ListadoClientes() {
+
 
         lstClientes.addListSelectionListener(e -> {
 
@@ -35,24 +40,39 @@ public class ListadoClientes {
             lbFechaNacimiento.setText(lstClientes.getSelectedValue().getFechaNacimiento());
             lbDni.setText(lstClientes.getSelectedValue().getDni());
 
+
+            if (lstClientes.getSelectedValue().getEspectaculosByCliente().size()>0) {
+                cbHistorico.setEnabled(true);
+            } else {cbHistorico.setEnabled(false);}
+
             try {
-                mostrarEspectaculosInscritos(lstClientes.getSelectedValue().getIdCliente(), cbHistorico.isSelected());
+                mostrarEspectaculosInscritos(lstClientes.getSelectedValue(), cbHistorico.isSelected());
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
 
 
         });
-
-
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 autoDestroy();
             }
         });
-    }
+        cbHistorico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    if (lstClientes.getSelectedValue() != null ) {
+                        try {
+                        mostrarEspectaculosInscritos(lstClientes.getSelectedValue(), cbHistorico.isSelected());
+                    } catch(ParseException ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
 
+    }
 
     public JPanel getJPListadoClientes() {
         return JPListadoClientes;
@@ -69,48 +89,43 @@ public class ListadoClientes {
         lstClientes.setModel(modelo);
     }
 
-    public void mostrarEspectaculosInscritos(int idCliente, boolean historico  ) throws ParseException {
+    public void mostrarEspectaculosInscritos(Cliente cliente, boolean historico) throws ParseException {
         DefaultListModel<Espectaculo> modelo = new DefaultListModel<>();
 
-        List<Espectaculo> espectaculos;
-        List<Inscripcion> inscripciones;
+        List<Espectaculo> espectaculosClienteList = cliente.getEspectaculosByCliente();
 
-        espectaculos = cs.selectAll();
-        inscripciones = ci.selectAll();
+      for (Espectaculo e : espectaculosClienteList){
 
-          for (Inscripcion i: inscripciones){
-           if(i.getIdCliente() == idCliente){
-               for(Espectaculo e: espectaculos){
+          Date date = new Date();
+          DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+          String ahora = fechaHora.format(date);
 
-                   Date date = new Date();
-                   DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
-                   String ahora = fechaHora.format(date);
+          SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+          Date date1 = sdf.parse(ahora);
+          Date date2 = sdf.parse(e.getFecha());
 
-                   System.out.println(ahora);
-                   System.out.println(e.getFecha());
+          if (historico) {
 
-                   SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                   Date date1 = sdf.parse(ahora);
-                   Date date2 = sdf.parse(e.getFecha());
+              if (date1.compareTo(date2) > 0) {
+                  modelo.addElement(e);
+              }
+          } else {
 
-                   System.out.println("date1 : " + sdf.format(date1));
-                   System.out.println("date2 : " + sdf.format(date2));
+              if (date1.compareTo(date2) < 0) {
+                  modelo.addElement(e);
+              }
 
-                       if(historico){
-                       if(date1.compareTo(date2) <0 ){
-                           modelo.addElement(e);
-                       }
-                   }else{
-                       if(date1.compareTo(date2) >0 ){
-                           modelo.addElement(e);
-                       }
-                   }
-               }
-           }
-        }
+
+          }
+
+      }
 
         lstCliEspectaculos.setModel(modelo);
 
+    }
+
+    public JCheckBox getCbHistorico() {
+        return cbHistorico;
     }
 
     public void autoDestroy() {
@@ -118,4 +133,9 @@ public class ListadoClientes {
         JPListadoClientes.removeAll();
         JPListadoClientes.repaint();
     }
+
+
+
+
 }
+

@@ -6,13 +6,14 @@ import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 import com.db4o.events.EventRegistry;
 import com.db4o.events.EventRegistryFactory;
-import com.db4o.ext.DatabaseClosedException;
-import com.db4o.ext.DatabaseReadOnlyException;
-import com.db4o.ext.Db4oIOException;
+import com.db4o.ext.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Clase que se encargará de establecer las conexiones a las difernetes Bases de datos.
@@ -308,6 +309,7 @@ public class DBController {
 
     /**
      * Devuelve si la base de datos tiene una conexión activa (no está cerrada)
+     *
      * @return boolean
      */
     public boolean isDbConnected() {
@@ -350,7 +352,13 @@ public class DBController {
         }
     }
 
-    public void setDb4oAutoincrement(ObjectContainer objectContainer){
+    /**
+     * Establece el seteo automatico de valores autoincrementales en el objeto contenedor
+     * de DB4o para todas las clases en el contenidas.
+     *
+     * @param objectContainer
+     */
+    public void setDb4oAutoincrement(ObjectContainer objectContainer) {
         //Seteamos la clase incremental y su registo de eventos para establecer el id automaticamente
         increment = new Db4oAutoincrement(objectContainer);
         eventRegistry = EventRegistryFactory.forObjectContainer(objectContainer);
@@ -366,6 +374,128 @@ public class DBController {
 
 
         // https://bdooinfo.wordpress.com/db4o-consultas-nativas-nq-native-query/
+    }
+
+    /**
+     * Procedimeinto que deuelve los metadatos de la BD gestionada por el DBController
+     * @return Strinbuilder con metadatos o null
+     */
+    public StringBuilder getDBMetadata() {
+        StringBuilder dbMetadataSb = new StringBuilder();
+        String esquemaSql = null;
+        switch (this.tipoDB) {
+            case MySQL:
+                //seteamos el esquema sobre el que realizar la consulta y dejamos correr el switch
+                esquemaSql = MySqlDataConnect.getDbName();
+            case SQLite:
+                //nos aseguramos de que tipo de base de datos MySQL o SQLite y seteamos el esquema.
+                if (this.tipoDB == DBTypes.SQLite) esquemaSql = SQLiteDataConnect.getDbName();
+                try {
+                    //Recogemos la conexión del controlador
+                    DatabaseMetaData dbmd = getConnectionDb().getMetaData();
+                    //NOMBRE BD
+                    dbMetadataSb.append(String.format("Nombre BD: %s \n", dbmd.getDatabaseProductName()));
+                    //DRIVER BD
+                    dbMetadataSb.append(String.format("Driver : %s \n", dbmd.getDriverName()));
+                    //DRIVER VERSION
+                    dbMetadataSb.append(String.format("Driver Version: %s \n", dbmd.getDriverVersion()));
+                    //URL BD
+                    dbMetadataSb.append(String.format("URL BD: %s \n", dbmd.getURL()));
+                    //USUARIO BD
+                    dbMetadataSb.append(String.format("Usuario BD: %s \n", dbmd.getUserName()));
+                    //Tablas y sus detalles
+                    //Obtenemos las tablas del esquema
+                    dbMetadataSb.append("\n Composicion de la Base de datos...\n\n");
+                    ResultSet resultSet =
+                            dbmd.getTables(
+                                    null,
+                                    esquemaSql,
+                                    null,
+                                    new String[]{"Table"});
+                    //recorremos el resultset para recorrer las tablas contenidas en el y sacar sus detalles.
+                    String nombreTabla;
+                    while (resultSet.next()) {
+                        //pinteamos la tabla y el tipo
+                        nombreTabla = resultSet.getString("TABLE_NAME");
+                        dbMetadataSb.append(
+                                String.format("   %s: %s \n",
+                                        resultSet.getString("TABLE_TYPE"),
+                                        nombreTabla)
+                        );
+                        //Por cada tabla extraemos las columnas / campos y su tipo
+                        ResultSet resultSet1 = dbmd.getColumns(
+                                null,
+                                esquemaSql,
+                                nombreTabla,
+                                null);
+
+                        //Extraemos los datos de la tabla
+                        while (resultSet1.next()) {
+                            dbMetadataSb.append(
+                                    String.format("     Campo: %-40s\tTipo: %-20s\tNulable: %B\n",
+                                            resultSet1.getString("COLUMN_NAME"),
+                                            resultSet1.getString("TYPE_NAME"),
+                                            resultSet1.getBoolean("NULLABLE")
+                                    )
+                            );
+                        }
+                        dbMetadataSb.append("\n");
+
+
+                    }
+                } catch (SQLException s) {
+                    dbMetadataSb.append("Error en consulta de Metadatos");
+                }
+                break;
+
+            case DB4o:
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy  HH:mm:ss");
+
+                //INFORMACION BASICA DE OBJECT CONTAINER (BASE DE DATOS)
+                dbMetadataSb.append(
+                        String.format("Nombre BD: %s \n", getObjectContainerDb().toString()));
+                dbMetadataSb.append(
+                        String.format("Fecha creación: %s \n",
+                                df.format(getObjectContainerDb().ext().identity().getCreationTime())));
+                dbMetadataSb.append(
+                        String.format("DB UUID: %s \n",
+                                getObjectContainerDb().ext().identity().i_uuid));
+                dbMetadataSb.append(
+                        String.format("DB Version: %s \n",
+                                getObjectContainerDb().ext().version()));
+
+                //INFORMACION ESPECIFICA DE LAS CLASES DEL OBJECT CONTAINER
+                dbMetadataSb.append("\n Composicion de la Base de datos...\n\n");
+                //Recojemos todas las clases almacenadas
+                StoredClass[] misclases= getObjectContainerDb().ext().storedClasses();
+                //Recorremos el listado
+                for (StoredClass s: misclases){
+                    dbMetadataSb.append(String.format("   Objeto: %s\n", s.getName()));
+                    //Extraemos los campos
+                    StoredField[] misCampos = s.getStoredFields();
+                    //Recorremos los atributos
+                    for (StoredField sf: misCampos){
+                        //extraemos la inforamción deseada
+                        dbMetadataSb.append(String.format("    Atributo:   %-50S\tTipo: %-40s\tIndexado: %B\n",
+                                sf.getName(),
+                                //control para evitar sf.getStoredType con NullpointerException
+                                (sf.getStoredType()!=null)?sf.getStoredType().getName():"N/A",
+                                sf.hasIndex()
+                        ));
+                    }
+                    dbMetadataSb.append("\n");
+                }
+                break;
+            case Oracle:
+                //MUy simliar a MySQL
+                //TODO
+                break;
+            default:
+                dbMetadataSb.append("Base de datos no reconocida");
+                break;
+        }
+        return dbMetadataSb;
+
     }
 }
 

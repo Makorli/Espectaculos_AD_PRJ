@@ -4,6 +4,7 @@ import Controllers.ControladorEmpleado;
 import Modelos.Empleado;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -41,6 +42,7 @@ public class DatosEmpleado {
     private JComboBox cbCargo;
     private JList<Empleado> lstEmpleados;
     private JScrollPane JPListaEmpleado;
+    private JCheckBox cbHistoricoEmple;
 
 
     public DatosEmpleado() {
@@ -49,11 +51,7 @@ public class DatosEmpleado {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-               /* Empleado empleado = new Empleado(1, txtDni.getText(), txtNombre.getText(),
-                        txtApellidos.getText(), txtFechaNacimiento.getText(),
-                        txtFechaContratacion.getText(), txtNacionalidad.getText(),
-                        Objects.requireNonNull(cbCargo.getSelectedItem()).toString(), cbBaja.isSelected()
-                );*/
+
                 Empleado empleado = new Empleado();
                 empleado.setDni(txtDni.getText());
                 empleado.setNombre(txtNombre.getText());
@@ -74,11 +72,6 @@ public class DatosEmpleado {
                             autoDestroy();
                         }
 
-                        //incorpora MJ verificacion
-                        /*else {
-                            JOptionPane.showMessageDialog(null, "Error al insertar", "Resultado", JOptionPane.ERROR_MESSAGE
-                            );
-                        }*/
 
                     } else { //modificar --update
                         empleado.setIdEmpleado(Integer.parseInt(lbIdEmpleado.getText()));
@@ -88,11 +81,7 @@ public class DatosEmpleado {
                             );
                             autoDestroy();
                         }
-                        //incorpora MJ verificacion
-                        /* else {
-                            JOptionPane.showMessageDialog(null, "Error al modificar", "Resultado", JOptionPane.ERROR_MESSAGE
-                            );
-                        }*/
+
                     }
                 } else {
                     String texto = cc.validaciones(empleado);
@@ -118,6 +107,7 @@ public class DatosEmpleado {
                 txtFechaNacimiento.setText(empleado.getFechaNacimiento());
                 txtFechaContratacion.setText(empleado.getFechaContratacion());
 
+
                 cbCargo.setSelectedItem(empleado.getCargo());
                 cbBaja.setSelected(empleado.getBaja());
 
@@ -136,14 +126,52 @@ public class DatosEmpleado {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (cbBaja.isSelected()){
-                    cbBaja.setSelected(false);
-                }else{
-                    cbBaja.setSelected(true);
-                }
 
+                if ((lstEmpleados.getSelectedValue() == null)) {
+                    cbBaja.setSelected(false);
+                    cbBaja.setEnabled(false);
+                    btnGuardar.setEnabled(false);
+
+                } else {
+                    if (cbBaja.isSelected()) {
+                        cbBaja.setSelected(false);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(true);
+                        }
+
+                    } else {
+                        cbBaja.setSelected(true);
+                        if (btnBaja.getText() == "Alta") {
+                            btnGuardar.setEnabled(false);
+                        }
+                    }
+
+                }
             }
         });
+
+        cbHistoricoEmple.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = cbHistoricoEmple.isSelected();
+
+                if (state) {
+                    limpiar();
+                    mostrarEmpleados(cc.selectByState(true));
+                    btnGuardar.setEnabled(false);
+                    btnBaja.setText("Alta");
+
+                } else {
+                    limpiar();
+                    mostrarEmpleados(cc.selectByState(false));
+                    btnGuardar.setEnabled(true);
+                    btnBaja.setText("Baja");
+
+                }
+            }
+        });
+
+
     }
 
     public JPanel getJPGeneral(JFrame frame) {
@@ -181,10 +209,35 @@ public class DatosEmpleado {
         this.cbBaja.setEnabled(state);
     }
 
-    public void setLstEmpleadosState (boolean state) {
-        this.lstEmpleados.setEnabled(state);    }
+    public void setLstEmpleadosState(boolean state) {
+        this.lstEmpleados.setEnabled(state);
+    }
 
     public void setBtnBajaState(boolean state) {
         this.btnBaja.setEnabled(state);
     }
+
+    public JCheckBox getCbHistoricoEmple() {
+        return cbHistoricoEmple;
+    }
+
+    public JList<Empleado> getLstEmpleados() {
+        return lstEmpleados;
+    }
+
+    public void limpiar() {
+
+        lbIdEmpleado.setText("");
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDni.setText("");
+        txtFechaNacimiento.setText("");
+        txtFechaContratacion.setText("");
+        txtNacionalidad.setText("");
+        cbBaja.setSelected(false);
+
+
+    }
+
+
 }
