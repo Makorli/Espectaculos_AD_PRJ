@@ -23,14 +23,14 @@ public class ListadoEspectaculos {
     private JCheckBox cbVerEspectBajas;
 
 
-    private ControladorEspectaculo cs;
+    private ControladorEspectaculo cs = new ControladorEspectaculo();
+
 
     public ListadoEspectaculos() {
 
         lstEspectaculos.addListSelectionListener(e -> {
 
             txtAforo.setText(String.valueOf(lstEspectaculos.getSelectedValue().getAforo()));
-
             txtNombre.setText(lstEspectaculos.getSelectedValue().getNombre());
             txtDescripcion.setText(lstEspectaculos.getSelectedValue().getDescripcion());
             txtNumero.setText(String.valueOf(lstEspectaculos.getSelectedValue().getNumero()));
@@ -56,6 +56,22 @@ public class ListadoEspectaculos {
             }
         });
 
+        cbVerEspectBajas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = cbVerEspectBajas.isSelected();
+
+                if (state) {
+                    limpiar();
+                    mostrarEspectaculos(cs.selectByState(true));
+
+                } else {
+                    limpiar();
+                    mostrarEspectaculos(cs.selectByState(false));
+
+                }
+            }
+        });
     }
 
 
@@ -102,6 +118,22 @@ public class ListadoEspectaculos {
     public void refrescar() {
         JPListadoEspectaculo.repaint();
     }
+    public void limpiar() {
 
+
+        txtNumero.setText("");
+        txtNombre.setText("");
+        txtAforo.setText("");
+        txtDescripcion.setText("");
+        txtLugar.setText("");
+        txtCoste.setText("");
+        txtFecha.setText("");
+        txtHorario.setText("");
+        cbBaja.setSelected(false);
+        cbResponsable.setSelectedItem(null);
+
+
+
+    }
 
 }

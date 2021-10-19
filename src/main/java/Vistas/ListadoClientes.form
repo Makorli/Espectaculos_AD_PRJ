@@ -159,7 +159,8 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Ver clientes baja"/>
+              <font size="14"/>
+              <text value="Ver clientes que están de baja"/>
             </properties>
           </component>
           <component id="10058" class="javax.swing.JCheckBox" binding="cbHistorico">
