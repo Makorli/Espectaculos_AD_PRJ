@@ -1,5 +1,6 @@
 package Vistas;
 
+import Controllers.ControladorCliente;
 import Controllers.ControladorEspectaculo;
 import Controllers.ControladorInscripciones;
 import Modelos.Cliente;
@@ -33,6 +34,7 @@ public class ListadoClientes {
 
     private ControladorInscripciones ci = new ControladorInscripciones();
     private ControladorEspectaculo cs = new ControladorEspectaculo();
+    private ControladorCliente cc = new ControladorCliente();
 
 
     public ListadoClientes() {
@@ -46,9 +48,11 @@ public class ListadoClientes {
             txtDni.setText(lstClientes.getSelectedValue().getDni());
 
 
-            if (lstClientes.getSelectedValue().getEspectaculosByCliente().size()>0) {
+            if (lstClientes.getSelectedValue().getEspectaculosByCliente().size() > 0) {
                 cbHistorico.setEnabled(true);
-            } else {cbHistorico.setEnabled(false);}
+            } else {
+                cbHistorico.setEnabled(false);
+            }
 
             try {
                 mostrarEspectaculosInscritos(lstClientes.getSelectedValue(), cbHistorico.isSelected());
@@ -67,16 +71,29 @@ public class ListadoClientes {
         cbHistorico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    if (lstClientes.getSelectedValue() != null ) {
-                        try {
+                if (lstClientes.getSelectedValue() != null) {
+                    try {
                         mostrarEspectaculosInscritos(lstClientes.getSelectedValue(), cbHistorico.isSelected());
-                    } catch(ParseException ex){
+                    } catch (ParseException ex) {
                         ex.printStackTrace();
                     }
                 }
             }
         });
 
+        cbVerClientesBaja.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = cbVerClientesBaja.isSelected();
+                if (state) {
+                    limpiar();
+                    mostrarClientes(cc.selectByState(true));
+                } else {
+                    limpiar();
+                    mostrarClientes(cc.selectByState(false));
+                }
+            }
+        });
     }
 
     public JPanel getJPListadoClientes() {
@@ -99,31 +116,31 @@ public class ListadoClientes {
 
         List<Espectaculo> espectaculosClienteList = cliente.getEspectaculosByCliente();
 
-      for (Espectaculo e : espectaculosClienteList){
+        for (Espectaculo e : espectaculosClienteList) {
 
-          Date date = new Date();
-          DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
-          String ahora = fechaHora.format(date);
+            Date date = new Date();
+            DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+            String ahora = fechaHora.format(date);
 
-          SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-          Date date1 = sdf.parse(ahora);
-          Date date2 = sdf.parse(e.getFecha());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date1 = sdf.parse(ahora);
+            Date date2 = sdf.parse(e.getFecha());
 
-          if (historico) {
+            if (historico) {
 
-              if (date1.compareTo(date2) > 0) {
-                  modelo.addElement(e);
-              }
-          } else {
+                if (date1.compareTo(date2) > 0) {
+                    modelo.addElement(e);
+                }
+            } else {
 
-              if (date1.compareTo(date2) < 0) {
-                  modelo.addElement(e);
-              }
+                if (date1.compareTo(date2) < 0) {
+                    modelo.addElement(e);
+                }
 
 
-          }
+            }
 
-      }
+        }
 
         lstCliEspectaculos.setModel(modelo);
 
@@ -139,7 +156,15 @@ public class ListadoClientes {
         JPListadoClientes.repaint();
     }
 
+    public void limpiar() {
 
+
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDni.setText("");
+        txtFechaNacimiento.setText("");
+
+    }
 
 
 }
