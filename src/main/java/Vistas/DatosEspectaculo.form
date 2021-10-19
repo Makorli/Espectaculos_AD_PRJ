@@ -19,14 +19,6 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="ec2f3" class="javax.swing.JLabel" binding="lbIdEspectaculo">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="idEspectaculo"/>
-            </properties>
-          </component>
           <component id="51bda" class="javax.swing.JLabel" binding="lbNombre">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
@@ -241,6 +233,22 @@
             </constraints>
             <properties>
               <text value="Ver espectaculos pasados o dados de baja"/>
+            </properties>
+          </component>
+          <component id="ec2f3" class="javax.swing.JLabel" binding="lbIdEspectaculo">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="idEspectaculo"/>
+            </properties>
+          </component>
+          <component id="61e1f" class="javax.swing.JLabel" binding="lbIDEspectaculoEtiquetal">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="ID Espectaculo"/>
             </properties>
           </component>
         </children>

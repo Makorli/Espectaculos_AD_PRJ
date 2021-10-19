@@ -22,7 +22,7 @@
           <text value="Paque RioGrande en Fuensencilla de Torredolones"/>
         </properties>
       </component>
-      <grid id="238df" binding="JPListadoEmpleados" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="238df" binding="JPListadoEmpleados" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="10" left="10" bottom="10" right="10"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -33,17 +33,9 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="7b4e7" class="javax.swing.JList" binding="lstEmpleados">
-            <constraints>
-              <grid row="2" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="b74f6" class="javax.swing.JButton" binding="btnVolver">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Volver"/>
@@ -52,7 +44,7 @@
           <grid id="1c34d" binding="JPEmpleado" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -126,7 +118,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="7095d" class="javax.swing.JTextField" binding="txtFechaNacimiento">
@@ -136,7 +129,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="4232b" class="javax.swing.JTextField" binding="txtNombre">
@@ -146,7 +140,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="163da" class="javax.swing.JTextField" binding="txtApellidos">
@@ -156,7 +151,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="d88d5" class="javax.swing.JTextField" binding="txtNacionalidad">
@@ -166,7 +162,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="b462e" class="javax.swing.JTextField" binding="txtFechaContratacion">
@@ -176,7 +173,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="10d86" class="javax.swing.JTextField" binding="txtCargo">
@@ -186,37 +184,12 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <component id="b43a6" class="javax.swing.JList" binding="lstResponsableEspectaculos">
-            <constraints>
-              <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="8514a" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font size="14"/>
-              <text value="Listado de Empleados"/>
-            </properties>
-          </component>
-          <component id="cd9e0" class="javax.swing.JCheckBox" binding="cbHistorico">
-            <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font size="14"/>
-              <text value="Ver empleados que están de baja"/>
-            </properties>
-          </component>
           <component id="a083d" class="javax.swing.JLabel" binding="lbEmpleado">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -224,6 +197,50 @@
             <properties>
               <font size="20" style="1"/>
               <text value="EMPLEADO"/>
+            </properties>
+          </component>
+          <scrollpane id="d8157" binding="JScListadoEmpleados">
+            <constraints>
+              <grid row="3" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="7b4e7" class="javax.swing.JList" binding="lstEmpleados">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </scrollpane>
+          <component id="b43a6" class="javax.swing.JList" binding="lstResponsableEspectaculos">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="cd9e0" class="javax.swing.JCheckBox" binding="cbHistorico">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="226" height="35"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font size="14"/>
+              <text value="Ver empleados que están de baja"/>
+            </properties>
+          </component>
+          <component id="8514a" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="151" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <enabled value="true"/>
+              <font size="16"/>
+              <text value="Listado de Empleados"/>
             </properties>
           </component>
         </children>

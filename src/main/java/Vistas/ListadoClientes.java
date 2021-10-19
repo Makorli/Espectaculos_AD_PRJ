@@ -4,7 +4,6 @@ import Controllers.ControladorEspectaculo;
 import Controllers.ControladorInscripciones;
 import Modelos.Cliente;
 import Modelos.Espectaculo;
-import Modelos.Inscripcion;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +23,13 @@ public class ListadoClientes {
     private JCheckBox cbHistorico;
 
     private JScrollPane JPListadoCli;
+    private JScrollPane JPListadoEspect;
+    private JTextField txtNombre;
+    private JTextField txtApellidos;
+    private JTextField txtFechaNacimiento;
+    private JTextField txtDni;
+    private JCheckBox cbVerClientesBaja;
+    private JLabel lbCliente;
 
     private ControladorInscripciones ci = new ControladorInscripciones();
     private ControladorEspectaculo cs = new ControladorEspectaculo();
@@ -35,10 +40,10 @@ public class ListadoClientes {
 
         lstClientes.addListSelectionListener(e -> {
 
-            lbNombre.setText(lstClientes.getSelectedValue().getNombre());
-            lbApellido.setText(lstClientes.getSelectedValue().getApellidos());
-            lbFechaNacimiento.setText(lstClientes.getSelectedValue().getFechaNacimiento());
-            lbDni.setText(lstClientes.getSelectedValue().getDni());
+            txtNombre.setText(lstClientes.getSelectedValue().getNombre());
+            txtApellidos.setText(lstClientes.getSelectedValue().getApellidos());
+            txtFechaNacimiento.setText(lstClientes.getSelectedValue().getFechaNacimiento());
+            txtDni.setText(lstClientes.getSelectedValue().getDni());
 
 
             if (lstClientes.getSelectedValue().getEspectaculosByCliente().size()>0) {

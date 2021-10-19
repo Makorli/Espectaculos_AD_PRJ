@@ -20,6 +20,7 @@ public class ListadoEspectaculos {
 
     private JScrollPane JPListaEspectaculos;
     private JList<Espectaculo> lstEspectaculos;
+    private JCheckBox cbVerEspectBajas;
 
 
     private ControladorEspectaculo cs;

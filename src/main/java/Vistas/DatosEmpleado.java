@@ -43,6 +43,7 @@ public class DatosEmpleado {
     private JList<Empleado> lstEmpleados;
     private JScrollPane JPListaEmpleado;
     private JCheckBox cbHistoricoEmple;
+    private JLabel lbIDEmpleadoEtiqueta;
 
 
     public DatosEmpleado() {

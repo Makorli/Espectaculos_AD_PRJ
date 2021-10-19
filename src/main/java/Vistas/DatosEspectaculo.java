@@ -53,6 +53,7 @@ public class DatosEspectaculo {
     private JList<Espectaculo> lstEspectaculos;
     private JScrollPane JPListaEspectaculos;
     private JCheckBox cbHistorico;
+    private JLabel lbIDEspectaculoEtiquetal;
 
 
     public DatosEspectaculo() {

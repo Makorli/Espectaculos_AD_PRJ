@@ -21,6 +21,7 @@ public class ListadoEmpleados {
     private JList lstResponsableEspectaculos;
     private ControladorEspectaculo cs=new ControladorEspectaculo();
     private JCheckBox cbHistorico;
+    private JScrollPane JScListadoEmpleados;
 
     public ListadoEmpleados() {
 
