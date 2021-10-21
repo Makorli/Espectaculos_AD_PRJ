@@ -331,7 +331,6 @@ public class DatosEspectaculo {
         cbResponsable.setSelectedItem(null);
 
 
-
     }
 
 

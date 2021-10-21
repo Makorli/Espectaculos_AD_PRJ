@@ -43,12 +43,18 @@ public class ListadoEmpleados {
             public void actionPerformed(ActionEvent e) {
 
                 boolean state = cbHistorico.isSelected();
-                if (state) {
-                    limpiar();
-                    mostrarEmpleados(ce.selectByState(true));
-                } else {
-                    limpiar();
-                    mostrarEmpleados(ce.selectByState(false));
+                try {
+                    if (state) {
+                        limpiar();
+
+                        mostrarEmpleados(ce.selectByState(true));
+                    } else {
+                        //  limpiar();
+
+                        mostrarEmpleados(ce.selectByState(false));
+                    }
+                } catch (NullPointerException ex) {
+
                 }
 
             }

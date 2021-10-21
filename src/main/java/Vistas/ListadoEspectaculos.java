@@ -1,9 +1,12 @@
 package Vistas;
 
+import Controllers.ControladorEmpleado;
 import Controllers.ControladorEspectaculo;
+import Modelos.Empleado;
 import Modelos.Espectaculo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -22,23 +25,33 @@ public class ListadoEspectaculos {
     private JList<Espectaculo> lstEspectaculos;
     private JCheckBox cbVerEspectBajas;
 
-
+    private ControladorEmpleado ce = new ControladorEmpleado();
     private ControladorEspectaculo cs = new ControladorEspectaculo();
 
 
     public ListadoEspectaculos() {
 
         lstEspectaculos.addListSelectionListener(e -> {
+            Espectaculo espectaculo = lstEspectaculos.getSelectedValue();
 
-            txtAforo.setText(String.valueOf(lstEspectaculos.getSelectedValue().getAforo()));
-            txtNombre.setText(lstEspectaculos.getSelectedValue().getNombre());
-            txtDescripcion.setText(lstEspectaculos.getSelectedValue().getDescripcion());
-            txtNumero.setText(String.valueOf(lstEspectaculos.getSelectedValue().getNumero()));
-            txtLugar.setText(lstEspectaculos.getSelectedValue().getLugar());
-            txtFecha.setText(lstEspectaculos.getSelectedValue().getFecha());
-            txtHorario.setText(lstEspectaculos.getSelectedValue().getHorario());
-            txtCoste.setText(Double.toString(lstEspectaculos.getSelectedValue().getCoste()));
+            if (espectaculo != null) {
 
+                Empleado responsable = ce.selectById(espectaculo.getIdResponsable());
+
+
+                txtNumero.setText(String.format("%d", espectaculo.getNumero()));
+                txtNombre.setText(espectaculo.getNombre());
+                txtAforo.setText(String.format("%d", espectaculo.getAforo()));
+                txtDescripcion.setText(espectaculo.getDescripcion());
+                txtLugar.setText(espectaculo.getLugar());
+                txtCoste.setText(espectaculo.getCoste().toString());
+                txtFecha.setText(espectaculo.getFecha());
+                txtHorario.setText(espectaculo.getHorario());
+                cbBaja.setSelected(espectaculo.getBaja());
+
+                cbResponsable.setSelectedItem(responsable);
+
+            }
 
         });
 
@@ -60,14 +73,17 @@ public class ListadoEspectaculos {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean state = cbVerEspectBajas.isSelected();
+                try {
+                    if (state) {
+                        limpiar();
+                        mostrarEspectaculos(cs.selectByState(true));
 
-                if (state) {
-                    limpiar();
-                    mostrarEspectaculos(cs.selectByState(true));
+                    } else {
+                        limpiar();
+                        mostrarEspectaculos(cs.selectByState(false));
 
-                } else {
-                    limpiar();
-                    mostrarEspectaculos(cs.selectByState(false));
+                    }
+                } catch (NullPointerException ex) {
 
                 }
             }
@@ -118,6 +134,7 @@ public class ListadoEspectaculos {
     public void refrescar() {
         JPListadoEspectaculo.repaint();
     }
+
     public void limpiar() {
 
 
@@ -133,7 +150,31 @@ public class ListadoEspectaculos {
         cbResponsable.setSelectedItem(null);
 
 
+    }
 
+
+    public void loadCbResponsable(List<Empleado> responsables) {
+
+        DefaultComboBoxModel<Empleado> defaultComboBoxModel = new DefaultComboBoxModel<Empleado>();
+
+        for (Empleado e : responsables) {
+            defaultComboBoxModel.addElement(e);
+        }
+        cbResponsable.setModel(defaultComboBoxModel);
+        cbResponsable.setRenderer(new responsableListCellRenderer());
+    }
+
+    private class responsableListCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                      boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof Empleado) {
+                Empleado e = (Empleado) value;
+                value = e.getDni() + " - " + e.getApellidos();
+            }
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
     }
 
 }

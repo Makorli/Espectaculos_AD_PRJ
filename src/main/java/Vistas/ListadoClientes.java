@@ -16,21 +16,16 @@ import java.util.Date;
 import java.util.List;
 
 public class ListadoClientes {
-    private JLabel lbTituloParque, lbNombre, lbApellido, lbFechaNacimiento, lbDni;
+    private JLabel lbTituloParque, lbNombre, lbApellido, lbFechaNacimiento, lbDni, lbCliente;
     private JPanel JPGeneral, JPListadoClientes;
     private JList<Cliente> lstClientes;
     private JButton btnVolver;
     private JList<Espectaculo> lstCliEspectaculos;
-    private JCheckBox cbHistorico;
+    private JCheckBox cbHistorico, cbVerClientesBaja;
 
-    private JScrollPane JPListadoCli;
-    private JScrollPane JPListadoEspect;
-    private JTextField txtNombre;
-    private JTextField txtApellidos;
-    private JTextField txtFechaNacimiento;
-    private JTextField txtDni;
-    private JCheckBox cbVerClientesBaja;
-    private JLabel lbCliente;
+    private JScrollPane JPListadoCli, JPListadoEspect;
+
+    private JTextField txtNombre, txtApellidos, txtFechaNacimiento, txtDni;
 
     private ControladorInscripciones ci = new ControladorInscripciones();
     private ControladorEspectaculo cs = new ControladorEspectaculo();
@@ -81,16 +76,22 @@ public class ListadoClientes {
             }
         });
 
+
         cbVerClientesBaja.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean state = cbVerClientesBaja.isSelected();
-                if (state) {
-                    limpiar();
-                    mostrarClientes(cc.selectByState(true));
-                } else {
-                    limpiar();
-                    mostrarClientes(cc.selectByState(false));
+                try {
+                    if (state) {
+                        limpiar();
+                        mostrarClientes(cc.selectByState(true));
+                    } else {
+                        //  limpiar();
+
+                        mostrarClientes(cc.selectByState(false));
+                    }
+                } catch (NullPointerException ex) {
+
                 }
             }
         });
