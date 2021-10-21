@@ -44,10 +44,14 @@ public class Espectaculo extends IDHolder {
 //GETTERS & SETTERS
 
     @Override
-    public int getId() { return idEspectaculo; }
+    public int getId() {
+        return idEspectaculo;
+    }
 
     @Override
-    public void setId(int id) { this.idEspectaculo = id; }
+    public void setId(int id) {
+        this.idEspectaculo = id;
+    }
 
 
     public int getIdEspectaculo() {
@@ -143,9 +147,10 @@ public class Espectaculo extends IDHolder {
     /**
      * Retorna el objeto Modelos.Empleado que se responsabiliza del espectaculo.
      * Se utilizará el campo idResponsable
+     *
      * @return
      */
-    public Empleado getResponsable(){
+    public Empleado getResponsable() {
         Empleado responsable = new Empleado();
         responsable = new ControladorEmpleado().getResponsableEspectaculo(this);
         return responsable;
@@ -153,10 +158,11 @@ public class Espectaculo extends IDHolder {
 
     /**
      * Retorna una lista de objetos cliente que han asistido a ese espectaculo
+     *
      * @return ArrayList
      */
-    public List<Cliente> getClientesInscritos(){
-        List <Cliente> clientesList = new ArrayList<>();
+    public List<Cliente> getClientesInscritos() {
+        List<Cliente> clientesList = new ArrayList<>();
         //TODO
         return clientesList;
     }
@@ -164,10 +170,11 @@ public class Espectaculo extends IDHolder {
     /**
      * Retorna una lista de objetos Modelos.Inscripcion en la que figuran los datos de horario
      * de las inscripciones y los ids de cliente y espectaculos correspondientes.
+     *
      * @return ArrayList
      */
-    public List<Inscripcion> getInscripciones(){
-        List <Inscripcion> inscripcionesList = new ArrayList<>();
+    public List<Inscripcion> getInscripciones() {
+        List<Inscripcion> inscripcionesList = new ArrayList<>();
         //TODO
         return inscripcionesList;
     }
@@ -176,6 +183,7 @@ public class Espectaculo extends IDHolder {
 
     /**
      * Método de visualizacion rápida de los datos del objeto por consola
+     *
      * @return String con los valores del objeto
      */
     @Override
@@ -193,13 +201,14 @@ public class Espectaculo extends IDHolder {
                 ", baja=" + baja +
                 ", idResponsable=" + idResponsable +
                 '}';*/
-        return nombre + " " + lugar;
+        return nombre + " - Lugar: " + lugar + " - Agenda: " + fecha + " " + horario;
     }
 
 
     /**
      * Metodo de comparación de objetos basados en los valores que tienen sus atributos.
      * Se comparan las claves primarias o identificadores únicos
+     *
      * @return Boolean
      */
     @Override
@@ -216,12 +225,15 @@ public class Espectaculo extends IDHolder {
     /**
      * Metodo de comparación de objetos basados en los hashes que generan sus atributos.
      * Se realiza el hash con las claves primarias y campos únicos.
+     *
      * @return Boolean
      */
     @Override
     public int hashCode() {
         return Objects.hash(idEspectaculo, numero, nombre);
     }
+
+
 
 
 }

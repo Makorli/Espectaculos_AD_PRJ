@@ -153,6 +153,7 @@ public class ControladorCliente {
                         new Predicate<>() {
                             @Override
                             public boolean match(Cliente c) {
+
                                 return c.getIdCliente() == (cliente.getIdCliente());
                             }
                         });
@@ -221,6 +222,57 @@ public class ControladorCliente {
             try {
                 //Recuperamos todos los objetos Cliente
                 ObjectSet<Cliente> clientesOS = myObjCont.queryByExample(new Cliente());
+                // Si tenemos clientes recorremos el Resultado para incorporar los objetos a la lista
+                if (clientesOS.size() > 0) {
+                    while (clientesOS.hasNext())
+                        clientes.add(clientesOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return clientes;
+    }
+
+    public List<Cliente> selectByState(boolean state) {
+
+        List<Cliente> clientes = new ArrayList<>();
+
+
+        if (tipoDb != DBController.DBTypes.DB4o) {
+            try {
+                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                sentencia = mydb.createStatement();
+                ResultSet rs = sentencia.executeQuery(sql);
+
+
+                while (rs.next()) {
+
+                    Cliente clienteNew = new Cliente();
+
+                    clienteNew.setIdCliente(rs.getInt(attNames[0]));
+                    clienteNew.setDni(rs.getString(attNames[1]));
+                    clienteNew.setNombre(rs.getString(attNames[2]));
+                    clienteNew.setApellidos(rs.getString(attNames[3]));
+                    clienteNew.setFechaNacimiento(rs.getString(attNames[4]));
+                    clienteNew.setBaja(rs.getBoolean(attNames[5]));
+
+                    clientes.add(clienteNew);
+                }
+                sentencia.close();
+
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                //Recuperamos todos los objetos Cliente
+                Cliente cliente = new Cliente();
+                cliente.setBaja(state);
+                ObjectSet<Cliente> clientesOS = myObjCont.queryByExample(cliente);
                 // Si tenemos clientes recorremos el Resultado para incorporar los objetos a la lista
                 if (clientesOS.size() > 0) {
                     while (clientesOS.hasNext())
@@ -396,5 +448,8 @@ public class ControladorCliente {
             return null;
         }
     }
+
+
+
 
 }

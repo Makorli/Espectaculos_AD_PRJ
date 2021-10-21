@@ -1,7 +1,10 @@
 package Miscelaneous;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 /**
  * https://www.baeldung.com/java-string-valid-date
@@ -46,4 +49,12 @@ public class DateValidatorByDateTimeFormatter implements DateValidator {
         }
         return true;
     }
+
+    public Date StringToDate(String fecha) throws ParseException {
+        //String sDate1="31/12/1998";
+        Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
+        System.out.println(date1);
+        return date1;
+    }
+
 }

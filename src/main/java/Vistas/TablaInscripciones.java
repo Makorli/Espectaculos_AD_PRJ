@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TablaInscripciones extends AbstractTableModel {
 
-    private String[] columnas = {"CLIENTE", "ESPECTACULO", "FECHA INSCRIPCION", "IDINSCRIPCION"};
+    private String[] columnas = {"IDINSCRIPCION", "CLIENTE", "ESPECTACULO", "FECHA INSCRIPCION"};
     private List<Inscripcion> inscripcionesT;
     private List<Cliente> clientesT;
     private List<Espectaculo> espectaculosT;
@@ -24,7 +24,6 @@ public class TablaInscripciones extends AbstractTableModel {
         inscripcionesT = inscripciones;
         clientesT = clientes;
         espectaculosT = espectaculos;
-
 
     }
 
@@ -48,25 +47,26 @@ public class TablaInscripciones extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
+                return i.getIdInscripcion();
+            case 1:
 
                 for (Cliente c : clientesT) {
                     if (c.getIdCliente() == i.getIdCliente()) {
                         return c.getNombre();
                     }
                 }
-            case 1:
+            case 2:
 
                 for (Espectaculo e : espectaculosT) {
                     if (e.getIdEspectaculo() == i.getIdEspectaculo()) {
                         return e.getNombre();
                     }
                 }
-            case 2:
+            case 3:
 
                return i.getFecha();
 
-            case 3:
-                return i.getIdInscripcion();
+
 
 
         }//fin switch

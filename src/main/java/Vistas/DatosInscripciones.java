@@ -8,6 +8,8 @@ import Modelos.Inscripcion;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class DatosInscripciones {
@@ -18,6 +20,10 @@ public class DatosInscripciones {
     private JButton btnInscribir;
     private JTextField txtFechaInscripcion;
     private JLabel lbFechaInscripcion;
+    private JScrollPane JSEspectaculo;
+    private JScrollPane JSClientes;
+    private JLabel lbClientes;
+    private JLabel lbEspectaculos;
     private ControladorInscripciones ci = new ControladorInscripciones();
 
 
@@ -26,9 +32,16 @@ public class DatosInscripciones {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Inscripcion inscripcion = new Inscripcion();
-                inscripcion.setFecha(txtFechaInscripcion.getText());
                 inscripcion.setIdCliente(lstClientes.getSelectedValue().getIdCliente());
                 inscripcion.setIdEspectaculo(lstEspectaculos.getSelectedValue().getIdEspectaculo());
+
+                java.util.Date date = new java.util.Date();
+                DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+                String ahora = fechaHora.format(date);
+
+                inscripcion.setFecha(txtFechaInscripcion.getText());
+
+
                 if(ci.validaciones(inscripcion) == null) {
                     if(ci.add(inscripcion)){
                         JOptionPane.showMessageDialog(null, "Inserción correcta",
@@ -74,5 +87,13 @@ public class DatosInscripciones {
 
         JPInscripciones.removeAll();
         JPInscripciones.repaint();
+    }
+
+    public JTextField getTxtFechaInscripcion() {
+        return txtFechaInscripcion;
+    }
+
+    public void setTxtFechaInscripcion(JTextField txtFechaInscripcion) {
+        this.txtFechaInscripcion = txtFechaInscripcion;
     }
 }
