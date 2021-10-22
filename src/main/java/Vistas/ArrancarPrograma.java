@@ -1,7 +1,11 @@
 package Vistas;
 
+import Controllers.ControladorCliente;
+import Controllers.ControladorEmpleado;
 import Controllers.ControladorEspectaculo;
 import Controllers.DBController;
+import Modelos.Empleado;
+import Modelos.Espectaculo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +15,6 @@ import java.awt.event.WindowEvent;
 import java.text.ParseException;
 
 public class ArrancarPrograma {
-
 
 
     private JLabel lbEleccionParque;
@@ -136,6 +139,7 @@ public class ArrancarPrograma {
 
                 ControladorEspectaculo ce = new ControladorEspectaculo();
 
+
                 try {
                     ce.actualizarEstadosautomatico();
                 } catch (ParseException ex) {
@@ -214,7 +218,7 @@ public class ArrancarPrograma {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (db!=null) {
+                if (db != null) {
                     db.DesconectarDb();
                     System.out.println("Base de datos desconectada");
                 }

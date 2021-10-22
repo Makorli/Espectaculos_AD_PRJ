@@ -391,7 +391,7 @@ public class ControladorCliente {
 
     }
 
-    public String  validaciones(Cliente cliente) {
+    public String validaciones(Cliente cliente) {
 
         HashMap<String, String> errores = new HashMap<>();
 
@@ -426,7 +426,6 @@ public class ControladorCliente {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
-
         if (!cliente.getFechaNacimiento().equals("")) {
             DateValidatorByDateTimeFormatter d = new DateValidatorByDateTimeFormatter(formatter);
             if (!(d.isValid(cliente.getFechaNacimiento()))) {
@@ -448,7 +447,6 @@ public class ControladorCliente {
             return null;
         }
     }
-
 
 
 }
