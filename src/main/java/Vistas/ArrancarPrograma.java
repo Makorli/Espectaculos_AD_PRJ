@@ -5,6 +5,7 @@ import Controllers.ControladorEmpleado;
 import Controllers.ControladorEspectaculo;
 import Controllers.DBController;
 import Modelos.Empleado;
+import Modelos.Espectaculo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
