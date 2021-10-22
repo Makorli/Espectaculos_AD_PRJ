@@ -1,7 +1,7 @@
 CREATE SEQUENCE EmpleadoId_seq START WITH 1;
 create table Empleado
 (
-    idEmpleado        number  default EmpleadoId_seq.nextval  not null,
+    idEmpleado        number  default EmpleadoId_seq.nextval  null,
     dni               varchar(9)            not null,
     nombre            varchar(40)           not null,
     apellidos         varchar(40)           not null,
@@ -19,7 +19,7 @@ create table Empleado
 CREATE SEQUENCE ClienteId_seq START WITH 1;
 create table Cliente
 (
-    idCliente       number default ClienteId_seq.nextval not null,
+    idCliente       number default ClienteId_seq.nextval null,
     dni             varchar(9)            not null,
     nombre          varchar(40)           not null,
     apellidos       varchar(40)           not null,
@@ -35,7 +35,7 @@ create table Cliente
 CREATE SEQUENCE EspectaculoId_seq START WITH 1;
 create table Espectaculo
 (
-    idEspectaculo number default EspectaculoID_seq.nextval not null,
+    idEspectaculo number default EspectaculoID_seq.nextval null,
     numero        number       not null,
     nombre        varchar(40)  not null,
     aforo         number       null,
