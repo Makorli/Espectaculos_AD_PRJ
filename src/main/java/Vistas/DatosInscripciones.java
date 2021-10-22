@@ -20,6 +20,10 @@ public class DatosInscripciones {
     private JButton btnInscribir;
     private JTextField txtFechaInscripcion;
     private JLabel lbFechaInscripcion;
+    private JScrollPane JSEspectaculo;
+    private JScrollPane JSClientes;
+    private JLabel lbClientes;
+    private JLabel lbEspectaculos;
     private ControladorInscripciones ci = new ControladorInscripciones();
 
 

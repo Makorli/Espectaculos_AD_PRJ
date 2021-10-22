@@ -1,14 +1,13 @@
 package Vistas;
 
+import Controllers.ControladorEmpleado;
 import Controllers.ControladorEspectaculo;
 import Modelos.Empleado;
 import Modelos.Espectaculo;
 
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.util.List;
 
 public class ListadoEmpleados {
@@ -19,13 +18,14 @@ public class ListadoEmpleados {
     private JLabel lbTituloParque, lbEmpleado, lbNombre, lbApellidos, lbNacionalidad, lbDni, lbFechaNacimiento, lbFechaContratacion, lbCargo;
     private JTextField txtCargo, txtNombre, txtApellidos, txtNacionalidad, txtFechaNacimiento, txtDni, txtFechaContratacion;
     private JList lstResponsableEspectaculos;
-    private ControladorEspectaculo cs=new ControladorEspectaculo();
+    private ControladorEspectaculo cs = new ControladorEspectaculo();
     private JCheckBox cbHistorico;
+    private JScrollPane JScListadoEmpleados;
+    private ControladorEmpleado ce = new ControladorEmpleado();
 
     public ListadoEmpleados() {
 
         lstEmpleados.addListSelectionListener(e -> {
-
 
             txtNombre.setText(lstEmpleados.getSelectedValue().getNombre());
             txtApellidos.setText(lstEmpleados.getSelectedValue().getApellidos());
@@ -34,9 +34,7 @@ public class ListadoEmpleados {
             txtCargo.setText(lstEmpleados.getSelectedValue().getCargo());
             txtNacionalidad.setText(lstEmpleados.getSelectedValue().getNacionalidad());
             txtFechaContratacion.setText(lstEmpleados.getSelectedValue().getFechaContratacion());
-
             mostrarEspectaculosResponsable(lstEmpleados.getSelectedValue().getIdEmpleado());
-
 
         });
 
@@ -44,7 +42,20 @@ public class ListadoEmpleados {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //todo
+                boolean state = cbHistorico.isSelected();
+                try {
+                    if (state) {
+                        limpiar();
+
+                        mostrarEmpleados(ce.selectByState(true));
+                    } else {
+                        //  limpiar();
+
+                        mostrarEmpleados(ce.selectByState(false));
+                    }
+                } catch (NullPointerException ex) {
+
+                }
 
             }
         });
@@ -58,23 +69,24 @@ public class ListadoEmpleados {
 
     }
 
-    public void mostrarEspectaculosResponsable(int idEmpleado){
+    public void mostrarEspectaculosResponsable(int idEmpleado) {
 
         DefaultListModel<Espectaculo> modelo = new DefaultListModel<>();
 
         List<Espectaculo> espectaculos;
         espectaculos = cs.selectAll();
 
-                for(Espectaculo e: espectaculos){
-                    if(e.getIdResponsable() == idEmpleado){
-                        modelo.addElement(e);
-                    }
-                }
+        for (Espectaculo e : espectaculos) {
+            if (e.getIdResponsable() == idEmpleado) {
+                modelo.addElement(e);
+            }
+        }
 
         lstResponsableEspectaculos.setModel(modelo);
 
 
     }
+
     public void mostrarEmpleados(List<Empleado> empleados) {
 
         DefaultListModel<Empleado> modelo = new DefaultListModel<>();
@@ -99,4 +111,15 @@ public class ListadoEmpleados {
     public JCheckBox getCbHistorico() {
         return cbHistorico;
     }
+
+    public void limpiar() {
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDni.setText("");
+        txtFechaNacimiento.setText("");
+        txtFechaContratacion.setText("");
+        txtNacionalidad.setText("");
+    }
+
+
 }

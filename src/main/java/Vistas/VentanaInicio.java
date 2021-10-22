@@ -55,7 +55,7 @@ public class VentanaInicio {
         JMenuItem itemMostrarTodasInscripciones = new JMenuItem("Mostrar inscripciones");
 
         JMenuItem itemMetadatos = new JMenuItem("Metadatos");
-        JMenuItem itemBusqueda = new JMenuItem("Buscar...");
+
         JMenuItem itemSalirParque = new JMenuItem("Salir de este parque.");
 
         // Aqui añadimos el item a cada menu.
@@ -75,7 +75,7 @@ public class VentanaInicio {
         MenuInscripciones.add(itemMostrarTodasInscripciones);
 
         MenuOtrasOpciones.add(itemMetadatos);
-        MenuOtrasOpciones.add(itemBusqueda);
+
         MenuOtrasOpciones.add(itemSalirParque);
 
         //Formamos el menu bar
@@ -142,7 +142,7 @@ public class VentanaInicio {
                 cc = new ControladorCliente();
 
                 listadoClientes.mostrarClientes(cc.selectByState(false));
-                listadoClientes.getCbHistorico().setEnabled(false);
+                listadoClientes.getCbHistorico().setEnabled(true);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
@@ -190,7 +190,7 @@ public class VentanaInicio {
                 ListadoEmpleados listadoEmpleados = new ListadoEmpleados();
                 ce = new ControladorEmpleado();
                 listadoEmpleados.mostrarEmpleados(ce.selectByState(false));
-                listadoEmpleados.getCbHistorico().setEnabled(false);
+                listadoEmpleados.getCbHistorico().setEnabled(true);
 
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
@@ -244,8 +244,10 @@ public class VentanaInicio {
             public void actionPerformed(ActionEvent e) {
                 ListadoEspectaculos listadoEspectaculos = new ListadoEspectaculos();
                 cs = new ControladorEspectaculo();
-                listadoEspectaculos.mostrarEspectaculos(cs.selectAll());
+                ce = new ControladorEmpleado();
+                listadoEspectaculos.mostrarEspectaculos(cs.selectByState(false));
 
+                listadoEspectaculos.loadCbResponsable(ce.selectResponsables());
                 //tenemos que enviar un listado de clientes, de espectaculos e inscripciones.
 
                 mostrarPanel(listadoEspectaculos.getJPListadoEspectaculo());
@@ -266,8 +268,8 @@ public class VentanaInicio {
                 String ahora = fechaHora.format(date);
 
                 nuevaInscripcion.getTxtFechaInscripcion().setText(ahora);
-                nuevaInscripcion.mostrarClientes( cc.selectByState(false));
-                nuevaInscripcion.mostrarEspectaculos( cs.selectByState(false));
+                nuevaInscripcion.mostrarClientes(cc.selectByState(false));
+                nuevaInscripcion.mostrarEspectaculos(cs.selectByState(false));
 
                 mostrarPanel(nuevaInscripcion.getJPInscripciones());
             }

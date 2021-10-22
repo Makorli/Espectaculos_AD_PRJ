@@ -4,7 +4,6 @@ import Controllers.ControladorEmpleado;
 import Modelos.Empleado;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -43,6 +42,7 @@ public class DatosEmpleado {
     private JList<Empleado> lstEmpleados;
     private JScrollPane JPListaEmpleado;
     private JCheckBox cbHistoricoEmple;
+    private JLabel lbIDEmpleadoEtiqueta;
 
 
     public DatosEmpleado() {
@@ -50,7 +50,6 @@ public class DatosEmpleado {
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
 
                 Empleado empleado = new Empleado();
                 empleado.setDni(txtDni.getText());
@@ -106,8 +105,6 @@ public class DatosEmpleado {
                 txtDni.setText(empleado.getDni());
                 txtFechaNacimiento.setText(empleado.getFechaNacimiento());
                 txtFechaContratacion.setText(empleado.getFechaContratacion());
-
-
                 cbCargo.setSelectedItem(empleado.getCargo());
                 cbBaja.setSelected(empleado.getBaja());
 

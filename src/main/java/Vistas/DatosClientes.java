@@ -48,6 +48,7 @@ public class DatosClientes {
     private JList<Cliente> lstClientes;
     private JScrollPane JPListaCliente;
     private JCheckBox cbHistorico;
+    private JLabel lbIDClienteEtiqueta;
 
 
     public void setJPGeneral(JPanel JPGeneral) {
@@ -203,6 +204,7 @@ public class DatosClientes {
         });
 
 
+        
     }
 
     public void mostrarClientes(List<Cliente> clientes) {
