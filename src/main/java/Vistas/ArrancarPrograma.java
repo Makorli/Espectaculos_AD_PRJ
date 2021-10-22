@@ -180,8 +180,8 @@ public class ArrancarPrograma {
                 JFrame f = new JFrame("Parque Oracle ");
 
                 VentanaInicio vi = new VentanaInicio(f);
-                vi.setLbTituloParque("\t\tDIVERSIONES A CASCOPORRO S.L.  Pol. Diversion S/N  \n" +
-                        "  Tomelloso  \tCUENCA   05/10/1978  A012345678");
+                vi.setLbTituloParque("\t\tHUMEDAD MORTAL S.L.  Avnda. Calatraba S/N  \n" +
+                        "  Los Humedales  \tVALENCIA   05/10/2012  F098234890");
                 f.setContentPane(vi.getJPGeneral());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();

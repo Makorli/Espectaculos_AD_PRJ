@@ -289,7 +289,7 @@ public class ControladorEspectaculo {
 
             try {
 
-                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                String sql = String.format("select * from " + tableName + " where baja = " + (state?1:0));
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
 

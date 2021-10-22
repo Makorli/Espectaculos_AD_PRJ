@@ -269,10 +269,10 @@ public class ControladorEmpleado {
         //MySQL SQLite ORACLE..
         if (tipoDb != DBController.DBTypes.DB4o) {
             try {
-                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                String sql;
+                sql = String.format("select * from " + tableName + " where baja = %s", state?1:0);
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
-
 
                 while (rs.next()) {
 
