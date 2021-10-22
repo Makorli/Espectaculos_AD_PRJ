@@ -19,6 +19,7 @@ public class ArrancarPrograma {
     private JPanel JPGeneral;
     // Botones para entrar en un parque.
     private JButton btnParque1, btnParque2, btnParque3;
+    private JButton btnParque4;
 
     //  public static Connection conexion;
     //  public static ObjectContainer contenedor;
@@ -161,6 +162,34 @@ public class ArrancarPrograma {
             }
         });
 
+
+        btnParque4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                db = new DBController(DBController.DBTypes.Oracle);
+
+                ControladorEspectaculo ce = new ControladorEspectaculo();
+
+                try {
+                    ce.actualizarEstadosautomatico();
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+
+                JFrame f = new JFrame("Parque Oracle ");
+
+                VentanaInicio vi = new VentanaInicio(f);
+                vi.setLbTituloParque("\t\tDIVERSIONES A CASCOPORRO S.L.  Pol. Diversion S/N  \n" +
+                        "  Tomelloso  \tCUENCA   05/10/1978  A012345678");
+                f.setContentPane(vi.getJPGeneral());
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                f.pack();
+                f.setVisible(true);
+                frame.setVisible(false);
+
+            }
+        });
     }
 
     public JPanel getJPGeneral() {
