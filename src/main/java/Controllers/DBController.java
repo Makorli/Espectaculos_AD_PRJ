@@ -127,11 +127,11 @@ public class DBController {
         //  ATRIBUTOS CON DATOS DE CONEXION A ORACLE
 
         private static final String driver = "oracle.jdbc.driver.OracleDriver";
-        private static final String dbSID = "XE";
+        private static final String dbSID = "ORCLCDB";
         private static final int dbPort = 1521;
         private static final String dbServer = "localhost";
-        private static final String dbUser = "ADORACLE";
-        private static final String dbUserPwd = "Ladeoracle";
+        private static final String dbUser = "ParqueOracle"; //"ADORACLE";
+        private static final String dbUserPwd = "parqueoracle"; //"Ladeoracle";
 
         // METODOS DE CONSULTA DE ATRIBUTOS Y OBTENCION DE CADENA DE CONEXION
 
