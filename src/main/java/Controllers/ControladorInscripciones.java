@@ -381,4 +381,45 @@ public class ControladorInscripciones {
         }
     }
 
+    public void borrar(){
+
+        List<Inscripcion> inscripciones = new ArrayList<>();
+
+        if (tipoDb != DBController.DBTypes.DB4o) {
+
+            try {
+
+                String sql = String.format("delete from " + tableName);
+                sentencia = mydb.createStatement();
+                sentencia.executeQuery(sql);
+
+
+                //cierro la sentencia
+                sentencia.close();
+
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }         // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Inscripcion
+                ObjectSet<Inscripcion> inscripcionesOS = myObjCont.queryByExample(new Inscripcion());
+                // Si tenemos inscripciones recorremos el Resultado para incorporar los objetos a la lista
+                if (inscripcionesOS.size() > 0) {
+                    while (inscripcionesOS.hasNext())
+                        inscripcionesOS.remove(inscripcionesOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+    }
+
 }

@@ -279,7 +279,7 @@ public class VentanaInicio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MostrarInscripciones mostrarInscripciones = new MostrarInscripciones();
-
+                //new ControladorInscripciones().borrar();
                 mostrarPanel(mostrarInscripciones.getJPTodasInscripciones());
             }
         });

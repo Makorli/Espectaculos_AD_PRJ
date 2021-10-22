@@ -359,7 +359,9 @@ public class ControladorEmpleado {
         else {
             try {
                 //Recuperamos todos los objetos Empleados
-                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(new Empleado());
+                Empleado empleado = new Empleado();
+                empleado.setCargo("RESPONSABLE");
+                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(empleado);
                 // Si tenemos empleados recorremos el Resultado para incorporar los objetos a la lista
                 if (empleadosOS.size() > 0) {
                     while (empleadosOS.hasNext())
@@ -546,6 +548,10 @@ public class ControladorEmpleado {
         } else {
             return null;
         }
+
+    }
+
+    public void addManual (){
 
     }
 
