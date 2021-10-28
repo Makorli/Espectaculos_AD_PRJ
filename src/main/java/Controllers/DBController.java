@@ -11,9 +11,6 @@ import com.db4o.ext.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Clase que se encargará de establecer las conexiones a las difernetes Bases de datos.
@@ -35,8 +32,8 @@ public class DBController {
         private static final String dbName = "bdmysql";
         private static final int dbPort = 3306;
         private static final String dbServer = "localhost";
-        private static final String dbUser = "admin";
-        private static final String dbUserPwd = "pass1234";
+        private static final String dbUser = "root";
+        private static final String dbUserPwd = "root";
 
         // METODOS DE CONSULTA DE ATRIBUTOS Y OBTENCION DE CADENA DE CONEXION
 
@@ -126,8 +123,9 @@ public class DBController {
 
         //  ATRIBUTOS CON DATOS DE CONEXION A ORACLE
 
+
         private static final String driver = "oracle.jdbc.driver.OracleDriver";
-        private static final String dbSID = "ORCLCDB";
+        private static final String dbSID = "xe";
         private static final int dbPort = 1521;
         private static final String dbServer = "localhost";
         private static final String dbUser = "ParqueOracle"; //"ADORACLE";

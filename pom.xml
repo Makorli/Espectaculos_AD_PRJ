@@ -27,7 +27,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
+            <groupId>com.Oracle.database.jdbc</groupId>
             <artifactId>ucp</artifactId>
             <version>12.2.0.1</version>
         </dependency>
