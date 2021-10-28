@@ -66,7 +66,10 @@ public class ControladorCliente {
             try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
-                prepSentencia.setString(1, null);
+                if (tipoDb == DBController.DBTypes.Oracle)
+                    prepSentencia.setInt(1,getFreeID4ORacle());
+                else prepSentencia.setString(1, null);
+
                 prepSentencia.setString(2, cliente.getDni());
                 prepSentencia.setString(3, cliente.getNombre());
                 prepSentencia.setString(4, cliente.getApellidos());
@@ -242,7 +245,7 @@ public class ControladorCliente {
 
         if (tipoDb != DBController.DBTypes.DB4o) {
             try {
-                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                String sql = String.format("select * from " + tableName + " where baja = " + (state?1:0));
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
 
@@ -448,5 +451,22 @@ public class ControladorCliente {
         }
     }
 
-
+    /**
+     * Funcion que devuelve el proximo ID disponible para la inserción en la tabla.
+     * Exlusivo para ORacle.
+     * Requiere la implementación de secuencias en la base de datos.
+     * @return proximo id o -1 si ocurre algún fallo
+     */
+    public int getFreeID4ORacle() {
+        String sql = "select CLIENTEID_SEQ.nextval from dual";
+        try {
+            Statement miSentencia = mydb.createStatement();
+            ResultSet rs = miSentencia.executeQuery(sql);
+            if(rs.next()) return rs.getInt(1);
+            else return -1;
+        }catch (SQLException s){
+            System.out.println(s.getMessage());
+            return -1;
+        }
+    }
 }
