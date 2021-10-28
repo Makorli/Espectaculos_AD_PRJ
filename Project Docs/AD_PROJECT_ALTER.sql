@@ -1,1 +1,0 @@
-alter table espectaculo modify horario varchar(20) null;

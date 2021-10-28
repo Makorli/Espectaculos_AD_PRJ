@@ -75,7 +75,10 @@ public class ControladorEmpleado {
 
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
-                prepSentencia.setString(1, null);
+                if (tipoDb == DBController.DBTypes.Oracle)
+                    prepSentencia.setInt(1,getFreeID4ORacle());
+                else prepSentencia.setString(1, null);
+
                 prepSentencia.setString(2, empleado.getDni());
                 prepSentencia.setString(3, empleado.getNombre());
                 prepSentencia.setString(4, empleado.getApellidos());
@@ -269,10 +272,10 @@ public class ControladorEmpleado {
         //MySQL SQLite ORACLE..
         if (tipoDb != DBController.DBTypes.DB4o) {
             try {
-                String sql = String.format("select * from " + tableName + " where baja = " + state);
+                String sql;
+                sql = String.format("select * from " + tableName + " where baja = %s", state?1:0);
                 sentencia = mydb.createStatement();
                 ResultSet rs = sentencia.executeQuery(sql);
-
 
                 while (rs.next()) {
 
@@ -359,7 +362,9 @@ public class ControladorEmpleado {
         else {
             try {
                 //Recuperamos todos los objetos Empleados
-                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(new Empleado());
+                Empleado empleado = new Empleado();
+                empleado.setCargo("RESPONSABLE");
+                ObjectSet<Empleado> empleadosOS = myObjCont.queryByExample(empleado);
                 // Si tenemos empleados recorremos el Resultado para incorporar los objetos a la lista
                 if (empleadosOS.size() > 0) {
                     while (empleadosOS.hasNext())
@@ -547,6 +552,29 @@ public class ControladorEmpleado {
             return null;
         }
 
+    }
+
+    public void addManual (){
+
+    }
+
+    /**
+     * Funcion que devuelve el proximo ID disponible para la inserción en la tabla.
+     * Exlusivo para ORacle.
+     * Requiere la implementación de secuencias en la base de datos.
+     * @return proximo id o -1 si ocurre algún fallo
+     */
+    public int getFreeID4ORacle() {
+        String sql = "select EMPLEADOID_SEQ.nextval from dual";
+        try {
+            Statement miSentencia = mydb.createStatement();
+            ResultSet rs = miSentencia.executeQuery(sql);
+            if(rs.next()) return rs.getInt(1);
+            else return -1;
+        }catch (SQLException s){
+            System.out.println(s.getMessage());
+            return -1;
+        }
     }
 
 

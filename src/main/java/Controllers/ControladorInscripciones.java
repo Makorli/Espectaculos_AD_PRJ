@@ -63,20 +63,13 @@ public class ControladorInscripciones {
 
         if (tipoDb != DBController.DBTypes.DB4o) {
 
-            /***He modificado los parameterindex de inscripcion para que entrara bien en la base de datos de sqlite
-             * los campos están:
-             * idClient
-             * idEspectaculo
-             * fecha
-             * idInscripcion
-             *
-             * **/
-
-
             try {
                 prepSentencia = mydb.prepareStatement("INSERT INTO " + tableName + " VALUES (" + myInsert + ")");
 
-                prepSentencia.setString(1, null);
+                if (tipoDb == DBController.DBTypes.Oracle)
+                    prepSentencia.setInt(1,getFreeID4ORacle());
+                else prepSentencia.setString(1, null);
+
                 prepSentencia.setInt(2, inscripcion.getIdCliente());
                 prepSentencia.setInt(3, inscripcion.getIdEspectaculo());
                 prepSentencia.setString(4, inscripcion.getFecha());
@@ -381,4 +374,63 @@ public class ControladorInscripciones {
         }
     }
 
+    public void borrar(){
+
+        List<Inscripcion> inscripciones = new ArrayList<>();
+
+        if (tipoDb != DBController.DBTypes.DB4o) {
+
+            try {
+
+                String sql = String.format("delete from " + tableName);
+                sentencia = mydb.createStatement();
+                sentencia.executeQuery(sql);
+
+
+                //cierro la sentencia
+                sentencia.close();
+
+            } catch (SQLException error) {
+                System.out.println("Error al establecer declaración de conexión MySQL/SqLite/DB4O: " + error.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }         // DB4o
+        else {
+            try {
+                //Recuperamos todos los objetos Inscripcion
+                ObjectSet<Inscripcion> inscripcionesOS = myObjCont.queryByExample(new Inscripcion());
+                // Si tenemos inscripciones recorremos el Resultado para incorporar los objetos a la lista
+                if (inscripcionesOS.size() > 0) {
+                    while (inscripcionesOS.hasNext())
+                        inscripcionesOS.remove(inscripcionesOS.next());
+                }
+            } catch (DatabaseClosedException | DatabaseReadOnlyException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+    }
+
+    /**
+     * Funcion que devuelve el proximo ID disponible para la inserción en la tabla.
+     * Exlusivo para ORacle.
+     * Requiere la implementación de secuencias en la base de datos.
+     * @return proximo id o -1 si ocurre algún fallo
+     */
+    public int getFreeID4ORacle() {
+        String sql = "select INSCRIPCIONID_SEQ.nextval from dual";
+        try {
+            Statement miSentencia = mydb.createStatement();
+            ResultSet rs = miSentencia.executeQuery(sql);
+            if(rs.next()) return rs.getInt(1);
+            else return -1;
+        }catch (SQLException s){
+            System.out.println(s.getMessage());
+            return -1;
+        }
+    }
 }
