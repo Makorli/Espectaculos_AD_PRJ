@@ -442,7 +442,22 @@ public class DBController {
                         }
                         dbMetadataSb.append("\n");
 
+                        //Obtenemos las PrimaryKeys de la tabla
+                        ResultSet resultSet2 = dbmd.getPrimaryKeys(
+                                null,
+                                null,
+                                nombreTabla);
 
+                        //Extraemos los datos de las primaryKeys
+                        while (resultSet2.next()) {
+                            dbMetadataSb.append(
+                                    String.format("     PrimaryKey: %-30s\tCAMPO: %-20s\n",
+                                            resultSet2.getString("PK_NAME"),
+                                            resultSet2.getString("COLUMN_NAME")
+                                    )
+                            );
+                        }
+                        dbMetadataSb.append("\n");
                     }
                 } catch (SQLException s) {
                     dbMetadataSb.append("Error en consulta de Metadatos");
@@ -507,12 +522,13 @@ public class DBController {
                     //Tablas y sus detalles
                     //Obtenemos las tablas del esquema
                     dbMetadataSb.append("\n Composicion de la Base de datos...\n\n");
+                    String[] types = {"TABLE"};
                     ResultSet resultSet =
                             dbmd.getTables(
+                                    getConnectionDb().getCatalog(),
+                                    dbmd.getUserName(),
                                     null,
-                                    dbmd.getSchemaTerm(),
-                                    null,
-                                    new String[]{"Table"});
+                                    types);
                     //recorremos el resultset para recorrer las tablas contenidas en el y sacar sus detalles.
                     String nombreTabla;
                     while (resultSet.next()) {
@@ -525,10 +541,10 @@ public class DBController {
                         );
                         //Por cada tabla extraemos las columnas / campos y su tipo
                         ResultSet resultSet1 = dbmd.getColumns(
-                                null,
-                                esquemaSql,
+                                getConnectionDb().getCatalog(),
+                                dbmd.getUserName(),
                                 nombreTabla,
-                                null);
+                                "%");
 
                         //Extraemos los datos de la tabla
                         while (resultSet1.next()) {
@@ -537,6 +553,23 @@ public class DBController {
                                             resultSet1.getString("COLUMN_NAME"),
                                             resultSet1.getString("TYPE_NAME"),
                                             resultSet1.getBoolean("NULLABLE")
+                                    )
+                            );
+                        }
+                        dbMetadataSb.append("\n");
+
+                        //Obtenemos las PrimaryKeys de la tabla
+                        ResultSet resultSet2 = dbmd.getPrimaryKeys(
+                                null,
+                                null,
+                                nombreTabla);
+
+                        //Extraemos los datos de las primaryKeys
+                        while (resultSet2.next()) {
+                            dbMetadataSb.append(
+                                    String.format("     PrimaryKey: %-30s\tCAMPO: %-20s\n",
+                                            resultSet2.getString("PK_NAME"),
+                                            resultSet2.getString("COLUMN_NAME")
                                     )
                             );
                         }
